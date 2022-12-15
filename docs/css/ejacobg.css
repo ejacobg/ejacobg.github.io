@@ -1,3 +1,11 @@
+@media screen and (max-width: 800px) {
+    .chroma {
+        overflow: auto;
+        white-space: pre;
+        word-break: normal;
+    }
+}
+
 body {
     font-family: sans-serif;
     font-size: 16px;
@@ -82,6 +90,11 @@ kbd {
     border: 1px solid gainsboro;
     border-radius: 4px;
     padding: 3px 6px;
+}
+
+pre > code {
+    border: none;
+    padding: 0;
 }
 
 kbd {
