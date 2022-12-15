@@ -1,3 +1,4 @@
 baseURL = 'https://ejacobg.com/'
 languageCode = 'en-us'
 title = 'Ean Jacob Gayban'
+theme = 'ejacobg'
