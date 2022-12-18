@@ -1,7 +1,6 @@
 ---
 title: "Syntax"
 date: 2022-12-15T12:58:26-08:00
-draft: false
 ---
 
 {{< highlight go >}}
