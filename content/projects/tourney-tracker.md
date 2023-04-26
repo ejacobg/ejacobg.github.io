@@ -1,10 +1,10 @@
 ---
 title: "Tourney Tracker"
 date: 2023-04-22T23:14:00-07:00
-draft: true
+draft: false
 ---
 
-This project was made to practice/review some concepts discussed in Alex Edwards's _Let's Go_ and _Let's Go Further_ books. I also wanted to get a feel for how I wanted to structure my (web) applications in the future. Below is some discussion on the various sources that helped influence how this project came to be structured.
+This project was made to practice/review some concepts discussed in Alex Edwards's [_Let's Go_](https://lets-go.alexedwards.net/) and [_Let's Go Further_](https://lets-go-further.alexedwards.net/) books. I also wanted to get a feel for how I wanted to structure my (web) applications in the future. Below is some discussion on the various sources that helped influence how this project came to be structured.
 
 ## _Let's Go_/Snippetbox
 
@@ -56,7 +56,7 @@ func (s *Server) Render(w http.ResponseWriter, status int, tmpl, name string, da
 }
 ```
 
-Similar to the Snippetbox project, I've placed all my templates in the [`ui/`](https://github.com/ejacobg/tourney-tracker/tree/main/ui) directory, and parse them with a [`newTemplateCache()`](https://github.com/ejacobg/tourney-tracker/blob/f6c567123d6d2ebfd6754570333169318aca4c3c/cmd/tournaments/main.go#L57) function.
+Similar to the Snippetbox project, I've placed all my templates in the [`ui/`](https://github.com/ejacobg/tourney-tracker/tree/main/ui) directory, and parsed them with a [`newTemplateCache()`](https://github.com/ejacobg/tourney-tracker/blob/f6c567123d6d2ebfd6754570333169318aca4c3c/cmd/tournaments/main.go#L57) function.
 
 ## _Let's Go Further_/Greenlight
 
@@ -103,7 +103,7 @@ Both the Tourney Tracker and Greenlight projects made use of a PostgreSQL databa
 
 ## Phoenix
 
-I'm currently working with the Phoenix Framework in one of my classes, and the default views made by the generator commands (e.g. `mix phx.gen.html`) made sense for what I needed, so I tried to make something similar for the Tourney Tracker. Ultimately, the UI is basically just a bunch of tables, so there isn't too much to say about the design. I reused the CSS on this site for the Tourney Tracker, so I didn't have to mess with that at all.
+I'm currently working with the [Phoenix Framework](https://www.phoenixframework.org/) in one of my classes, and the default views made by the generator commands (e.g. `mix phx.gen.html`) made sense for what I needed, so I tried to make something similar for the Tourney Tracker. Ultimately, the UI is basically just a bunch of tables, so there isn't too much to say about the design. I reused the CSS on this site for the Tourney Tracker, so I didn't have to mess with that at all.
 
 What I did have to mess with were the different inputs into each template. The standard `template` package doesn't provide a way to enforce what pieces of data are needed by a template. I believe that there are some templating packages that do provide this, but in my case I just settled for using comments.
 
@@ -121,9 +121,9 @@ The `{{template}}`, `{{block}}`, and `{{with}}` actions only take a single argum
 
 ## HTMX
 
-I used HTMX to implement all of the `Edit` buttons in the application. This helped clean up the code for the templates since I could separate the editable components from the static ones. It also meant that I didn't have to wrap everything in a `<form>` element, and could be more granular with my changes. If I wanted to edit a player, I could just send the changes for that player rather than submitting the entire entrant list for every update.
+I used HTMX to implement all of the `Edit` buttons in the application. This helped clean up the code for the templates since I could separate the editable components from the static ones. It also meant that I didn't have to wrap everything in a `<form>` element, and could be more granular with my changes. If I wanted to edit an entrant, I could just send the changes for that entrant rather than submitting the entire entrant list for every update.
 
-By default, HTMX won't render any non-2XX responses. This can make it a little difficult to render any RESTful status codes when dealing with validation errors. I found it quite difficult to implement "conditional rendering" using HTMX, where a successful response would swap in the given content in one place, and an error response would swap in the content in another place. I spent a lot of time trying to figure this out, but ended up settling on just rendering all my errors in a single spot on the page, rather than rendering them inline. If I were to do this again, I would either (1) not bother trying to render errors or (2) just return the components with the error message attached rather than returning just the error message itself.
+By default, HTMX won't render any non-2XX responses. This can make it a little difficult to render any RESTful status codes when dealing with validation errors. I found it quite difficult to implement "conditional rendering" using HTMX, where a successful response would swap in the given content in one place, and an error response would swap in the content in another place. I spent a lot of time trying to figure this out, but ended up settling on just rendering all my errors in a single spot on the page, rather than rendering them below each invalid input. If I were to do this again, I would either (1) not bother trying to render errors or (2) just return the components with the error message attached rather than returning just the error message itself.
 
 ## Standard Package Layout
 
@@ -208,11 +208,17 @@ package main
 import (
 	"github.com/ejacobg/tourney-tracker/http"
 	"github.com/ejacobg/tourney-tracker/postgres"
+	"log"
 )
 
 func main() {
 	// ...
 
+	db, err := openDB(*dsn)
+	if err != nil {
+		log.Fatalln("Failed to connect to database:", err)
+	}
+	
 	srv := http.NewServer(...)
 
 	srv.EntrantService = postgres.EntrantService{db}
