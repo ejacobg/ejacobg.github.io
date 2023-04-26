@@ -8,6 +8,16 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 15 Dec 2022 15:53:56 -0800</lastBuildDate><atom:link href="https://ejacobg.com/projects/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Tourney Tracker</title>
+      <link>https://ejacobg.com/projects/tourney-tracker/</link>
+      <pubDate>Sat, 22 Apr 2023 23:14:00 -0700</pubDate>
+      
+      <guid>https://ejacobg.com/projects/tourney-tracker/</guid>
+      <description>This project was made to practice/review some concepts discussed in Alex Edwards&amp;rsquo;s Let&amp;rsquo;s Go and Let&amp;rsquo;s Go Further books. I also wanted to get a feel for how I wanted to structure my (web) applications in the future. Below is some discussion on the various sources that helped influence how this project came to be structured.
+Let&amp;rsquo;s Go/SnippetboxI repurposed a lot of the template-handling code from the Snippetbox project into the Tourney Tracker.</description>
+    </item>
+    
+    <item>
       <title>Hacker News Saved</title>
       <link>https://ejacobg.com/projects/hn/</link>
       <pubDate>Fri, 24 Mar 2023 18:37:59 -0700</pubDate>
