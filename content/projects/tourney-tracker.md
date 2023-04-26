@@ -13,8 +13,12 @@ I repurposed a lot of the template-handling code from the [Snippetbox](https://g
 Storing templates in a `map[string]*template.Template` seems like the easiest way to access your views. I tried experimenting with a `Views` struct that looked something like this:
 
 ```go
+package view
+
+import "html/template"
+
 type Views struct {
-Index, View, Edit *template.Template
+	Index, View, Edit *template.Template
 }
 ```
 
@@ -23,24 +27,32 @@ But this ended up not working out as well as I'd hoped since I soon found out I 
 Using a map to hold all my templates made rendering very simple with the use of the [`Server.Render()`](https://github.com/ejacobg/tourney-tracker/blob/f6c567123d6d2ebfd6754570333169318aca4c3c/http/helpers.go#L13) method:
 
 ```go
+package http
+
+import (
+	"bytes"
+	"fmt"
+	"net/http"
+)
+
 // Render will execute the "name" template of "tmpl", then write it to the response with the given status code.
 func (s *Server) Render(w http.ResponseWriter, status int, tmpl, name string, data any) {
-t, ok := s.Templates[tmpl]
-if !ok {
-ServerErrorResponse(w, fmt.Sprintf("The template %q does not exist.", tmpl))
-return
-}
+	t, ok := s.Templates[tmpl]
+	if !ok {
+		ServerErrorResponse(w, fmt.Sprintf("The template %q does not exist.", tmpl))
+		return
+	}
 
-buf := new(bytes.Buffer)
+	buf := new(bytes.Buffer)
 
-err := t.ExecuteTemplate(buf, name, data)
-if err != nil {
-ServerErrorResponse(w, fmt.Sprintf("Failed to render template: %s", err))
-return
-}
+	err := t.ExecuteTemplate(buf, name, data)
+	if err != nil {
+		ServerErrorResponse(w, fmt.Sprintf("Failed to render template: %s", err))
+		return
+	}
 
-w.WriteHeader(status)
-buf.WriteTo(w)
+	w.WriteHeader(status)
+	buf.WriteTo(w)
 }
 ```
 
@@ -55,26 +67,33 @@ I liked how the Greenlight project made use of [specialty handlers](https://gith
 [My implementation](https://github.com/ejacobg/tourney-tracker/blob/main/http/errors.go) is currently quite limited (only takes error strings, and only writes to the standard logger), but provides a good starting point if I never need something more robust.
 
 ```go
+package http
+
+import (
+	"log"
+	"net/http"
+)
+
 // ErrorResponse responds with and logs the given error message to the console, alongside the given response code.
 // Any error messages will be rendered inside the #error element of the page.
 func ErrorResponse(w http.ResponseWriter, error string, code int) {
-log.Println(error)
+	log.Println(error)
 
-w.Header()["HX-Reswap"] = []string{"innerHTML"}
-w.Header()["HX-Retarget"] = []string{"#error"}
-http.Error(w, error, code)
+	w.Header()["HX-Reswap"] = []string{"innerHTML"}
+	w.Header()["HX-Retarget"] = []string{"#error"}
+	http.Error(w, error, code)
 }
 
 func ServerErrorResponse(w http.ResponseWriter, error string) {
-ErrorResponse(w, error, http.StatusInternalServerError)
+	ErrorResponse(w, error, http.StatusInternalServerError)
 }
 
 func BadRequestResponse(w http.ResponseWriter, error string) {
-ErrorResponse(w, error, http.StatusBadRequest)
+	ErrorResponse(w, error, http.StatusBadRequest)
 }
 
 func UnprocessableEntityResponse(w http.ResponseWriter, error string) {
-ErrorResponse(w, error, http.StatusUnprocessableEntity)
+	ErrorResponse(w, error, http.StatusUnprocessableEntity)
 }
 
 // More error handlers...
@@ -98,7 +117,7 @@ What I did have to mess with were the different inputs into each template. The s
 */ -}}
 ```
 
-The `{{template}}`, `{{block}}`, and `{{with}}` actions only take a single argument, making it difficult to render sub-templates that require multiple pieces of data. It is possible to pass in multiple values using a [custom function](https://stackoverflow.com/a/18276968), but in this case I opted to just copy over the components I needed.
+The `{{template}}`, `{{block}}`, and `{{with}}` actions only take a single argument, making it difficult to render sub-templates that require multiple pieces of data. It is possible to pass in multiple values using a [custom function](https://stackoverflow.com/a/18276968), but in this case I opted to just copy over the components I needed. In the future, I will make use of this function.
 
 ## HTMX
 
@@ -112,10 +131,105 @@ The Snippetbox and Greenlight projects make use of the so-called ["Fat Service"]
 
 1. Define core types and interfaces in the "root" package. This package is import-only.
 2. Packages represent dependencies. These dependencies provide concrete implementations of the interfaces defined in the root package (e.g. a PostgreSQL implementation of a service).
-3. 
+3. You're allowed to redefine external packages (including the standard library).
+
+Ben Johnson also provided an example project ([WTF Dial](https://github.com/benbjohnson/wtf)) using this package layout, and I've taken a lot of inspiration from it.
+
+### The Root Package
+
+You technically don't have to put your source files for the domain types in the project root. What's important is that they're all together, and that any necessary service interfaces are defined alongside them.
+
+Your root package files will all end up looking pretty similar. Here is my [`tier.go`](https://github.com/ejacobg/tourney-tracker/blob/f6c567123d6d2ebfd6754570333169318aca4c3c/tier.go) file:
+
+```go
+package tourney_tracker
+
+// Tier represents the relative importance of a Tournament.
+type Tier struct {
+	ID         int64  `json:"id"`
+	Name       string `json:"name"`
+	Multiplier int    `json:"multiplier"`
+}
+
+// TierService represents a service for managing tiers.
+type TierService interface {
+	// GetTiers returns all tiers.
+	GetTiers() ([]Tier, error)
+
+	// GetTier returns a single Tier by ID.
+	GetTier(id int64) (Tier, error)
+
+	// GetTournamentTier returns the Tier for the given Tournament.
+	GetTournamentTier(tournamentID int64) (Tier, error)
+
+	// CreateTier adds the given Tier to the database.
+	CreateTier(tier *Tier) error
+
+	// UpdateTier updates the given Tier.
+	UpdateTier(tier *Tier) error
+
+	// DeleteTier deletes the given Tier.
+	// Note that deleting a tier that still has tournaments attached to it should fail.
+	// It is up to the user to ensure that all tournaments update their Tier before attempting to delete.
+	DeleteTier(id int64) error
+}
+```
+
+### Packages as Dependencies
+
+The other packages in your project might provide implementations for the services defined in the root package. It is then the job of the `main` package to choose which implementations are going to be used, and to wire everything up correctly.
+
+For example, my custom [`http.Server`](https://github.com/ejacobg/tourney-tracker/blob/f6c567123d6d2ebfd6754570333169318aca4c3c/http/server.go#L12) type contains fields representing the various services it makes use of:
+
+```go
+package http
+
+import (
+	tournament "github.com/ejacobg/tourney-tracker"
+)
+
+// Server provides several HTTP handlers for servicing tournament-related requests.
+type Server struct {
+	// Other fields...
+
+	// Services used by the various HTTP routes.
+	EntrantService    tournament.EntrantService
+	PlayerService     tournament.PlayerService
+	TierService       tournament.TierService
+	TournamentService tournament.TournamentService
+}
+```
+
+In my [`main`](https://github.com/ejacobg/tourney-tracker/blob/f6c567123d6d2ebfd6754570333169318aca4c3c/cmd/tournaments/main.go#L37), all I have to do is fill these services in with the correct implementation:
+
+```go
+package main
+
+import (
+	"github.com/ejacobg/tourney-tracker/http"
+	"github.com/ejacobg/tourney-tracker/postgres"
+)
+
+func main() {
+	// ...
+
+	srv := http.NewServer(...)
+
+	srv.EntrantService = postgres.EntrantService{db}
+	srv.PlayerService = postgres.PlayerService{db}
+	srv.TierService = postgres.TierService{db}
+	srv.TournamentService = postgres.TournamentService{db}
+
+	// ...
+}
+```
+
+### Redefining Packages
+
+As shown above, I replaced the `net/http`'s `Server` definition with my own, and using my own `http` package rather than the standard library's version. Ideally, all necessary interactions with the HTTP protocol should be provided by my redefined `http` package. This way redefined package will act as an adapter between your application and the original package. This can be useful if you're only using a modified subset of the original package, or if you would like to modify the ergonomics of the original package.
 
 ## Future Work
 
 This project isn't perfect, but I've gotten what I want out of it, and probably won't touch this for a while. If I do decide to come back to it, here are some of the things I might add.
 
-Testing using mocks, concurrency control, logging, panic recovery, deployment.
+Testing using mocks, concurrency control during updates, logging, panic recovery, deployment.
