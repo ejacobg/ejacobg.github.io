@@ -107,7 +107,7 @@ I'm currently working with the [Phoenix Framework](https://www.phoenixframework.
 
 What I did have to mess with were the different inputs into each template. The standard `template` package doesn't provide a way to enforce what pieces of data are needed by a template. I believe that there are some templating packages that do provide this, but in my case I just settled for using comments.
 
-```
+```go
 {{- /*
   Renders a table showing all the tournaments with the given Tier.
 
@@ -121,7 +121,7 @@ The `{{template}}`, `{{block}}`, and `{{with}}` actions only take a single argum
 
 ## HTMX
 
-I used HTMX to implement all of the `Edit` buttons in the application. This helped clean up the code for the templates since I could separate the editable components from the static ones. It also meant that I didn't have to wrap everything in a `<form>` element, and could be more granular with my changes. If I wanted to edit an entrant, I could just send the changes for that entrant rather than submitting the entire entrant list for every update.
+I used [HTMX](https://htmx.org/) to implement all of the `Edit` buttons in the application. This helped clean up the code for the templates since I could separate the editable components from the static ones. It also meant that I didn't have to wrap everything in a `<form>` element, and could be more granular with my changes. If I wanted to edit an entrant, I could just send the changes for that entrant rather than submitting the entire entrant list for every update.
 
 By default, HTMX won't render any non-2XX responses. This can make it a little difficult to render any RESTful status codes when dealing with validation errors. I found it quite difficult to implement "conditional rendering" using HTMX, where a successful response would swap in the given content in one place, and an error response would swap in the content in another place. I spent a lot of time trying to figure this out, but ended up settling on just rendering all my errors in a single spot on the page, rather than rendering them below each invalid input. If I were to do this again, I would either (1) not bother trying to render errors or (2) just return the components with the error message attached rather than returning just the error message itself.
 
