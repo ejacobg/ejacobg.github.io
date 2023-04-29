@@ -18,4 +18,4 @@ I've been following the [Kettlebell Simple & Sinister](https://www.strongfirst.c
 
 These tips are just my own opinion, and I would recommend reading and rereading the book until you've memorized all parts of the lifts.
 
-I haven't touched a barbell in a long time, so its hard to tell whether I can still hit my old PRs. That being said, I don't feel "weaker" since then, and I don't doubt the efficacy of this program. The progression feels slow, but each session is very much doable and doesn't leave me sore and fatigued like a barbell session would.
+I haven't touched a barbell in a long time, so it's hard to tell whether I can still hit my old PRs. That being said, I don't feel "weaker" since then, and I don't doubt the efficacy of this program. The progression feels slow, but each session is very much doable and doesn't leave me sore and fatigued like a barbell session would.

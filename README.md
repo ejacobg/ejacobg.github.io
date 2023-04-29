@@ -1,3 +1,3 @@
-# ejacobg.github.io
+# Personal Site
 
-Personal site
+This repository contains all the files used to generate the content hosted at [ejacobg.com](https://ejacobg.com).
