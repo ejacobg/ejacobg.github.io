@@ -1,31 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Tests on Ean Jacob Gayban</title>
-    <link>https://ejacobg.com/test/</link>
-    <description>Recent content in Tests on Ean Jacob Gayban</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Thu, 15 Dec 2022 12:58:26 -0800</lastBuildDate><atom:link href="https://ejacobg.com/test/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Syntax</title>
-      <link>https://ejacobg.com/test/syntax/</link>
-      <pubDate>Thu, 15 Dec 2022 12:58:26 -0800</pubDate>
-      
-      <guid>https://ejacobg.com/test/syntax/</guid>
-      <description>package main import ( &amp;#34;fmt&amp;#34; &amp;#34;math/rand&amp;#34; &amp;#34;time&amp;#34; ) type Moo struct { Cow int Sound string Tube chan bool } // A cow will moo until it is being fed func cow(num int, mootube chan Moo) { tube := make(chan bool) for { select { case mootube &amp;lt;- Moo{num, &amp;#34;moo&amp;#34;, tube}: fmt.Println(&amp;#34;Cow number&amp;#34;, num, &amp;#34;mooed through the mootube&amp;#34;) &amp;lt;-tube fmt.Println(&amp;#34;Cow number&amp;#34;, num, &amp;#34;is being fed and stops mooing&amp;#34;) mootube &amp;lt;- Moo{num, &amp;#34;mooh&amp;#34;, nil} fmt.</description>
-    </item>
-    
-    <item>
-      <title>Drop-in Minimal CSS</title>
-      <link>https://ejacobg.com/test/dropin/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://ejacobg.com/test/dropin/</guid>
-      <description>This page provides an overview of barebones drop-in minimal CSS boilerplate frameworks. To switch to adifferent stylesheet, select one of the frameworks from the dropdown menu below. For more information, andlinks to all the frameworks seen here, visit the project page on GitHub.
-New: Click or drag thisbookmarklet to your bookmark bar to add a CSS switcher to any site!
-Text: Headings · Paragraphs· Blockquotes · Lists · Horizontalrules · Tabular data · Code · Inline elementsEmbedded content: Images · Audio · Video · Canvas · Meter · Progress · Inline SVG · IFramesForm elements: Input fields · Selectmenus · Checkboxes · Radio buttons · Textareas · HTML5 inputs · Action buttonsTextHeadingsHeading 1Heading 2Heading 3Heading 4Heading 5Heading 6[Top]</description>
-    </item>
-    
-  </channel>
-</rss>
