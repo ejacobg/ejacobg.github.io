@@ -8,6 +8,15 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 15 Dec 2022 14:23:57 -0800</lastBuildDate><atom:link href="https://ejacobg.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>About</title>
+      <link>https://ejacobg.com/about/</link>
+      <pubDate>Sat, 29 Apr 2023 15:53:59 -0800</pubDate>
+      
+      <guid>https://ejacobg.com/about/</guid>
+      <description>MeMy name is Ean Jacob Gayban, but I go by Jacob. I&amp;rsquo;m a graduate from the University of Nevada, Reno, currently living in the Las Vegas area. I am currently seeking employment, particularly for a junior web or backend development position. I&amp;rsquo;ve been writing a lot of Go lately, but I&amp;rsquo;ve worked with several other languages during my time in college, including JavaScript, C++, C#, Elixir, and Python. I&amp;rsquo;m open to learning new languages and technologies, and plan to continue learning more to expand my repertoire.</description>
+    </item>
+    
+    <item>
       <title>Simple &amp; Sinister</title>
       <link>https://ejacobg.com/blog/simple-and-sinister/</link>
       <pubDate>Fri, 28 Apr 2023 23:09:27 -0700</pubDate>
@@ -61,9 +70,26 @@ DescriptionThis year I will be graduating from college and entering the workforc
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ejacobg.com/tests/dropin/</guid>
-      <description>This page provides an overview of barebones drop-in minimal CSS boilerplate frameworks. To switch to adifferent stylesheet, select one of the frameworks from the dropdown menu below. For more information, andlinks to all the frameworks seen here, visit the project page on GitHub.
-New: Click or drag thisbookmarklet to your bookmark bar to add a CSS switcher to any site!
-Text: Headings · Paragraphs· Blockquotes · Lists · Horizontalrules · Tabular data · Code · Inline elementsEmbedded content: Images · Audio · Video · Canvas · Meter · Progress · Inline SVG · IFramesForm elements: Input fields · Selectmenus · Checkboxes · Radio buttons · Textareas · HTML5 inputs · Action buttonsTextHeadingsHeading 1Heading 2Heading 3Heading 4Heading 5Heading 6[Top]</description>
+      <description>This page provides an overview of barebones drop-in minimal CSS boilerplate frameworks. To switch to a
+different stylesheet, select one of the frameworks from the dropdown menu below. For more information, and
+links to all the frameworks seen here, visit the project page on GitHub.
+New: Click or drag this
+bookmarklet to your bookmark bar to add a CSS switcher to any site!
+Text: Headings · Paragraphs
+· Blockquotes · Lists · Horizontal
+rules · Tabular data · Code · Inline elements
+Embedded content: Images · Audio · Video · Canvas · Meter · Progress · Inline SVG · IFrames
+Form elements: Input fields · Select
+menus · Checkboxes · Radio buttons · Textareas · HTML5 inputs · Action buttons
+Text
+Headings
+Heading 1
+Heading 2
+Heading 3
+Heading 4
+Heading 5
+Heading 6
+[Top]</description>
     </item>
     
   </channel>
