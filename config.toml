@@ -7,3 +7,6 @@ publishDir = 'docs'
 [markup]
     [markup.highlight]
         noClasses = false
+
+[params]
+    mainSections = ['blog', 'notes', 'projects']
