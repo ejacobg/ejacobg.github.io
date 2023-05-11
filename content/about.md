@@ -16,6 +16,8 @@ Feel free to contact me: `jacob [at] ejacobg [dot] com`
 
 Find a current copy of my resume here: [resume.pdf](/resume.pdf)
 
+Find me on LinkedIn: https://www.linkedin.com/in/ejacobg/
+
 ## This Site
 
 I started this blog to help organize and share my thoughts and my projects. I've never had much of an online presence before, but have recently begun to see the value in having one. This blog is primarily tech-focused, but I plan to record whatever's interesting to me on here.
