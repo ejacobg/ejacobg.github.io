@@ -7,6 +7,8 @@ publishDir = 'docs'
 [markup]
     [markup.highlight]
         noClasses = false
+    [markup.goldmark.renderer]
+        unsafe = true
 
 [params]
     mainSections = ['blog', 'notes', 'projects']
