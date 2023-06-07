@@ -1,7 +1,7 @@
 ---
 title: "Hands-On Software Engineering With Golang"
 date: 2023-05-09T10:49:23-07:00
-draft: true
+draft: false
 ---
 
 Some notes and my overall experience reading through Achilleas Anagnostopoulos's _[Hands-On Software Engineering with Golang](https://www.packtpub.com/product/hands-on-software-engineering-with-golang/9781838554491)_ (2020). This won't cover everything discussed in the book, just the points I thought were most helpful. 
@@ -15,13 +15,13 @@ I went into this book thinking I could hit a lot of the keywords on my list: Doc
 * Basic knowledge of protocol buffers and gRPC.
 * Introduction to packages like GoCheck and tools like `go generate`.
 
-Do note that this book was published in 2020, and at the time of writing, the current Go version was **1.12.5**. Needless to say, a lot of the packages, software, and tools used in the book have changed and updated since the book was first written. The official [code repository](https://github.com/PacktPublishing/Hands-On-Software-Engineering-with-Golang) for the book has been updated to require Go 1.18+, however you will still find that it relies on older packages and tools (e.g. the Makefile targets for minikube make use of Helm v2 as opposed to the current v3). I've done my best to modernize the repository, however I never actually got the Kubernetes cluster to be deployed. You can find my changes here: (link)
+Do note that this book was published in 2020, and at the time of writing, the current Go version was **1.12.5**. Needless to say, a lot of the packages, software, and tools used in the book have changed and updated since the book was first written. The official [code repository](https://github.com/PacktPublishing/Hands-On-Software-Engineering-with-Golang) for the book has been updated to require Go 1.18+, however you will still find that it relies on older packages and tools (e.g. the Makefile targets for minikube make use of Helm v2 as opposed to the current v3). I've done my best to modernize the repository, however I never actually got the Kubernetes cluster to be deployed. You can find my changes here: https://github.com/ejacobg/links-r-us
 
 Overall, the author does a good job of explaining everything that's going on, using both high level architecture diagrams and low-level implementation details. I never felt "lost" while looking at any particular piece of code. Even though I wasn't able to deploy my Kubernetes cluster, the program does work when running it in memory.  
 
 ## Notes
 
-These will mainly go over the software engineering parts of the book. For a discussion of the _Links 'R' Us_ project, see its associated blog post.
+These will mainly go over the software engineering parts of the book. For a discussion of the _Links 'R' Us_ project, see its associated [blog post](/projects/links-r-us/).
 
 ### SOLID Principles
 

@@ -8,6 +8,15 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 15 Dec 2022 15:53:56 -0800</lastBuildDate><atom:link href="https://ejacobg.com/projects/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Links &#39;R&#39; Us</title>
+      <link>https://ejacobg.com/projects/links-r-us/</link>
+      <pubDate>Wed, 31 May 2023 16:15:05 -0700</pubDate>
+      
+      <guid>https://ejacobg.com/projects/links-r-us/</guid>
+      <description>This project was made to accompany my reading of Hands-On Software Engineering with Golang. Please note that the vast majority of this code was not written by me, however I did make a couple of meaningful changes: (1) I reorganized all the packages into a form I liked better (similar to the Standard Package Layout), (2) I rewrote a few of the tests (add links) to use the standard testing package rather than GoCheck, and (3) I got rid of a lot of old/deprecated code since the project isn&amp;rsquo;t exactly up-to-date.</description>
+    </item>
+    
+    <item>
       <title>Tourney Tracker</title>
       <link>https://ejacobg.com/projects/tourney-tracker/</link>
       <pubDate>Sat, 22 Apr 2023 23:14:00 -0700</pubDate>

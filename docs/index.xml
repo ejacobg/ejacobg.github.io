@@ -8,6 +8,25 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 15 Dec 2022 14:23:57 -0800</lastBuildDate><atom:link href="https://ejacobg.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Links &#39;R&#39; Us</title>
+      <link>https://ejacobg.com/projects/links-r-us/</link>
+      <pubDate>Wed, 31 May 2023 16:15:05 -0700</pubDate>
+      
+      <guid>https://ejacobg.com/projects/links-r-us/</guid>
+      <description>This project was made to accompany my reading of Hands-On Software Engineering with Golang. Please note that the vast majority of this code was not written by me, however I did make a couple of meaningful changes: (1) I reorganized all the packages into a form I liked better (similar to the Standard Package Layout), (2) I rewrote a few of the tests (add links) to use the standard testing package rather than GoCheck, and (3) I got rid of a lot of old/deprecated code since the project isn&amp;rsquo;t exactly up-to-date.</description>
+    </item>
+    
+    <item>
+      <title>Hands-On Software Engineering With Golang</title>
+      <link>https://ejacobg.com/notes/hands-on-software-engineering-with-golang/</link>
+      <pubDate>Tue, 09 May 2023 10:49:23 -0700</pubDate>
+      
+      <guid>https://ejacobg.com/notes/hands-on-software-engineering-with-golang/</guid>
+      <description>Some notes and my overall experience reading through Achilleas Anagnostopoulos&amp;rsquo;s Hands-On Software Engineering with Golang (2020). This won&amp;rsquo;t cover everything discussed in the book, just the points I thought were most helpful.
+ReviewI went into this book thinking I could hit a lot of the keywords on my list: Docker, Kubernetes, gRPC, concurrency, software engineering, testing, and a project to add to my portfolio. In the loosest sense you could say I &amp;ldquo;hit&amp;rdquo; all of these topics, but some were more focused on than others.</description>
+    </item>
+    
+    <item>
       <title>About</title>
       <link>https://ejacobg.com/about/</link>
       <pubDate>Sat, 29 Apr 2023 15:53:59 -0800</pubDate>

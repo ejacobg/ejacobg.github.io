@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/syntax.css" />
+    <link rel="stylesheet" href="/css/ejacobg.css" />
+    
+    
+    <title>Hands-On Software Engineering With Golang</title>
+</head>
+
+<body>
+    <header>
+    <nav>
+        <h2><a href="/">Ean Jacob Gayban</a></h2>
+        <div>
+            <a href="/blog">Blog</a> |
+            <a href="/notes">Notes</a> |
+            <a href="/projects">Projects</a> |
+            <a href="/about">About</a>
+        </div>
+    </nav>
+    <hr />
+</header>
+    <div>
+        
+<section id="main">
+    <h1 id="title">Hands-On Software Engineering With Golang</h1>
+    <div>
+        <article id="content">
+            <p>Some notes and my overall experience reading through Achilleas Anagnostopoulos&rsquo;s <em><a href="https://www.packtpub.com/product/hands-on-software-engineering-with-golang/9781838554491">Hands-On Software Engineering with Golang</a></em> (2020). This won&rsquo;t cover everything discussed in the book, just the points I thought were most helpful.</p>
+<h2 id="review"><a href="#review">Review</a></h2><p>I went into this book thinking I could hit a lot of the keywords on my list: Docker, Kubernetes, gRPC, concurrency, software engineering, testing, and a project to add to my portfolio. In the loosest sense you could say I &ldquo;hit&rdquo; all of these topics, but some were more focused on than others. You cover just enough Kubernetes terminology to understand all the parts of the cluster, and you cover enough Docker to take up 4 out of ~600 pages of the book. To be fair, this book never claims to be a guide for everything; you learn just enough to continue on with the project and nothing more. The vast majority of the book was dedicated to discussing all the components and iterations of the project. If your goal was to learn each of the aforementioned topics, you may be better served reading a dedicated book on each one. This isn&rsquo;t to say I didn&rsquo;t &ldquo;get anything&rdquo; out of the book. In fact, I got quite a bit out of it:</p>
+<ul>
+<li>A general-purpose Dockerfile for building Go programs.</li>
+<li>A three-legged OAuth flow implementation.</li>
+<li>Basic knowledge of protocol buffers and gRPC.</li>
+<li>Introduction to packages like GoCheck and tools like <code>go generate</code>.</li>
+</ul>
+<p>Do note that this book was published in 2020, and at the time of writing, the current Go version was <strong>1.12.5</strong>. Needless to say, a lot of the packages, software, and tools used in the book have changed and updated since the book was first written. The official <a href="https://github.com/PacktPublishing/Hands-On-Software-Engineering-with-Golang">code repository</a> for the book has been updated to require Go 1.18+, however you will still find that it relies on older packages and tools (e.g. the Makefile targets for minikube make use of Helm v2 as opposed to the current v3). I&rsquo;ve done my best to modernize the repository, however I never actually got the Kubernetes cluster to be deployed. You can find my changes here: <a href="https://github.com/ejacobg/links-r-us">https://github.com/ejacobg/links-r-us</a></p>
+<p>Overall, the author does a good job of explaining everything that&rsquo;s going on, using both high level architecture diagrams and low-level implementation details. I never felt &ldquo;lost&rdquo; while looking at any particular piece of code. Even though I wasn&rsquo;t able to deploy my Kubernetes cluster, the program does work when running it in memory.</p>
+<h2 id="notes"><a href="#notes">Notes</a></h2><p>These will mainly go over the software engineering parts of the book. For a discussion of the <em>Links &lsquo;R&rsquo; Us</em> project, see its associated <a href="/projects/links-r-us/">blog post</a>.</p>
+<h3 id="solid-principles"><a href="#solid-principles">SOLID Principles</a></h3><p><strong>Single responsibility</strong> - In any well-designed system, objects should only have a single responsibility.</p>
+<p><strong>Open/closed</strong> - A software module should be open for extension but closed for modification.</p>
+<p>In Go, you are not allowed to redefine the behavior of types you&rsquo;ve imported from other packages. You can satisfy the closed principle (for packages) for free.</p>
+<p>Even when you are inside a package and have control over the implementation of your classes, you can still make use of the open/closed principle. Use composition to obtain the methods from other types, and override any methods as needed.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Sword</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Damage returns the damage dealt by this sword.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Sword</span><span class="p">)</span> <span class="nf">Damage</span><span class="p">()</span> <span class="kt">int</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">EnchantedSword</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Embed the Sword type
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">Sword</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Damage returns the damage dealt by the enchanted sword.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">EnchantedSword</span><span class="p">)</span> <span class="nf">Damage</span><span class="p">()</span> <span class="kt">int</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">42</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><strong>Liskov substitution</strong> - Two types <em>S</em> and <em>T</em> are substitutable if the behavior of programs <em>P<sub>S</sub></em> and <em>P<sub>T</sub></em> are the same. Program to interfaces rather than concrete types.</p>
+<p><strong>Interface segregation</strong> - Clients should not be forced to depend on the interfaces they do not use. Define only the smallest interfaces needed by your clients.</p>
+<p><strong>Dependency inversion</strong> - High-level modules should not depend on low-level modules. Both should depend on abstractions. Abstractions should not depend on details. Details should depend on abstractions.</p>
+<p>The 4 preceding principles all set the stage for this final one. If you&rsquo;ve done things correctly, then you will get dependency inversion for free.</p>
+<ul>
+<li>The ISP allows both high- and low-level modules to rely on abstractions.</li>
+<li>The open/closed principle allows abstractions (interfaces) to be decoupled from details (implementations).</li>
+<li>The LSP allows our implementation details to rely on abstractions.</li>
+</ul>
+<hr>
+<p>What you gain in flexibility, you lose in complexity and size. Always consider whether defining an abstraction is worth it (it surprisingly isn&rsquo;t for a lot of cases).</p>
+<p>Encountering difficulties when testing may be a sign that one or more of your SOLID principles have been violated and need refactoring.</p>
+<p>SOLID principles apply outside of coding. Your microservices should follow the SRP. They should communicate using clearly defined contracts and boundaries (ISP).</p>
+<h3 id="linters"><a href="#linters">Linters</a></h3><p>There are certain static linkers that can help you write your code. These can detect common errors or vulnerabilities. Here are some checks that you might want to add to your <code>Makefile</code>:</p>
+<ul>
+<li>
+<p><code>bodyclose</code> - check if your <code>http.Response</code> bodies get closed.</p>
+</li>
+<li>
+<p><code>aligncheck</code> - check if your structs use more padding than needed.</p>
+</li>
+<li>
+<p><code>prealloc</code> - identify slice declarations that could be preallocated.</p>
+</li>
+<li>
+<p>You can use a &ldquo;meta-linter&rdquo; like <code>golangci-lint</code> to run your linters in parallel, and normalize all of their output.</p>
+</li>
+</ul>
+<h3 id="key-value-stores"><a href="#key-value-stores">Key-value stores</a></h3><p>Popular key-value stores include AWS DynamoDB, LevelDB, and RocksDB.</p>
+<p>Key-value stores typically support insertions, deletions, and lookups. Some may also support range queries, which return all the key-value pairs whose keys fall within a given range.</p>
+<p>Key-value stores can accept many kinds of data as their keys and values.</p>
+<p>Key-value stores can easily be partitioned across multiple nodes. They scale very well horizontally.</p>
+<p>Common use cases for key-value stores include:</p>
+<ul>
+<li>Caches (eg. web pages, database responses).</li>
+<li>Storing session data. If we tag each session with a unique ID, then we don&rsquo;t have to mess with a relational database and a load balancer; the key-value store does this naturally.</li>
+<li>Storage layers for database systems. Some databases like CockroachDB, and Apache Cassandra are backed by key-value stores.</li>
+</ul>
+<p>The main drawback of key-value stores is that while it is easy to search the keys, it is not easy to search through the values.</p>
+<h3 id="relational-databases"><a href="#relational-databases">Relational databases</a></h3><p>One of the most important features of relational databases is their support for transactions. In order for a RDBMS to execute transactions effectively, it must satisfy the so-called ACID properties.</p>
+<ul>
+<li><strong>Atomicity</strong> - transactions are executed in full or not at all.</li>
+<li><strong>Consistency</strong> - transactions must leave the database in a valid state.</li>
+<li><strong>Isolation</strong> - transactions should occur independently of one another. Running transactions concurrently should produce the same result as running them sequentially.</li>
+<li><strong>Durability</strong> - once a transaction is committed, changes should persist even when the database is restarted.</li>
+</ul>
+<p>RDBs tend to scale well vertically, but not horizontally.</p>
+<p>For write-heavy workloads, <em>sharding</em> is typically used, where the database tables are split across multiple nodes. This comes at the cost of read speed, since multiple nodes need to be queried to obtain the full dataset.</p>
+<p>For read-heavy workloads, horizontal scaling is achieved through <em>read-replicas</em>, where each node is a mirror of one or more &ldquo;primary&rdquo; nodes. Writes are always handled by the primary nodes, while reads can occur on any node.</p>
+<p>RDBs are good for transactional workloads and complex queries. They are <em>not</em> good if your data is hierarchical or if you are managing very high volumes.</p>
+<h3 id="oauth"><a href="#oauth">OAuth</a></h3><p>OAuth is an authentication standard proposed as an alternative to basic authentication.</p>
+<p>OAuth allows us to have service A access some of our account information hosted on service B, but without us having to give service A our login information to service B.</p>
+<p>Some common use cases for this include:</p>
+<ul>
+<li><strong>Single Sign-On (SSO)</strong> - this allows us to manage multiple accounts with different services, but without having to manage different logins for all of them. Some providers also provide controls for revoking a service&rsquo;s access to your information.</li>
+<li><strong>API automation</strong> - this is common for things like CI pipelines, where you might need to pull data from a repo and integrate with many other services.</li>
+</ul>
+<p>We will implement a &ldquo;three-legged&rdquo; OAuth flow which involves 4 parties:</p>
+<ul>
+<li>The <strong>Resource Owner</strong> - the user who wishes for service A to access their data on service B.</li>
+<li>The <strong>OAuth client</strong> - the service who wishes to perform an action on behalf of a user (in this case, service A).</li>
+<li>The <strong>Resource Server</strong> - the service who hosts the resource that the user wishes to share (in this case, service B).</li>
+<li>The <strong>Authorization Server</strong> - a part of service B that authorizes access tokens into service B.</li>
+</ul>
+<p>The OAuth flow looks like this:</p>
+<ul>
+<li>The resource owner visits service A and clicks the &ldquo;Login with B&rdquo; button.</li>
+<li>Service A returns an authorization URL to the user that points to service B&rsquo;s authorization server.
+<ul>
+<li>This URL contains information such as service A&rsquo;s client ID, its access requests, and a return URL to visit after the permissions have been granted.</li>
+</ul>
+</li>
+<li>The resource owner visits the URL, which returns a consent form showing what data and permissions are being granted. If the user grants these permissions, then they will be redirected to the return URL specified in the previous step.
+<ul>
+<li>The authorization server will append two more pieces of information attached to the return URL: a nonce value and an access code.</li>
+</ul>
+</li>
+<li>When the return URL is visited, service A will confirm the nonce and make a request to the authorization server with the access code.</li>
+<li>The server will respond to service A&rsquo;s access code with two tokens: a short-lived token that provides access to the requested resources, and a long-lived token that allows service A to re-generate any expired access tokens.</li>
+<li>Service A is now able to perform actions on service B using its access token.</li>
+</ul>
+<p>The <code>golang.org/x/oauth2</code> package provides some primitives for working with a three-legged OAuth flow.</p>
+<h3 id="kubernetes-basics"><a href="#kubernetes-basics">Kubernetes Basics</a></h3><p>Kubernetes the de facto standard for deploying applications. It is a platform for managing containerized workloads.</p>
+<p>There are two types of nodes in a Kubernetes cluster: the <strong>master</strong> nodes, which manage the &ldquo;control plane&rdquo;, and the <strong>worker</strong> nodes which execute tasks assigned by the masters.</p>
+<p>There are typically multiple master nodes, each with a (live) copy of the control plane.</p>
+<p>All master nodes run the following processes:</p>
+<ul>
+<li>The <strong>kube-api-server</strong> - an API that allows workers and cluster operators to access the cluster&rsquo;s control plane.</li>
+<li><strong>etcd</strong> - a key-value store that represents the cluster&rsquo;s current state. Clients can subscribe to certain keys to receive notifications when their values change.</li>
+<li>The <strong>scheduler</strong> - monitors incoming workloads and assigns tasks to workers.</li>
+<li>The <strong>cloud controller manager</strong> - acts as the interface between the cloud provider hosting the cluster and the cluster itself. It will manage any cloud-specific services like storage, load balancing, and routing.</li>
+</ul>
+<p>Kubernetes is a <em>container</em> manager, so all workers in a cluster must have some sort of container runtime, usually Docker, but some other runtimes like containerd or rkt may be used.</p>
+<p>Work is assigned to a worker in the form of a <strong>pod</strong>, which represents one or more container images to execute on that worker.</p>
+<p>Worker nodes also run the following processes alongside their workloads:</p>
+<ul>
+<li>The <strong>kubelet</strong> agent - connects to the master&rsquo;s <strong>kube-api-server</strong> and watches for incoming workloads. It also restarts any containers that die while running.</li>
+<li>The <strong>kube-proxy</strong> - routes any internal or external traffic to other pods hosted on this worker.</li>
+</ul>
+<p>Operators interact with the Kubernetes cluster through a CRUD-like interface. The cluster provides several &ldquo;resources&rdquo; that you can operate on.</p>
+<p>The <strong>config map</strong> resource allows us to inject configuration settings into a pod at runtime. It is typically bad practice to hard-code our configuration settings since doing so can make them hard to change. The <strong>secret</strong> resource works similarly to a config map, but for sensitive data like keys and credentials.</p>
+<p>The <strong>namespace</strong> resource allows us to group several nodes together and control access and resources to them. This can be useful if multiple teams need to use the same cluster.</p>
+<p>The <strong>persistent volume (PV)</strong> and <strong>persistent volume claim (PVC)</strong> resources allow for data to be persisted in the event of a pod crash.</p>
+<ul>
+<li>A PV is simply a piece of block storage made available to the cluster.</li>
+<li>A PVC is a <em>claim</em> for a particular piece of block storage (eg. it must have a certain size, IOPS, must be SSD, etc.). The control plane handles assigning block storage to specified claims.</li>
+</ul>
+<p>The <strong>deployment</strong> resource is the recommended method for deploying a Kubernetes cluster. The deployment resource specifies a <strong>template</strong> for instantiating a pod and the number of replicas, and Kubernetes tries to synchronize the cluster to satisfy the requests laid out in the template.</p>
+<ul>
+<li>Deployment pods are given a random hostname, and each of them share the same PVC with all other pods in the deployment.</li>
+</ul>
+<p>Some applications require &ldquo;stateful&rdquo; deployments where the hostnames for each pod are known and each pod requires its own PVC. For example, the hostname of the pod hosting the database should always be known. The <strong>StatefulSet</strong> resource is similar to the deployment resource, where we define a pod template and its replicas. However, instead of being given a random hostname, we define a name for the StatefulSet itself, and each pod is identified by its index in the set (eg. web-0 and web-1).</p>
+<p>The <strong>service</strong> resource allows a pod to communicate with other resources in the cluster. There are two types of service resources:</p>
+<ul>
+<li>The <strong>load balancer</strong> resource acts as a gateway to a group of pods. This functionality is provided by the kube-proxy process of the worker node.
+<ul>
+<li>Load balancers are given an IP address and DNS record so that it can be discoverable by clients.</li>
+</ul>
+</li>
+<li>The <strong>headless</strong> service allows you to define your own service discovery mechanism. Headless services are not given an IP address, but are given DNS records for the pods behind the service.</li>
+</ul>
+<p>The <strong>ingress</strong> service exposes HTTP and HTTPS endpoints to handle traffic originating outside of the cluster.</p>
+
+        </article>
+    </div>
+</section>
+<aside id="meta">
+    <div>
+        <section>
+            <h4 id="date"> Tue May 9, 2023 </h4>
+            <h5 id="wordcount"> 2317 Words </h5>
+        </section>
+        
+        
+    </div>
+    <div>
+        
+        
+    </div>
+</aside>
+
+    </div>
+    <footer>
+    <hr>
+    <div>
+        <p>
+            &copy; 2022 Ean Jacob Gayban. Site made with Hugo.
+        </p>
+    </div>
+</footer>
+</body>
+</html>

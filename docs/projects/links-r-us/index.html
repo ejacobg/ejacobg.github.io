@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/syntax.css" />
+    <link rel="stylesheet" href="/css/ejacobg.css" />
+    
+    
+    <title>Links &#39;R&#39; Us</title>
+</head>
+
+<body>
+    <header>
+    <nav>
+        <h2><a href="/">Ean Jacob Gayban</a></h2>
+        <div>
+            <a href="/blog">Blog</a> |
+            <a href="/notes">Notes</a> |
+            <a href="/projects">Projects</a> |
+            <a href="/about">About</a>
+        </div>
+    </nav>
+    <hr />
+</header>
+    <div>
+        
+<section id="main">
+    <h1 id="title">Links &#39;R&#39; Us</h1>
+    <div>
+        <article id="content">
+            <p>This project was made to accompany my reading of <a href="/notes/hands-on-software-engineering-with-golang/"><em>Hands-On Software Engineering with Golang</em></a>. Please note that the vast majority of this code <strong>was not</strong> written by me, however I did make a couple of meaningful changes: (1) I reorganized all the packages into a form I liked better (similar to the <a href="/projects/tourney-tracker/#standard-package-layout">Standard Package Layout</a>), (2) I rewrote a few of the tests (add links) to use the standard <code>testing</code> package rather than GoCheck, and (3) I got rid of a lot of old/deprecated code since the project isn&rsquo;t exactly up-to-date. Here is a(n incomplete) list of notes I made while editing the codebase:</p>
+<ul>
+<li>The CockroachDB DSN for the <code>migrate</code> tool is different from the DSN expected by the code.</li>
+<li>The Elasticsearch cluster needs its security disabled. Add this to your <code>elasticsearch.yml</code>: <code>xpack.security.enabled: false</code></li>
+<li>The Elasticsearch package needs to be versioned.</li>
+<li>A lot of the protobuf installations were deprecated. I found new installs and packages.</li>
+<li>The <code>protoc</code> invokation needed to be updated, and the <code>option go_package = &quot;...&quot;</code> line needed to be added to my <code>.proto</code> files.</li>
+<li>The <code>proto.Unimplemented*Server</code> type needed to be embedded in the server implementations.</li>
+<li>The code uses the deprecated <code>ptypes</code> package. I have replaced most of these calls with their respective <a href="https://pkg.go.dev/google.golang.org/protobuf@v1.30.0/proto"><code>proto</code></a>, <a href="https://pkg.go.dev/google.golang.org/protobuf@v1.30.0/types/known/anypb"><code>anypb</code></a>, and <a href="https://pkg.go.dev/google.golang.org/protobuf@v1.30.0/types/known/timestamppb"><code>timestamppb</code></a> functions.</li>
+</ul>
+<p>I did end up downloading GoCheck just to see how it works, and I found it to be quite nice for testing, especially since GoLand supports it out of the box.</p>
+<p>I did make refactorings to the code to make it more readable to me and rewrote some pieces of code into my own style, but ultimately I didn&rsquo;t feel like I could easily modify the business logic as I wanted to. Despite this, I did manage to get some level of familiarity with most parts of the project (I skipped the discussion on the PageRank calculator), and can reasonably understand what each line of code does. Unlike in the <em>Let&rsquo;s Go</em> and <em>Let&rsquo;s Go Further</em> books, not all pieces of code in the project were explained. Most of the code was commented, but it still took a few rereads to understand what was going on and why.</p>
+<p>You can find the original code repository here: <a href="https://github.com/PacktPublishing/Hands-On-Software-Engineering-with-Golang">https://github.com/PacktPublishing/Hands-On-Software-Engineering-with-Golang</a>, and my version here: <a href="https://github.com/ejacobg/links-r-us">https://github.com/ejacobg/links-r-us</a>. Note that not all packages and tests defined in the original repository were ported over into my version. Some packages were simply demos of the concepts discussed in the book.</p>
+<h2 id="disclaimers"><a href="#disclaimers">Disclaimers</a></h2><h3 id="kubernetes"><a href="#kubernetes">Kubernetes</a></h3><p>I tried very hard to fix up the Kubernetes Makefile targets as best I could, but I ended up running into a bunch of problems simply because I used different versions of practically every piece of software that was used. Even then, I would have some of my pods going down and my Docker repository not responding, so not everything can be blamed on versioning issues. If you&rsquo;re reading this book for the first time, you should copy the same setup as the author since that&rsquo;s the only guarantee that things will work right the first time. The project <em>does</em> work when running it locally though. I&rsquo;ll keep fiddling with the Makefile, but for now be warned that it doesn&rsquo;t work (at least on my computer).</p>
+<p>I copied over the Kubernetes manifests and Makefile targets for the distributed version of the program, however I did not make any changes to them. I wasn&rsquo;t able to get the monolithic version working, so it wasn&rsquo;t worth trying to get the distributed version working either. Everything after chapter 10 was ported over as-is since I was not able to experiment with it much without the Kubernetes cluster.</p>
+<h3 id="the-bsp-model"><a href="#the-bsp-model">The BSP Model</a></h3><p>I skipped pretty much the entirety of the discussion on the Bulk Synchronous Parallel (BSP) model (chapters 8 and 12) because it simply wasn&rsquo;t relevant to my goals for the project. I pretty much just ported over the code without really looking at it. The code from chapter 12 was omitted entirely.</p>
+<h2 id="overview"><a href="#overview">Overview</a></h2><p>The program makes use of several core components.</p>
+<p><a href="/linksrus-components.png"><img src="/linksrus-components.png" alt="Component diagram"></a></p>
+<p>The <strong>Frontend</strong> handles all user interaction. It allows users to submit new links for the crawler to fetch and index, and provides a search box to submit queries and view their results.</p>
+<p>The <strong>Link Graph</strong> stores all the links used by the program. It also stores directed edges showing which URLs contain links to other URLs. The Link Graph provides methods for other components to query and modify the graph. Links submitted by the frontend are inserted into the Link Graph.</p>
+<p>The <strong>Link Provider</strong> represents a source of links that will be fed into the crawler pipeline. The Link Graph implementation is typically acts as the Link Provider.</p>
+<p>The <strong>Crawler</strong> takes in links from the Link Provider and processes them using several subcomponents.</p>
+<ul>
+<li>The <strong>Link Filter</strong> determines the content type of a link, and will reject al links it thinks the system cannot process (eg. images or videos).</li>
+<li>The <strong>Link Fetcher</strong> takes all filtered links and makes an HTTP request to the remote server, following any redirects and checking that the <code>Content-Type</code> header is something the system can process.</li>
+<li>The <strong>Content Extractor</strong> extracts all text content from a document. This supports both plaintext and HTML documents.</li>
+<li>The <strong>Link Extractor</strong> will identify and extract all links present on an HTML document.</li>
+</ul>
+<p>The <strong>Content Indexer</strong> maintains a full-text index of the content emitted by the Content Extractor, and also provides methods for other components to access the index.</p>
+<p>The <strong>PageRank Calculator</strong> takes a snapshot of the graph, then uses it to calculate a PageRank score. These scores will then be written back into the Content Indexer to be used when querying.</p>
+<p>The Link Graph is initially empty, and can be populated by the user through the Frontend. Periodically, all the links in the Link Graph get run through the Crawler in order re-index their content. Any new links discovered by the Crawler also get sent back to the Link Graph to be crawled in the next pass. The PageRank calculator also runs periodically so that changes to the graph are reflected with their new scores.</p>
+
+        </article>
+    </div>
+</section>
+<aside id="meta">
+    <div>
+        <section>
+            <h4 id="date"> Wed May 31, 2023 </h4>
+            <h5 id="wordcount"> 1001 Words </h5>
+        </section>
+        
+        
+    </div>
+    <div>
+        
+        <a class="previous" href="https://ejacobg.com/projects/tourney-tracker/"> Tourney Tracker</a>
+        
+        
+    </div>
+</aside>
+
+    </div>
+    <footer>
+    <hr>
+    <div>
+        <p>
+            &copy; 2022 Ean Jacob Gayban. Site made with Hugo.
+        </p>
+    </div>
+</footer>
+</body>
+</html>
