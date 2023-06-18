@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/syntax.css" />
+    <link rel="stylesheet" href="/css/ejacobg.css" />
+    
+    
+    <title>Testing Services</title>
+</head>
+
+<body>
+    <header>
+    <nav>
+        <h2><a href="/">Ean Jacob Gayban</a></h2>
+        <div>
+            <a href="/blog">Blog</a> |
+            <a href="/notes">Notes</a> |
+            <a href="/projects">Projects</a> |
+            <a href="/about">About</a>
+        </div>
+    </nav>
+    <hr />
+</header>
+    <div>
+        
+<section id="main">
+    <h1 id="title">Testing Services</h1>
+    <div>
+        <article id="content">
+            <p>Let&rsquo;s say that some parts of your code want to make use of a key-value store that looks something like this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">kv</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Store stores positive integers.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">type</span> <span class="nx">Store</span> <span class="kd">interface</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">Get</span><span class="p">(</span><span class="nx">key</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span>    <span class="c1">// Returns -1 if the key is not present.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nf">Put</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span> <span class="kt">int</span><span class="p">)</span> <span class="c1">// Inserts a new item, updating it if present.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nf">Delete</span><span class="p">(</span><span class="nx">key</span> <span class="kt">int</span><span class="p">)</span>     <span class="c1">// No-op if key is not present.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>You might then have some concrete implementations for your store:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">slices</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;golang.org/x/exp/slices&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Store represents a kv.Store backed by a slice.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">type</span> <span class="nx">Store</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">s</span> <span class="p">[]</span><span class="nx">item</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">item</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">key</span><span class="p">,</span> <span class="nx">value</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewStore</span><span class="p">(</span><span class="nx">cap</span> <span class="kt">int</span><span class="p">)</span> <span class="o">*</span><span class="nx">Store</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">Store</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">s</span><span class="p">:</span> <span class="nb">make</span><span class="p">([]</span><span class="nx">item</span><span class="p">,</span> <span class="nx">cap</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="o">*</span><span class="nx">Store</span><span class="p">)</span> <span class="nf">Get</span><span class="p">(</span><span class="nx">key</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// More methods...
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">maps</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Store represents a kv.Store backed by a map.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">type</span> <span class="nx">Store</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">s</span> <span class="kd">map</span><span class="p">[</span><span class="kt">int</span><span class="p">]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewStore</span><span class="p">()</span> <span class="o">*</span><span class="nx">Store</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">Store</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">s</span><span class="p">:</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">int</span><span class="p">]</span><span class="kt">int</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="o">*</span><span class="nx">Store</span><span class="p">)</span> <span class="nf">Get</span><span class="p">(</span><span class="nx">key</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">s</span><span class="p">[</span><span class="nx">key</span><span class="p">];</span> <span class="nx">ok</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">value</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// More methods...
+</span></span></span></code></pre></div><p>You then realize that you should probably start testing your implementations, especially if you plan on making more of them. You come up with a set of <a href="https://quii.gitbook.io/learn-go-with-tests/testing-fundamentals/intro-to-acceptance-tests#acceptance-tests">acceptance tests</a> that every <code>Store</code> should pass.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">kvtest</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/ejacobg/kv&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;testing&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">TestStore</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">,</span> <span class="nx">s</span> <span class="nx">kv</span><span class="p">.</span><span class="nx">Store</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">got</span><span class="p">,</span> <span class="nx">want</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// Can read what was inserted.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">key</span><span class="p">,</span> <span class="nx">value</span> <span class="p">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">s</span><span class="p">.</span><span class="nf">Put</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">got</span><span class="p">,</span> <span class="nx">want</span> <span class="p">=</span> <span class="nx">s</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="nx">key</span><span class="p">),</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">got</span> <span class="o">!=</span> <span class="nx">want</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">t</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;inserted key %d returns %d, want %d&#34;</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">got</span><span class="p">,</span> <span class="nx">want</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// Can read what was updated.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">key</span><span class="p">,</span> <span class="nx">value</span> <span class="p">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">s</span><span class="p">.</span><span class="nf">Put</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">got</span><span class="p">,</span> <span class="nx">want</span> <span class="p">=</span> <span class="nx">s</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="nx">key</span><span class="p">),</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">got</span> <span class="o">!=</span> <span class="nx">want</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">t</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;updated key %d returns %d, want %d&#34;</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">got</span><span class="p">,</span> <span class="nx">want</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// Cannot read after a delete operation.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">key</span> <span class="p">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">s</span><span class="p">.</span><span class="nf">Delete</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">got</span><span class="p">,</span> <span class="nx">want</span> <span class="p">=</span> <span class="nx">s</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="nx">key</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">got</span> <span class="o">!=</span> <span class="nx">want</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">t</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;deleted key %d returns %d, want %d&#34;</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">got</span><span class="p">,</span> <span class="nx">want</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>To run these tests, all you have to do is inject your implementation into them:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">maps</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/ejacobg/kv/kvtest&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;testing&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">TestAcceptance</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">kvtest</span><span class="p">.</span><span class="nf">TestStore</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="nf">NewStore</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>This way, you can be sure that your stores are working as intended, and you don&rsquo;t have to copy over the same set of tests for each implementation. You are also free to define any other local tests if needed since the acceptance tests are black-box by nature.</p>
+<p>You can find the full code for the above examples in this repository: <a href="https://github.com/ejacobg/kv">https://github.com/ejacobg/kv</a></p>
+<p>What if you have multiple tests, and need to perform some setup and teardown operations between each one? In this case, we might want to switch to a table-driven approach:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">kvtest</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/ejacobg/kv&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;testing&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Suite</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">S</span> <span class="nx">kv</span><span class="p">.</span><span class="nx">Store</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// Optional setup and teardown.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">BeforeEach</span> <span class="kd">func</span><span class="p">(</span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">AfterEach</span>  <span class="kd">func</span><span class="p">(</span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="o">*</span><span class="nx">Suite</span><span class="p">)</span> <span class="nf">TestStore</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">tests</span> <span class="o">:=</span> <span class="p">[]</span><span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">name</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fn</span>   <span class="kd">func</span><span class="p">(</span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">,</span> <span class="nx">kv</span><span class="p">.</span><span class="nx">Store</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}{</span>
+</span></span><span class="line"><span class="cl">		<span class="p">{</span><span class="s">&#34;Store&#34;</span><span class="p">,</span> <span class="nx">TestStore</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">s</span><span class="p">.</span><span class="nx">BeforeEach</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">s</span><span class="p">.</span><span class="nx">BeforeEach</span> <span class="p">=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">s</span><span class="p">.</span><span class="nx">AfterEach</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">s</span><span class="p">.</span><span class="nx">AfterEach</span> <span class="p">=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">test</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">tests</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">t</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="nx">test</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">s</span><span class="p">.</span><span class="nf">BeforeEach</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">test</span><span class="p">.</span><span class="nf">fn</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="nx">s</span><span class="p">.</span><span class="nx">S</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">s</span><span class="p">.</span><span class="nf">AfterEach</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">})</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Acceptance tests from the previous examples.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">TestStore</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">,</span> <span class="nx">s</span> <span class="nx">kv</span><span class="p">.</span><span class="nx">Store</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>To use these tests, you simply need to instantiate a <code>Suite</code> object:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">maps</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/ejacobg/kv/kvtest&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;testing&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">TestSuite</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">suite</span> <span class="o">:=</span> <span class="nx">kvtest</span><span class="p">.</span><span class="nx">Suite</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">suite</span><span class="p">.</span><span class="nx">BeforeEach</span> <span class="p">=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">_</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">suite</span><span class="p">.</span><span class="nx">S</span> <span class="p">=</span> <span class="nf">NewStore</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">suite</span><span class="p">.</span><span class="nf">TestStore</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>You can perform both a one-time setup and teardown for all tests, as well as setup for each individual test using the <a href="https://www.calhoun.io/more-effective-ddd-with-interface-test-suites/#:~:text=//%20Optional%20%2D%20useful%20for%20resetting%20a%20DB%20perhaps.%0A%20%20BeforeEach%20func()%0A%20%20AfterEach%20func()"><code>BeforeEach</code> and <code>AfterEach</code> methods</a>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">TestSuite</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// Set up suite...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	
+</span></span><span class="line"><span class="cl">	<span class="c1">// Run suite...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">suite</span> <span class="o">:=</span> <span class="nx">Suite</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">            <span class="c1">// Set up test...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nx">suite</span><span class="p">.</span><span class="nx">BeforeEach</span> <span class="p">=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="nx">t</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;setup failed: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">            <span class="c1">// Tear down test...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nx">suite</span><span class="p">.</span><span class="nx">AfterEach</span> <span class="p">=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// ...	
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">            <span class="nx">suite</span><span class="p">.</span><span class="nf">Test</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="c1">// Tear down suite...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>The <a href="/notes/hands-on-software-engineering-with-golang/"><em>Hands-On Software Engineering with Golang</em></a> book used the <a href="https://labix.org/gocheck"><code>gocheck</code></a> package in order to scaffold and run tests on the concrete implementations. You could also use something like <a href="https://github.com/stretchr/testify"><code>testify</code></a>, however I would prefer <code>gocheck</code> since it is <a href="https://www.jetbrains.com/help/go/testing.html#packages-used-for-testing">integrated into GoLand</a> by default.</p>
+<p>However, if all you need is to simply gather tests into a suite, this technique works just fine. More importantly, it uses only the standard library to achieve this, as outlined in Google&rsquo;s <a href="https://google.github.io/styleguide/go/best-practices#tests">best practices for tests</a>.</p>
+
+        </article>
+    </div>
+</section>
+<aside id="meta">
+    <div>
+        <section>
+            <h4 id="date"> Thu May 11, 2023 </h4>
+            <h5 id="wordcount"> 751 Words </h5>
+        </section>
+        
+        
+    </div>
+    <div>
+        
+        <a class="previous" href="https://ejacobg.com/notes/hands-on-software-engineering-with-golang/"> Hands-On Software Engineering With Golang</a>
+        
+        
+    </div>
+</aside>
+
+    </div>
+    <footer>
+    <hr>
+    <div>
+        <p>
+            &copy; 2022 Ean Jacob Gayban. Site made with Hugo.
+        </p>
+    </div>
+</footer>
+</body>
+</html>

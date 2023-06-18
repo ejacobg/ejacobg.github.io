@@ -8,6 +8,16 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 15 Dec 2022 15:53:44 -0800</lastBuildDate><atom:link href="https://ejacobg.com/notes/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Testing Services</title>
+      <link>https://ejacobg.com/notes/testing-services/</link>
+      <pubDate>Thu, 11 May 2023 22:19:39 -0700</pubDate>
+      
+      <guid>https://ejacobg.com/notes/testing-services/</guid>
+      <description>Let&amp;rsquo;s say that some parts of your code want to make use of a key-value store that looks something like this:
+package kv // Store stores positive integers. type Store interface { Get(key int) int // Returns -1 if the key is not present. Put(key, value int) // Inserts a new item, updating it if present. Delete(key int) // No-op if key is not present. } You might then have some concrete implementations for your store:</description>
+    </item>
+    
+    <item>
       <title>Hands-On Software Engineering With Golang</title>
       <link>https://ejacobg.com/notes/hands-on-software-engineering-with-golang/</link>
       <pubDate>Tue, 09 May 2023 10:49:23 -0700</pubDate>
