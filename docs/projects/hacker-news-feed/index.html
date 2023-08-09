@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/syntax.css" />
+    <link rel="stylesheet" href="/css/ejacobg.css" />
+    
+    
+    <title>Hacker News Feed</title>
+</head>
+
+<body>
+    <header>
+    <nav>
+        <h2><a href="/">Ean Jacob Gayban</a></h2>
+        <div>
+            <a href="/blog">Blog</a> |
+            <a href="/notes">Notes</a> |
+            <a href="/projects">Projects</a> |
+            <a href="/about">About</a>
+        </div>
+    </nav>
+    <hr />
+</header>
+    <div>
+        
+<section id="main">
+    <h1 id="title">Hacker News Feed</h1>
+    <div>
+        <article id="content">
+            <p>I&rsquo;ve been working with Go for the past ~1.5 years now, and while I would still like to continue working with it in the future, I realize that it isn&rsquo;t exactly the most employable language in my area. Therefore, I&rsquo;ve switched gears and started to learn C#. I did have some prior experience with the language and its related technologies through my <a href="https://unr-cs426-team-07.github.io/">senior capstone project</a> and an elective class I took at UNR. This project was an opportunity to experiment with and refine my learning process. Below I&rsquo;ll discuss mostly everything I learned during the development of this project. You can find the repository for the project on <a href="https://github.com/ejacobg/HackerNewsFeed">GitHub</a>.</p>
+<h2 id="background"><a href="#background">Background</a></h2><p>My typical usage of Hacker News looks like this:</p>
+<ol>
+<li>Go through the first two pages and the &ldquo;Ask HN&rdquo; section and open any interesting articles and discussions in a new tab.</li>
+<li>Read through all the open tabs. Upvote and favorite them as needed.</li>
+<li>Close any articles/discussions that weren&rsquo;t as interesting as originally expected.</li>
+<li>Come back later to the tabs that are still open, and see if any discussion has progressed.</li>
+<li>Repeat from (1).</li>
+</ol>
+<p>This workflow works fine for the most part, but I&rsquo;ve found it annoying to have to wade through many of the same submissions every time I visit the front page. I know that the &ldquo;hide&rdquo; feature exists, but clicking that button adds more work for submissions I never even wanted to interact with in the first place. I&rsquo;m only interested in at most ~20% of the front page.</p>
+<p>The Hacker News Feed acts as an alternative HN frontend specifically tailored to my use case. Specifically, it&hellip;</p>
+<ul>
+<li>Merges the first two pages and the &ldquo;Ask HN&rdquo; section into one single page.</li>
+<li>Keeps track of the submissions that I&rsquo;ve opened.</li>
+<li>Allows me to mark submissions as uninteresting (similar to the &ldquo;hide&rdquo; feature).</li>
+<li>Automatically marks unopened submissions as uninteresting (no need to manually click &ldquo;hide&rdquo; for each one).</li>
+<li>Displays just the new front page submissions instead of re-showing the ones I&rsquo;m not interested in.</li>
+</ul>
+<h2 id="approach"><a href="#approach">Approach</a></h2><p>This technically wasn&rsquo;t my first time working with C#, but I haven&rsquo;t used it in a while, so I decided to relearn it from scratch. I did skip over the language basics though since most of the language features were familiar to me. As for learning material, I decided upon Andrew Lock&rsquo;s <a href="https://www.manning.com/books/asp-net-core-in-action-second-edition"><em>ASP.NET Core in Action, Second Edition</em></a> and read through the first 10 chapters (ASP.NET Core basics), chapter 12 (CRUD operations using EF Core), and chapter 21 (using <code>IHttpClientFactory</code>) before I actually started coding. This reading actually took up a decent amount of my time (~15.5 hours over 15 days), but on the whole I think that this was a good decision since my notes were a huge help throughout the project. I just need to learn to read a little faster.</p>
+<h2 id="system-design"><a href="#system-design">System Design</a></h2><p>Before coding, I identified all the core operations needed for the program and grouped them into several components. I wanted to experiment using Logseq&rsquo;s <a href="https://docs.logseq.com/#/page/whiteboard">whiteboard</a> feature, and I think this definitely helped.</p>
+<p><a href="/hacker-news-feed-components.png"><img src="/hacker-news-feed-components.png" alt="Component diagram"></a></p>
+<p>Feed items are pulled from an <code>IFeedProvider</code>. The diagram shows two implementations of this interface, but I only implemented the <code>ApiProvider</code>. The <code>FixedProvider</code> functionality could be provided internally inside an <code>IFeedService</code> implementation.</p>
+<p><code>IFeedService</code> encapsulates all the operations needed to implement the functionality described above. Like with <code>IFeedProvider</code>, I planned out two implementations for a feed service: one that generates and returns fake feed items and stores them in-memory, and another one that pulls data from the Hacker News&rsquo; <a href="https://github.com/HackerNews/API">Firebase</a> and <a href="https://hn.algolia.com/api">Algolia</a> APIs and saves data to a LocalDB instance.</p>
+<p>Two controllers were needed to manage the front page of the application and to provide endpoints for viewing and &ldquo;subscribing&rdquo; to submitted items.</p>
+<h2 id="implementation"><a href="#implementation">Implementation</a></h2><p>The core of the project is built around the <code>Item</code> class, which looks like this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// Item reflects that of a Hacker News item, but typically represents an story, Ask HN, or Show HN post.</span>
+</span></span><span class="line"><span class="cl"><span class="na">[Index(nameof(ItemId), IsUnique = true)]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Item</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [Key]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Id</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// The item&#39;s ID as given by Hacker News.</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">ItemId</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">Title</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// If this item contains a URL, then it will be added here.</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">Url</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Points</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Comments</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Created represents the time this item was submitted to Hacker News, not when it was created in our local database.</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [DataType(DataType.Date)]</span> <span class="k">public</span> <span class="n">DateTime</span> <span class="n">Created</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Updated represents the time this item was last updated from the API.</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Changing the subscription status shouldn&#39;t affect this timestamp.</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [DataType(DataType.Date)]</span> <span class="k">public</span> <span class="n">DateTime</span> <span class="n">Updated</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Subscribed is true if the user opened the item or explicitly subscribed to it, false if the user explicitly unsubscribed from it, and null if the user has yet to interact with this item.</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool?</span> <span class="n">Subscribed</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>The <code>IFeedProvider</code> pulls data from the APIs, then converts it into <code>Item</code> objects. The <code>IFeedService</code> takes these items and saves them to the database. The feed service is also in charge of managing the subscription status of all the feed items - subscribe, unsubscribe, and &ldquo;clear&rdquo;, which marks all <code>null</code>-subscribed items as unsubscribed. A basic frontend was made to show all the feed items in a table:</p>
+<p><a href="https://raw.githubusercontent.com/ejacobg/HackerNewsFeed/main/HackerNewsFeed/Screenshots/Update.png"><img src="https://raw.githubusercontent.com/ejacobg/HackerNewsFeed/main/HackerNewsFeed/Screenshots/Update.png" alt="Frontend"></a></p>
+<h2 id="reflection"><a href="#reflection">Reflection</a></h2><p>According to my logs, this project took around 21 hours to complete, spread across 12 days (not all consecutive). This figure includes both the time spent planning the project and the time spent coding. In hindsight, this project seemed conceptually pretty simple, but there were a lot of details I was missing when trying to implement it, and that took me down several rabbit holes I could have done without. I will admit that I did use ChatGPT (3.5) to help fill in my knowledge gaps, for example how to structure my services and what directories make sense to place them in, providing thread safety using <code>ReaderWriterLockSlim</code>, calling JSON APIs, and some frontend code. You can find a copy of my chat here: <a href="https://chat.openai.com/share/8230c51f-54c5-4090-880a-1765d5d148b2">https://chat.openai.com/share/8230c51f-54c5-4090-880a-1765d5d148b2</a>. Despite this, I still needed to turn to Google and StackOverflow for other issues, mainly related to working with EF Core. That was the only part that wasn&rsquo;t covered very thoroughly in the book.</p>
+<p>I&rsquo;ve always been the type to do a lot of reading and planning before jumping into a task. Reading and taking notes on everything has given me a lot of value over the years. However, I will admit that this is a time-consuming process, and I tend to only revisit a small portion of the notes that I&rsquo;ve taken. This project was an experiment in project-based learning/learning on-demand, and while I wouldn&rsquo;t call it a huge success, I&rsquo;ve realized that there&rsquo;s a lot more room to improve. My key takeaways were that my book notes helped, I just needed to find the right sections to take notes on. ChatGPT is good at identifying keywords to look up, but I&rsquo;m probably better served by reading a book chapter than throwing those keywords into Google and StackOverflow.</p>
+
+        </article>
+    </div>
+</section>
+<aside id="meta">
+    <div>
+        <section>
+            <h4 id="date"> Mon Aug 7, 2023 </h4>
+            <h5 id="wordcount"> 1181 Words </h5>
+        </section>
+        
+        
+    </div>
+    <div>
+        
+        <a class="previous" href="https://ejacobg.com/projects/links-r-us/"> Links &#39;R&#39; Us</a>
+        
+        
+    </div>
+</aside>
+
+    </div>
+    <footer>
+    <hr>
+    <div>
+        <p>
+            &copy; 2022 Ean Jacob Gayban. Site made with Hugo.
+        </p>
+    </div>
+</footer>
+</body>
+</html>
