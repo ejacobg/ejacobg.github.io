@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/syntax.css" />
+    <link rel="stylesheet" href="/css/ejacobg.css" />
+    
+    
+    <title>Microservices in .NET</title>
+</head>
+
+<body>
+    <header>
+    <nav>
+        <h2><a href="/">Ean Jacob Gayban</a></h2>
+        <div>
+            <a href="/blog">Blog</a> |
+            <a href="/notes">Notes</a> |
+            <a href="/projects">Projects</a> |
+            <a href="/about">About</a>
+        </div>
+    </nav>
+    <hr />
+</header>
+    <div>
+        
+<section id="main">
+    <h1 id="title">Microservices in .NET</h1>
+    <div>
+        <article id="content">
+            <h2 id="review"><a href="#review">Review</a></h2><p>A week after finishing the <a href="https://ejacobg.com/projects/hacker-news-feed/">Hacker News Feed</a> project, I had found another book to work through: Christian Horsdal&rsquo;s <a href="https://www.manning.com/books/microservices-in-net-second-edition">
+<em>Microservices in .NET, Second
+Edition</em></a> (2021). I was (and still am) interested in learning more about both microservices and the .NET stack, so this book couldn&rsquo;t have come at a better time. The difficulty seemed reasonable, it had some projects I could take a look at, and it even covered deploying to Azure, which I did manage to get working. Overall, the book covered mostly what it said it would, but it felt like it could have done so in a much shorter page count. This book does not cover everything very deeply, and in hindsight, I really should have seen this coming and <a href="https://ejacobg.com/notes/hands-on-software-engineering-with-golang/#:~:text=If%20your%20goal%20was%20to%20learn%20each%20of%20the%20aforementioned%20topics%2C%20you%20may%20be%20better%20served%20reading%20a%20dedicated%20book%20on%20each%20one">heeded my advice from before</a>.</p>
+<p>I don&rsquo;t have as many written notes as the <a href="https://ejacobg.com/notes/hands-on-software-engineering-with-golang/">Software Engineering with Golang</a> book. The main value add for me was the code examples rather than the written content. Honestly, if you just read and understand the README and code from the <a href="https://github.com/ejacobg/microservices-in-dotnet/">repository that I made</a>, then you&rsquo;ll probably absorb like 70% of the book. But this is the notes section of the blog, so here are my main takeaways:</p>
+<ul>
+<li><a href="https://github.com/ejacobg/microservices-in-dotnet/blob/main/LoyaltyProgram/SpecialOffers/Dockerfile">Some</a> <a href="https://github.com/ejacobg/microservices-in-dotnet/blob/main/LoyaltyProgram/Dockerfile">example</a> <a href="https://github.com/ejacobg/microservices-in-dotnet/blob/main/ShoppingCart/ShoppingCart/Dockerfile">Dockerfiles</a> for building .NET applications.</li>
+<li><a href="https://github.com/ejacobg/microservices-in-dotnet/blob/main/LoyaltyProgram/loyalty-program.yaml">Some</a> <a href="https://github.com/ejacobg/microservices-in-dotnet/blob/main/LoyaltyProgram/SpecialOffers/special-offers.yaml">Kubernetes</a> <a href="https://github.com/ejacobg/microservices-in-dotnet/blob/main/ShoppingCart/ShoppingCart/shopping-cart.yaml">manifests</a> to consider reusing.</li>
+<li>The idea of using an event feed for publishing microservice actions seems useful.</li>
+<li>Working with <a href="https://github.com/ejacobg/microservices-in-dotnet/tree/main/LoyaltyProgram/UnitTests">unit</a> and <a href="https://github.com/ejacobg/microservices-in-dotnet/tree/main/LoyaltyProgram/ServiceTests">service</a> tests.</li>
+<li>I didn&rsquo;t understand most of it, but I did get my Azure Kubernetes Service cluster working without too many issues. I did notice it ate up almost $20 of credit only being deployed for a couple of days, so some optimizations may be needed.</li>
+</ul>
+<h2 id="reflectionfuture-work"><a href="#reflectionfuture-work">Reflection/Future Work</a></h2><p>In total, it took me ~33 hours spread over 18 (consecutive) days to work through this book cover-to-cover (300 pages) and get most of the code working. This actually represents a faster pace than usual, but that may be because I was already familiar with most of the concepts discussed in the book. If I&rsquo;m being honest with myself, I think I definitely could have spent these 33 hours in a much more efficient manner.</p>
+<p>The words &ldquo;tutorial hell&rdquo; spring to mind when I think back on this experience. For the past ~2 years, my learning strategy has more or less revolved around finding a book to read that ideally includes some sort of project that gets built as you go along. I&rsquo;d take notes and add comments to the code so that I could look back and reference it later if I need to. This strategy has worked well back when I didn&rsquo;t exactly know what I was doing and needed the hand-holding. I&rsquo;ve grown a lot since then and have made several projects on my own, yet this need for hand-holding still persists. I recognize that there are times when books like this are useful, but I may have been long past that point for a while. I can&rsquo;t expect my beginner strategy to work anywhere past the beginner stage.</p>
+<p>Looking forward, I&rsquo;ll try to come up with more of my own projects rather than follow along with a textbook. If I really need a project to reference, there&rsquo;s a million .NET repositories on GitHub if I need them. If I need something to read, I&rsquo;ll stick to the more popular recommendations like Building Microservices and DDIA, or a reference book if I really need it.</p>
+
+        </article>
+    </div>
+</section>
+<aside id="meta">
+    <div>
+        <section>
+            <h4 id="date"> Wed Aug 30, 2023 </h4>
+            <h5 id="wordcount"> 563 Words </h5>
+        </section>
+        
+        
+    </div>
+    <div>
+        
+        <a class="previous" href="https://ejacobg.com/notes/testing-services/"> Testing Services</a>
+        
+        
+    </div>
+</aside>
+
+    </div>
+    <footer>
+    <hr>
+    <div>
+        <p>
+            &copy; 2022 Ean Jacob Gayban. Site made with Hugo.
+        </p>
+    </div>
+</footer>
+</body>
+</html>
