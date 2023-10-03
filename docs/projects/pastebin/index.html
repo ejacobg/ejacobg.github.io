@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/syntax.css" />
+    <link rel="stylesheet" href="/css/ejacobg.css" />
+    
+    
+    <title>Pastebin</title>
+</head>
+
+<body>
+    <header>
+    <nav>
+        <h2><a href="/">Ean Jacob Gayban</a></h2>
+        <div>
+            <a href="/blog">Blog</a> |
+            <a href="/notes">Notes</a> |
+            <a href="/projects">Projects</a> |
+            <a href="/about">About</a>
+        </div>
+    </nav>
+    <hr />
+</header>
+    <div>
+        
+<section id="main">
+    <h1 id="title">Pastebin</h1>
+    <div>
+        <article id="content">
+            <h2 id="motivation"><a href="#motivation">Motivation</a></h2><p>Coming off of the <a href="/notes/microservices-in-dotnet/">Microservices in .NET</a> reading, I realized that going through textbooks like I&rsquo;ve done for the past ~year may not cut it anymore. I think that the time spent reading and taking notes on a textbook may be better spent either reading the actual code of the project or documentation of the used libraries, or just actually <em>writing</em> my own code. It feels like I spent a lot of time just to re-discover the advice that&rsquo;s been touted by anyone that&rsquo;s ever written a &ldquo;how to become a software developer&rdquo; article: <em>make your own projects</em>.</p>
+<p>That being said, I don&rsquo;t particularly consider myself very creative, and the few ideas I do have don&rsquo;t particularly relate to the topics I&rsquo;m trying to learn at the moment (currently microservices, Docker, and Kubernetes). So, I&rsquo;ve taken a middle path and decided upon the following: <em>implementing various system design projects</em>. Right now, I want to work through the <a href="https://github.com/donnemartin/system-design-primer"><em>System Design Primer</em></a>, but I&rsquo;ll consider other resources as well. Upon closer inspection, this idea seems to tick a lot of the boxes I was looking for in a project, as well as provide some unintended bonuses:</p>
+<ul>
+<li>A relatively short turnaround time. I find that <a href="https://commoncog.com/the-problems-with-deliberate-practice/#:~:text=Purposeful%20practice%20requires%20feedback%2C%20and%20adjustments%20to%20technique%20after%20getting%20the%20feedback.%20In%20its%20most%20general%20form%2C%20Ericsson%20notes%20that%20feedback%20need%20not%20be%20immediate%20%E2%80%94%20but%20it%20is%20most%20effective%20if%20the%20feedback%20loop%20is%20short.">tight feedback loops</a> make for better learning rather than <a href="https://danluu.com/productivity-velocity/#:~:text=I%20spent%20a%20few%20weeks%20cranking%20through%20ideas%20that%20couldn%27t%20work%20and%20a%20critical%20part%20of%20getting%20to%20the%20idea%20that%20did%20work%20after%20%22only%22%20a%20few%20weeks%20was%20being%20able%20to%20quickly%20try%20out%20and%20discard%20ideas%20that%20didn%27t%20work.">working on something for an extended period of time</a>.</li>
+<li>These projects don&rsquo;t require spending too much time obtaining domain knowledge.</li>
+<li>The <em>requirements, not the implementation</em> are given, meaning I get to write most of the code myself.</li>
+<li>These systems often have multiple parts, making them good for practicing microservices, Docker, and Kubernetes.</li>
+<li>These systems make use of several different technologies like message queues and caches.</li>
+<li>I get practice for things that I&rsquo;ll encounter later on in my career.</li>
+</ul>
+<h2 id="overview"><a href="#overview">Overview</a></h2><p>I&rsquo;ll mainly borrow the requirements set out in the System Design Primer, but I&rsquo;ve found <a href="https://www.educative.io/courses/grokking-modern-system-design-interview-for-engineers-managers/system-design-tinyurl">other</a> <a href="https://github.com/karanpratapsingh/system-design#url-shortener">resources</a> describing this project as well.</p>
+<p>My implementation follows closely to the one outlined in the System Design Primer, with a few modifications and ideas taken from other descriptions of the project. The basic high-level design looks pretty much the same as in the System Design Primer (click to enlarge):</p>
+<p><a href="/pastebin-components.png"><img src="/pastebin-components.png" alt="Component diagram"></a></p>
+<p>I did make some adjustments though, namely omitting the separate object store (I&rsquo;m using the data store as the object store) and analytics service (I&rsquo;m just writing logs to track the read/write requests). I also pared down the functionality to only this basic workflow:</p>
+<blockquote>
+<p>submit content → retrieve a shortlink → submit shortlink → retrieve content</p>
+</blockquote>
+<p>I&rsquo;ll link you to the <a href="https://github.com/ejacobg/Pastebin">GitHub repo</a> for the project for an explanation of each of the parts since I want to use this space to discuss some highlights and other things I&rsquo;ve learned while working on the project.</p>
+<h2 id="docker"><a href="#docker">Docker</a></h2><p>Here&rsquo;s a reusable template that&rsquo;ll work for 80% of your projects. Replace <code>&lt;Project&gt;</code> with the name of your project. This assumes that the <code>docker build</code> context points to your <em>solution</em> directory (ie. the directory containing your <code>.sln</code> file).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="s"> mcr.microsoft.com/dotnet/sdk:5.0 AS build</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /src</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> ./&lt;Project&gt; ./&lt;Project&gt;<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># COPY other projects as needed...</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> dotnet restore <span class="s2">&#34;&lt;Project&gt;/&lt;Project&gt;.csproj&#34;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># Restore other projects as needed...</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="s"> &#34;/src/&lt;Project&gt;&#34;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> dotnet build <span class="s2">&#34;&lt;Project&gt;.csproj&#34;</span> -c Release -o /app/build<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">FROM</span><span class="s"> build AS publish</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> dotnet publish <span class="s2">&#34;&lt;Project&gt;.csproj&#34;</span> -c Release -o /app/publish /p:UseAppHost<span class="o">=</span>false<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">FROM</span><span class="s"> mcr.microsoft.com/dotnet/aspnet:5.0 AS final</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /app</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">EXPOSE</span><span class="s"> 80</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">EXPOSE</span><span class="s"> 443</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> --from<span class="o">=</span>publish /app/publish .<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&#34;dotnet&#34;</span><span class="p">,</span> <span class="s2">&#34;&lt;Project&gt;.dll&#34;</span><span class="p">]</span><span class="err">
+</span></span></span></code></pre></div><p>Maybe I&rsquo;ll publish this as a Gist or something.</p>
+<h2 id="kubernetes"><a href="#kubernetes">Kubernetes</a></h2><p>The main goal I wanted out of this project was to be able to set up my own Kubernetes cluster on my own. Up to this point, I&rsquo;ve only ever been copying the manifests given to me, and I wanted to try and write some of my own. My knowledge of Kubernetes going into this was only very high-level, and I could have benefited from learning how everything works a little deeper. I&rsquo;ll be focusing on that going forward. What I did learn was that the Ingress resource does provide some basic routing capabilities, so I could use that instead of a dedicated API gateway or reverse proxy. Luckily, the configuration for such an Ingress was quite simple as well:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">networking.k8s.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Ingress</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">pastebin</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ingressClassName</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">rules</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">http</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">paths</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/shorten</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">pathType</span><span class="p">:</span><span class="w"> </span><span class="l">Prefix</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">backend</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">service</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">shortener</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nt">port</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                  </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/lengthen</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">pathType</span><span class="p">:</span><span class="w"> </span><span class="l">Prefix</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">backend</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">service</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">lengthener</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nt">port</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                  </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span></code></pre></div><p>If you&rsquo;re using Kubernetes on Docker Desktop, you will also need to <a href="https://stackoverflow.com/a/65219093">deploy an ingress controller</a> (note that this answer uses an old manifest). If you&rsquo;re using WSL2, you may also need to <a href="https://stackoverflow.com/a/69113528">go inside the WSL virtual machine</a> in order to find the IP address of your ingress.</p>
+<h2 id="sql-server"><a href="#sql-server">SQL Server</a></h2><p>Setting up SQL Server was one of the harder parts of this project. I&rsquo;ve worked with T-SQL in one of my previous university courses, but never actually learned about SQL Server itself, so I was flying blind here. That, also coupled with my cursory knowledge of EF Core made things a little difficult. In spite of this, I think I managed to come up with a pretty nice solution for deploying my database.</p>
+<p>From what I could tell, there isn&rsquo;t any explicit solution for applying my migrations to my SQL Server deployment short of reaching inside the container and executing my SQL script from there. I&rsquo;ve found a <a href="https://medium.com/codex/database-migration-when-your-service-is-running-in-kubernetes-abbe9697421d">couple of solutions for doing this</a>, but they all have their drawbacks:</p>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying?tabs=dotnet-core-cli#apply-migrations-at-runtime"><strong>Runtime Migrations</strong></a> - Doesn&rsquo;t scale well when you have multiple copies of your application trying to apply migrations.</li>
+<li><a href="https://kubernetes.io/docs/concepts/workloads/pods/init-containers/"><strong>Init Containers</strong></a> - Have similar issues to the above since you may have many replicas running copies of the same init container. This is a potentially viable solution though since it is recommended you use <a href="https://learn.microsoft.com/en-us/sql/linux/sql-server-linux-kubernetes-best-practices-statefulsets?view=sql-server-ver15#:~:text=Similarly%2C%20the%20deployment%20script%20recommendation%20is%20to%20deploy%20one%20SQL%20Server%20instance%20by%20setting%20the%20replicas%20value%20to%201.">only a single SQL Server instance when deploying</a>.</li>
+<li><strong>Kubernetes Jobs</strong> - This is theoretically the best solution since you can guarantee that your migrations are only applied once, but requires a little bit of hacking around to have your other containers to wait for the job to finish. I avoided this solution simply because it seemed too complex for what I needed, but I&rsquo;d like to revisit it when I&rsquo;m more comfortable with Kubernetes.</li>
+</ul>
+<p>Upon further research, I found that the official SQL Server image supports <a href="https://stackoverflow.com/questions/76233039/create-db-user-in-kubernetes-deployment#comment134435220_76233039">initialization from a SQL script</a>, which means that this will play well with EF Core since <a href="https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying?tabs=dotnet-core-cli#sql-scripts">the recommended way to deploy migrations to a production database is by generating SQL scripts</a>. This solution isn&rsquo;t perfect, as I still needed to make a few changes.</p>
+<p>First, the <a href="https://github.com/microsoft/mssql-docker/tree/master/linux/preview/examples/mssql-customize"><code>mssql-customize</code></a> repo doesn&rsquo;t work out of the box, and has several open issues and pull requests to address this. I have the working <a href="https://github.com/ejacobg/Pastebin/blob/main/Database/Dockerfile">Dockerfile</a> and <a href="https://github.com/ejacobg/Pastebin/blob/main/Database/configure-db.sh">configure-db.sh</a> script up on my repo.</p>
+<p>Second, the script generated using <code>dotnet ef migrations script</code> needed a small preamble in order to be executed correctly:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">Pastebin</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GO</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">USE</span><span class="w"> </span><span class="p">[</span><span class="n">Pastebin</span><span class="p">];</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GO</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Needed to create indexes.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SET</span><span class="w"> </span><span class="n">QUOTED_IDENTIFIER</span><span class="w"> </span><span class="k">ON</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SET</span><span class="w"> </span><span class="n">ANSI_NULLS</span><span class="w"> </span><span class="k">ON</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>Of course, I could have opted to write the SQL myself, but if I could have it generated for me, why not use that?</p>
+<p>The only other drawback I found with this approach was that if I deleted and recreated my SQL Server instance, the setup script would return some errors saying the tables already existed (because they were written to persistent volumes, which don&rsquo;t die with the pod?). This wasn&rsquo;t too much of an issue for me since no tables were being edited, and could easily be rectified with some <code>IF NOT EXISTS</code> statements, or even by checking for the tables in the configure-db.sh script.</p>
+<h2 id="reflection"><a href="#reflection">Reflection</a></h2><p>In total, this project took ~32 hours over 21 days to complete. This was slower than my most recent textbook reading, but still faster than average. Ideally, I&rsquo;d like to hit a 1-2 week turnaround time for my projects, not for any particular reason other than to get in the habit of shipping. Although this project did take longer than I would have liked, I feel that there was still a lot more room to improve and that the time spent was in service of something useful. I need to get better at realizing when I&rsquo;ve been spending too much time on a problem, and I need the discipline to bail and switch to the next easiest/quickest solution when something proves to be a little more work than expected. An example of this was when I was trying to write the Base62 encoder for the Shortener service. I initially used an encoder written by ChatGPT that looked good on the surface and passed all the tests I came up with, but seemed to fail often and unpredictably in production. Only after a few hours of static review and writing logging statements did I actually use the debugger to find the issue, which was not going to be an easy fix. What I should have done from the beginning was drop that code entirely and use one of the several available Base62 encoders out there.</p>
+<p>This project was an experiment in trying to wean myself off of textbooks as my primary source of knowledge. In that regard, I believe this was a great success. I found that a lot of the questions I had could easily be answered by skimming the first few results on Google, and for anything nontrivial and out of my current knowledge, I could depend on a mix of ChatGPT and Google to come up with a solution that I somewhat understood. In the course of building this project, I wrote down almost all the issues I ran into, even the smaller ones, as well as the answers I found for them (with resources and examples). This was originally meant to serve as a sort of issue tracking/project management system to record of what I was working on since my last session, but I realized that these questions were more valuable than that. They represented pretty much everything I learned while making the project, much more deeply than what I would normally put in these writeups. I&rsquo;ll write down my thoughts about this process in a separate post though.</p>
+<p>This was the first of many system design projects, and I&rsquo;d like to eventually go through all of them if I don&rsquo;t find anything better to do. That being said, I&rsquo;d actually like to hit up the textbooks again to fill in the gaps found while making this project. At least I know what to look for this time and what to avoid from last time.</p>
+
+        </article>
+    </div>
+</section>
+<aside id="meta">
+    <div>
+        <section>
+            <h4 id="date"> Mon Oct 2, 2023 </h4>
+            <h5 id="wordcount"> 1737 Words </h5>
+        </section>
+        
+        
+    </div>
+    <div>
+        
+        <a class="previous" href="https://ejacobg.com/projects/hacker-news-feed/"> Hacker News Feed</a>
+        
+        
+    </div>
+</aside>
+
+    </div>
+    <footer>
+    <hr>
+    <div>
+        <p>
+            &copy; 2022 Ean Jacob Gayban. Site made with Hugo.
+        </p>
+    </div>
+</footer>
+</body>
+</html>

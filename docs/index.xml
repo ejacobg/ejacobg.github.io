@@ -8,6 +8,15 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 15 Dec 2022 14:23:57 -0800</lastBuildDate><atom:link href="https://ejacobg.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Pastebin</title>
+      <link>https://ejacobg.com/projects/pastebin/</link>
+      <pubDate>Mon, 02 Oct 2023 14:24:53 -0700</pubDate>
+      
+      <guid>https://ejacobg.com/projects/pastebin/</guid>
+      <description>MotivationComing off of the Microservices in .NET reading, I realized that going through textbooks like I&amp;rsquo;ve done for the past ~year may not cut it anymore. I think that the time spent reading and taking notes on a textbook may be better spent either reading the actual code of the project or documentation of the used libraries, or just actually writing my own code. It feels like I spent a lot of time just to re-discover the advice that&amp;rsquo;s been touted by anyone that&amp;rsquo;s ever written a &amp;ldquo;how to become a software developer&amp;rdquo; article: make your own projects.</description>
+    </item>
+    
+    <item>
       <title>Microservices in .NET</title>
       <link>https://ejacobg.com/notes/microservices-in-dotnet/</link>
       <pubDate>Wed, 30 Aug 2023 11:19:30 -0700</pubDate>
