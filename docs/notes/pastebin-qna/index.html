@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/syntax.css" />
+    <link rel="stylesheet" href="/css/ejacobg.css" />
+    
+    
+    <title>Pastebin Q&amp;A</title>
+</head>
+
+<body>
+    <header>
+    <nav>
+        <h2><a href="/">Ean Jacob Gayban</a></h2>
+        <div>
+            <a href="/blog">Blog</a> |
+            <a href="/notes">Notes</a> |
+            <a href="/projects">Projects</a> |
+            <a href="/about">About</a>
+        </div>
+    </nav>
+    <hr />
+</header>
+    <div>
+        
+<section id="main">
+    <h1 id="title">Pastebin Q&amp;A</h1>
+    <div>
+        <article id="content">
+            <p>Below are several questions I&rsquo;ve asked and answered while in the process of building the <a href="/projects/pastebin/">Pastebin project</a>. I originally wrote them down to help keep track of what I was currently working on, but I found myself revisiting the same questions from time to time. I figure this may not be the last time I&rsquo;ll need the answers to these questions, so I&rsquo;m posting them here for future reference. <strong>I cannot guarantee the correctness of any answers presented herein.</strong></p>
+<p>I also maintained a single ChatGPT session for the duration of the project. You may find a copy of it here: <a href="https://chat.openai.com/share/7d3ebd85-7722-4f0f-b5dc-b44992c40cc9">https://chat.openai.com/share/7d3ebd85-7722-4f0f-b5dc-b44992c40cc9</a></p>
+<h2 id="questions"><a href="#questions">Questions</a></h2><h3 id="whats-the-difference-between-the-read-and-write-api-servers-in-the-system-design-primer"><a href="#whats-the-difference-between-the-read-and-write-api-servers-in-the-system-design-primer">What&rsquo;s the difference between the Read and Write API Servers in the System Design Primer?</a></h3><p>Related: <a href="https://stackoverflow.com/q/60051987">Read write APIs, are they seperate services?</a></p>
+<p>They help to implement the <a href="https://martinfowler.com/bliki/CQRS.html">CQRS</a> <a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs">pattern</a>, which separates out
+<em>commands</em> and <em>queries</em> into their own separate services, in this case represented by the Read and Write APIs.</p>
+<p>Use a load balancer/API gateway/reverse proxy (what are the differences between all 3?) to forward incoming requests to the correct service (ie. check the request method to determine what goes where). Kubernetes provides its own load balancer service, <a href="https://learn.microsoft.com/en-us/dotnet/architecture/microservices/multi-container-microservice-net-applications/implement-api-gateways-with-ocelot">Ocelot</a> can be used as an API gateway, and <a href="https://microsoft.github.io/reverse-proxy/articles/getting-started.html">YARP</a> can be used as a reverse proxy.</p>
+<hr>
+<h3 id="how-do-i-create-just-a-web-api-only-controllers-no-views"><a href="#how-do-i-create-just-a-web-api-only-controllers-no-views">How do I create just a web API (only controllers, no views)?</a></h3><p><code> dotnet new web -n &lt;name&gt;</code> is as good as you can get. You just have to set up the <code>Controllers/</code> directory yourself.</p>
+<p>Remember to add the new project to your solution (<code>dotnet sln add &lt;name&gt;</code>)</p>
+<hr>
+<h3 id="where-do-i-place-my-unit-tests"><a href="#where-do-i-place-my-unit-tests">Where do I place my unit tests?</a></h3><p><del>If you&rsquo;re placing them inside your project directory, you can put all of your tests under a <code>Tests/</code> directory.</del> Note: this doesn&rsquo;t seem to work. Place your tests in a <code>&lt;Project&gt;.Test/</code> directory instead.</p>
+<hr>
+<h3 id="how-do-i-set-up-xunit"><a href="#how-do-i-set-up-xunit">How do I set up xUnit?</a></h3><p><a href="https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-with-dotnet-test">https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-with-dotnet-test</a></p>
+<hr>
+<h3 id="how-do-i-install-ef-core"><a href="#how-do-i-install-ef-core">How do I install EF Core?</a></h3><p>Documentation: <a href="https://learn.microsoft.com/en-us/ef/core/get-started/overview/install">https://learn.microsoft.com/en-us/ef/core/get-started/overview/install</a></p>
+<p>Confirm that major versions of the packages match the major version of the runtime you&rsquo;re using.</p>
+<p>Install your database provider:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">dotnet add package Microsoft.EntityFrameworkCore.SqlServer -v 5.0.17
+</span></span></code></pre></div><p>Install or update the <code>dotnet ef</code> tool if you haven&rsquo;t already:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">dotnet tool install --global dotnet-ef
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">dotnet tool update
+</span></span></code></pre></div><p>Install the design package:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">dotnet add package Microsoft.EntityFrameworkCore.Design --version 5.0.17
+</span></span></code></pre></div><hr>
+<h3 id="how-do-i-use-ef-core"><a href="#how-do-i-use-ef-core">How do I use EF Core?</a></h3><p>Documentation: <a href="https://learn.microsoft.com/en-us/ef/core/get-started/overview/first-app">https://learn.microsoft.com/en-us/ef/core/get-started/overview/first-app</a></p>
+<p><a href="https://learn.microsoft.com/en-us/ef/core/get-started/overview/first-app?tabs=netcore-cli#create-the-model">Create your entity classes as well as your associated database context.</a></p>
+<p>Set up your database. See <a href="/notes/pastebin-qna/#how-do-i-create-a-sql-server-database-and-connect-it-to-ef-core"><strong>How do I create a SQL Server database and connect it to EF Core?</strong></a></p>
+<p><a href="https://learn.microsoft.com/en-us/ef/core/get-started/overview/first-app?tabs=netcore-cli#create-the-database">Run your initial migration on your new database.</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">dotnet ef migrations add InitialCreate
+</span></span><span class="line"><span class="cl">dotnet ef database update
+</span></span></code></pre></div><p>Also see ChatGPT&rsquo;s answer.</p>
+<hr>
+<h3 id="how-do-i-add-a-unique-constraint-in-ef-core"><a href="#how-do-i-add-a-unique-constraint-in-ef-core">How do I add a UNIQUE constraint in EF Core?</a></h3><p><a href="https://github.com/ejacobg/HackerNewsFeed/blob/cfe21a675dec7c3cdb090d2c728bf374fc569a04/HackerNewsFeed/Data/Item.cs#L9">https://github.com/ejacobg/HackerNewsFeed/blob/cfe21a675dec7c3cdb090d2c728bf374fc569a04/HackerNewsFeed/Data/Item.cs#L9</a></p>
+<hr>
+<h3 id="when-reading-paste-requests-i-want-the-content-field-to-always-be-present-and-the-expires-field-is-optional-how-do-i-implement-this"><a href="#when-reading-paste-requests-i-want-the-content-field-to-always-be-present-and-the-expires-field-is-optional-how-do-i-implement-this">When reading paste requests, I want the <code>content</code> field to always be present, and the <code>expires</code> field is optional. How do I implement this?</a></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="na">[HttpPost(&#34;/shorten&#34;)]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">ShortenResult</span><span class="p">&gt;</span> <span class="n">Shorten</span><span class="p">([</span><span class="n">FromBody</span><span class="p">]</span> <span class="n">PasteInput</span> <span class="n">input</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(!</span><span class="n">ModelState</span><span class="p">.</span><span class="n">IsValid</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// ...</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">ShortenResult</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="k">await</span> <span class="n">_shortenerService</span><span class="p">.</span><span class="n">Shorten</span><span class="p">(</span><span class="n">HttpContext</span><span class="p">,</span> <span class="n">input</span><span class="p">.</span><span class="n">ToPaste</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">PasteInput</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [Required]</span> <span class="k">public</span> <span class="kt">string</span> <span class="n">Content</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int?</span> <span class="n">Expires</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Paste</span> <span class="n">ToPaste</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">expires</span> <span class="p">=</span> <span class="n">Expires</span> <span class="p">??</span> <span class="m">60</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">Paste</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Content</span> <span class="p">=</span> <span class="n">Content</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Expires</span> <span class="p">=</span> <span class="n">expires</span>
+</span></span><span class="line"><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">record</span> <span class="nc">ShortenResult</span><span class="p">(</span><span class="kt">string</span> <span class="n">Shortlink</span><span class="p">);</span>
+</span></span></code></pre></div><p>By default, missing fields will just be given their default value. Use <code>[Required]</code> to enforce that they be present.</p>
+<p>Note: normally you have to check <code>ModelState.IsValid</code> to make sure that all validations are correct. You can use the <code>[ApiController]</code> attribute to automatically return status code 400 for bad model states.</p>
+<hr>
+<h3 id="how-do-i-set-up-sql-server-whats-the-equivalent-of-pgadmin-for-sql-server"><a href="#how-do-i-set-up-sql-server-whats-the-equivalent-of-pgadmin-for-sql-server">How do I set up SQL Server? What&rsquo;s the equivalent of pgAdmin for SQL Server?</a></h3><p>Download SQL Server (Developer 2022) - <a href="https://www.microsoft.com/en-us/sql-server/sql-server-downloads">https://www.microsoft.com/en-us/sql-server/sql-server-downloads</a></p>
+<p>Using Developer since that is closest to what will be used in production, and is compatible with replication and cloud services.</p>
+<p>Download SSMS (19.1) - <a href="https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16">https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16</a></p>
+<hr>
+<h3 id="how-do-i-set-up-my-startup-class-how-do-i-register-my-interfaces-and-implementations-how-do-i-enable-my-controllers"><a href="#how-do-i-set-up-my-startup-class-how-do-i-register-my-interfaces-and-implementations-how-do-i-enable-my-controllers">How do I set up my <code>Startup</code> class? How do I register my interfaces and implementations? How do I enable my controllers?</a></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Startup</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">ConfigureServices</span><span class="p">(</span><span class="n">IServiceCollection</span> <span class="n">services</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">services</span><span class="p">.</span><span class="n">AddScoped</span><span class="p">&lt;</span><span class="n">IGenerator</span><span class="p">,</span> <span class="n">IpGenerator</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">services</span><span class="p">.</span><span class="n">AddSingleton</span><span class="p">&lt;</span><span class="n">IPasteStore</span><span class="p">,</span> <span class="n">MemoryStore</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">services</span><span class="p">.</span><span class="n">AddScoped</span><span class="p">&lt;</span><span class="n">IShortenerService</span><span class="p">,</span> <span class="n">TextShortener</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">services</span><span class="p">.</span><span class="n">AddControllers</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">Configure</span><span class="p">(</span><span class="n">IApplicationBuilder</span> <span class="n">app</span><span class="p">,</span> <span class="n">IWebHostEnvironment</span> <span class="n">env</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">app</span><span class="p">.</span><span class="n">UseRouting</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">app</span><span class="p">.</span><span class="n">UseEndpoints</span><span class="p">(</span><span class="n">endpoints</span> <span class="p">=&gt;</span> <span class="n">endpoints</span><span class="p">.</span><span class="n">MapControllers</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><hr>
+<h3 id="how-can-i-add-logging-to-my-service"><a href="#how-can-i-add-logging-to-my-service">How can I add logging to my service?</a></h3><p><a href="https://youtu.be/NN9Rmf0PUG4">https://youtu.be/NN9Rmf0PUG4</a></p>
+<p><a href="https://www.tutorialsteacher.com/core/aspnet-core-logging">https://www.tutorialsteacher.com/core/aspnet-core-logging</a></p>
+<p><a href="https://www.tutorialsteacher.com/core/fundamentals-of-logging-in-dotnet-core">https://www.tutorialsteacher.com/core/fundamentals-of-logging-in-dotnet-core</a></p>
+<hr>
+<h3 id="how-do-i-create-a-sql-server-database-and-connect-it-to-ef-core"><a href="#how-do-i-create-a-sql-server-database-and-connect-it-to-ef-core">How do I create a SQL Server database and connect it to EF Core?</a></h3><p>In SSMS, go to Object Explorer &gt; Databases &gt; Right-Click &gt; New Database.</p>
+<p>The only option you really need to do is set a name.</p>
+<p>The connection string I&rsquo;m currently using is:</p>
+<pre tabindex="0"><code>Server=JACOB-ZBOOK;Database=Pastebin;Trusted_Connection=True;MultipleActiveResultSets=true
+</code></pre><p>I&rsquo;m not sure how exactly the connection strings work right now.</p>
+<p>If you&rsquo;re running on a different computer, execute the following query in SSMS to get the server name:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">select</span><span class="w"> </span><span class="o">@@</span><span class="n">SERVERNAME</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>Add this key to the top-level object of both your <code>appsettings.json</code> and <code>appsettings.Development.json</code> files:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="s2">&#34;ConnectionStrings&#34;</span><span class="err">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;DefaultConnection&#34;</span><span class="p">:</span> <span class="s2">&#34;Server=JACOB-ZBOOK;Database=Pastebin;Trusted_Connection=True;MultipleActiveResultSets=true&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span><span class="err">,</span>
+</span></span></code></pre></div><p>Add this code to your <code>Startup</code> class:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="n">Startup</span><span class="p">(</span><span class="n">IConfiguration</span> <span class="n">configuration</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Configuration</span> <span class="p">=</span> <span class="n">configuration</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">IConfiguration</span> <span class="n">Configuration</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">ConfigureServices</span><span class="p">(</span><span class="n">IServiceCollection</span> <span class="n">services</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  	<span class="c1">// Change this to the name of your context.</span>
+</span></span><span class="line"><span class="cl">    <span class="n">services</span><span class="p">.</span><span class="n">AddDbContext</span><span class="p">&lt;</span><span class="n">AppDbContext</span><span class="p">&gt;(</span><span class="n">options</span> <span class="p">=&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">options</span><span class="p">.</span><span class="n">UseSqlServer</span><span class="p">(</span><span class="n">Configuration</span><span class="p">.</span><span class="n">GetConnectionString</span><span class="p">(</span><span class="s">&#34;DefaultConnection&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><hr>
+<h3 id="how-should-i-re-generate-shortlinks-in-the-event-of-a-collision"><a href="#how-should-i-re-generate-shortlinks-in-the-event-of-a-collision">How should I re-generate shortlinks in the event of a collision?</a></h3><p>One method is to repeatedly attempt to save the object to the database, and re-generate the shortlink if a unique constraint violation is detected.</p>
+<p>This might be poor practice since you <a href="https://stackoverflow.com/questions/24740376/best-way-to-catch-sql-unique-constraint-violations-in-c-sharp-during-inserts#:~:text=If%20you%20are%20inserting%20to%20SQL%20table%20using%20loop%20you%20are%20doing%20it%20wrong">keep repeatedly hitting the database</a>.</p>
+<p>Another method is to perform a quick existence check for the shortlink first <em>before</em> you perform the save:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// CustomerController</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="kt">string</span> <span class="n">ChangeEmail</span><span class="p">(</span><span class="kt">int</span> <span class="n">customerId</span><span class="p">,</span> <span class="kt">string</span> <span class="n">newEmail</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="c1">// Check if there is another customer with the new email</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Customer</span> <span class="n">existingCustomer</span> <span class="p">=</span> <span class="n">_customerRepository</span><span class="p">.</span><span class="n">GetByEmail</span><span class="p">(</span><span class="n">newEmail</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">existingCustomer</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">existingCustomer</span><span class="p">.</span><span class="n">Id</span> <span class="p">!=</span> <span class="n">customerId</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;Email is already taken&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Customer</span> <span class="n">customer</span> <span class="p">=</span> <span class="n">_customerRepository</span><span class="p">.</span><span class="n">GetById</span><span class="p">(</span><span class="n">customerId</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">customer</span><span class="p">.</span><span class="n">Email</span> <span class="p">=</span> <span class="n">newEmail</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_customerRepository</span><span class="p">.</span><span class="n">Save</span><span class="p">(</span><span class="n">customer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;OK&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><a href="https://enterprisecraftsmanship.com/posts/handling-unique-constraint-violations/">https://enterprisecraftsmanship.com/posts/handling-unique-constraint-violations/</a></p>
+<p><a href="https://stackoverflow.com/questions/48731623/entity-framework-violation-of-unique-key-constraint">https://stackoverflow.com/questions/48731623/entity-framework-violation-of-unique-key-constraint</a></p>
+<p>This of course makes two round trips to the database.</p>
+<p>With PostgreSQL, you can use the <a href="https://www.postgresql.org/docs/current/sql-insert.html#SQL-ON-CONFLICT"><code>ON CONFLICT</code></a> clause to prevent this. However, EF Core doesn&rsquo;t support it.</p>
+<p>If you&rsquo;re using SQL Server, your best bet is to try to apply some database rules or maybe even hand-write your query.</p>
+<p>This is the solution I used:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="kt">bool</span><span class="p">&gt;</span> <span class="n">Save</span><span class="p">(</span><span class="n">Paste</span> <span class="n">paste</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="k">await</span> <span class="n">_context</span><span class="p">.</span><span class="n">Pastes</span><span class="p">.</span><span class="n">AnyAsync</span><span class="p">(</span><span class="n">p</span> <span class="p">=&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">Shortlink</span> <span class="p">==</span> <span class="n">paste</span><span class="p">.</span><span class="n">Shortlink</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">_context</span><span class="p">.</span><span class="n">Pastes</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">paste</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">await</span> <span class="n">_context</span><span class="p">.</span><span class="n">SaveChangesAsync</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Insert the paste first, then generate the shortlink?</p>
+<hr>
+<h3 id="what-lifetime-should-i-use-when-registering-my-database-stores-in-configureservices"><a href="#what-lifetime-should-i-use-when-registering-my-database-stores-in-configureservices">What lifetime should I use when registering my database stores in <code>ConfigureServices()</code>?</a></h3><p>The ASP.NET Core In Action example uses a scoped lifetime.</p>
+<hr>
+<h3 id="base62-libraries"><a href="#base62-libraries">Base62 libraries?</a></h3><p><a href="https://stackoverflow.com/questions/17745025/convert-a-string-into-base62">https://stackoverflow.com/questions/17745025/convert-a-string-into-base62</a></p>
+<p><a href="https://www.better-converter.com/Encoders-Decoders/Base62-Encode">https://www.better-converter.com/Encoders-Decoders/Base62-Encode</a></p>
+<p><a href="https://www.dcode.fr/base62-encoding">https://www.dcode.fr/base62-encoding</a></p>
+<ul>
+<li>This one seems to produce different output from all the rest.</li>
+</ul>
+<p><a href="https://base62.js.org/">https://base62.js.org/</a></p>
+<hr>
+<h3 id="both-the-shortener-and-lengthener-services-make-use-of-the-same-data-model-should-the-lengthener-service-reuse-the-model-defined-in-the-shortener-service-or-define-its-own"><a href="#both-the-shortener-and-lengthener-services-make-use-of-the-same-data-model-should-the-lengthener-service-reuse-the-model-defined-in-the-shortener-service-or-define-its-own">Both the Shortener and Lengthener services make use of the same data model. Should the Lengthener service reuse the model defined in the Shortener service or define its own?</a></h3><p><del>I&rsquo;ll just inherit the model from Shortener for now.</del> Update: the data model has been moved into its own library. See <a href="/notes/pastebin-qna/#how-do-i-create-a-reusable-data-model"><strong>How do I create a reusable data model?</strong></a></p>
+<hr>
+<h3 id="whats-the-command-to-includereference-another-project-file"><a href="#whats-the-command-to-includereference-another-project-file">What&rsquo;s the command to include/reference another project file?</a></h3><p>How do I create this line in my <code>.csproj</code> file using the command line?</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-csproj" data-lang="csproj"><span class="line"><span class="cl"><span class="nt">&lt;ItemGroup&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;ProjectReference</span> <span class="na">Include=</span><span class="s">&#34;..\LoyaltyProgram\LoyaltyProgram.csproj&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;ProjectReference</span> <span class="na">Include=</span><span class="s">&#34;..\SpecialOffers\SpecialOffers.csproj&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/ItemGroup&gt;</span>
+</span></span></code></pre></div><p><a href="https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-add-reference"><code>dotnet add reference</code></a></p>
+<hr>
+<h3 id="how-do-i-store-and-record-my-metricsanalytics-what-are-the-available-metricsanalytics-solutions"><a href="#how-do-i-store-and-record-my-metricsanalytics-what-are-the-available-metricsanalytics-solutions">How do I store and record my metrics/analytics? What are the available metrics/analytics solutions?</a></h3><p>Related: <a href="https://learn.microsoft.com/en-us/aspnet/core/log-mon/metrics/metrics?view=aspnetcore-8.0">https://learn.microsoft.com/en-us/aspnet/core/log-mon/metrics/metrics?view=aspnetcore-8.0</a></p>
+<p>Right now, all I really know is to use the event feed pattern to publish relevant information.</p>
+<p>I think what I should be looking at is &ldquo;logging&rdquo; rather than &ldquo;metrics&rdquo;. There are centralized logging services that I can use like Seq, ELK (Elasticsearch, Logstash, Kibana), Azure Application Insights, and Datadog.</p>
+<p>But even then, logging isn&rsquo;t really what I&rsquo;m looking for either. I just want a service that collects information (eg. read and write requests) from my microservices and aggregates them.</p>
+<p>On second thought, metrics makes more sense. They are defined as <a href="https://learn.microsoft.com/en-us/aspnet/core/log-mon/metrics/metrics?view=aspnetcore-8.0#:~:text=numerical%20measurements%20reported%20over%20time">&ldquo;numerical measurements reported over time&rdquo;</a>.</p>
+<hr>
+<h3 id="how-do-i-implement-a-page-view-countertracker-microservice"><a href="#how-do-i-implement-a-page-view-countertracker-microservice">How do I implement a page view counter/tracker microservice?</a></h3><blockquote>
+<p><a href="https://stackoverflow.com/a/1269973">Probably a better model is to cache the number of views hourly in the app somewhere, and then update them in a batch-style process.</a></p>
+</blockquote>
+<h1 id="heading"><a href="#heading"></a></h1><blockquote>
+<p><a href="https://stackoverflow.com/q/14034288">It would be really easy if I just created a TABLE Question_Views And have a row for each question.</a></p>
+</blockquote>
+<h1 id="heading-1"><a href="#heading-1"></a></h1><blockquote>
+<p><a href="https://stackoverflow.com/a/44980801">Rather than execute SQL on every page view, you should increment an in-memory int or long using Interlocked.Increment. Then on every (for example) 5,000 increments (checked using Mod) then you should hit the database and increase the pageview count by 5,000.</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://stackoverflow.com/a/44980801">Also consider using Redis to store the counts, rather than whatever your existing database is. Redis is awesome for this kind of use-case.</a></p>
+</blockquote>
+<hr>
+<h3 id="whats-a-good-status-code-to-use-for-expired-pastes"><a href="#whats-a-good-status-code-to-use-for-expired-pastes">What&rsquo;s a good status code to use for expired pastes?</a></h3><blockquote>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404">A 404 status code only indicates that the resource is missing: not whether the absence is temporary or permanent. If a resource is permanently removed, use the 410 (Gone) status instead.</a></p>
+</blockquote>
+<p><code>ControllerBase</code> does not provide methods for returning all possible status codes, only the most common ones. Use the general <code>StatusCode()</code> method if you need something else:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// If the current time is after the Created + Expires date, then return an &#34;expired&#34; response.</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Expired pastes will no longer be tracked by the counter.</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">paste</span><span class="p">.</span><span class="n">Created</span><span class="p">.</span><span class="n">AddMinutes</span><span class="p">(</span><span class="n">paste</span><span class="p">.</span><span class="n">Expires</span><span class="p">)</span> <span class="p">&gt;</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">StatusCode</span><span class="p">(</span><span class="n">StatusCodes</span><span class="p">.</span><span class="n">Status410Gone</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><hr>
+<h3 id="how-do-i-create-a-reusable-data-model"><a href="#how-do-i-create-a-reusable-data-model">How do I create a reusable data model?</a></h3><p>Related: <a href="/notes/pastebin-qna/#how-do-i-install-ef-core"><strong>How do I install EF Core?</strong></a></p>
+<p>I have multiple microservices that pull from the same database. Splitting the data model across multiple services doesn&rsquo;t seem to be the correct solution since you would then need to run the migrations from multiple places <em>and</em> in the right order.</p>
+<p>You can create a class library (<code>dotnet new classlib -n &lt;name&gt;</code>) to hold your entire database.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">dotnet new classlib -n Database
+</span></span></code></pre></div><p>Create a <code>Models/</code> directory (or whatever name you like), and add your data models in it.</p>
+<p>Define a database context with your entities (eg. <code>Database/AppDbContext.cs</code>). It is possible to define multiple different database contexts with different tables inside each of them, but that is out of the scope of these instructions (and causes errors when trying to create the migrations).</p>
+<p>When all is finished, you can create and run your migrations inside the <code>Database</code> directory like so:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">dotnet ef migrations add &lt;Migration&gt; --startup-project &lt;Microservice&gt;
+</span></span><span class="line"><span class="cl">dotnet ef database update --startup-project &lt;Microservice&gt;
+</span></span></code></pre></div><p>You can also use the <code>-s</code> flag instead.</p>
+<p>If you&rsquo;re not inside the <code>Database/</code> directory, you can use the <code>-p</code> or <code>--project</code> flags and point to it.</p>
+<p>Because this was made as a class library, we have to borrow another project&rsquo;s <code>Startup.cs</code> class to launch EF Core.</p>
+<p>The startup project must be configured to connect to your database and use the correct provider. See <a href="/notes/pastebin-qna/#how-do-i-create-a-sql-server-database-and-connect-it-to-ef-core"><strong>How do I create a SQL Server database and connect it to EF Core?</strong></a></p>
+<p>The startup project must have the database project as a dependency for this to work. See <a href="/notes/pastebin-qna/#whats-the-command-to-includereference-another-project-file"><strong>What’s the command to include/reference another project file?</strong></a></p>
+<p>I included an <code>appsettings.json</code> file inside the <code>Database/</code> directory containing the connection string that all microservices should be using:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;ConnectionStrings&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;DefaultConnection&#34;</span><span class="p">:</span> <span class="s2">&#34;Server=JACOB-ZBOOK;Database=Pastebin;Trusted_Connection=True;MultipleActiveResultSets=true&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><hr>
+<h3 id="how-do-i-set-up-serilog"><a href="#how-do-i-set-up-serilog">How do I set up Serilog?</a></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">dotnet add package Serilog.AspNetCore --version 6.1.0
+</span></span><span class="line"><span class="cl">dotnet add package Serilog.Sinks.Console --version 4.1.0
+</span></span></code></pre></div><hr>
+<h3 id="how-do-i-add-a-custom-output-template-to-serilog"><a href="#how-do-i-add-a-custom-output-template-to-serilog">How do I add a custom output template to Serilog?</a></h3><p><a href="https://github.com/ejacobg/Pastebin/blob/main/Shortener/Program.cs">https://github.com/ejacobg/Pastebin/blob/main/Shortener/Program.cs</a></p>
+<hr>
+<h3 id="how-do-i-get-rid-of-all-the-extra-output"><a href="#how-do-i-get-rid-of-all-the-extra-output">How do I get rid of all the extra output?</a></h3><p>I make 1 request and this is what shows up:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">2023-09-23 22:22:07 <span class="o">[</span>INF<span class="o">]</span> Starting up
+</span></span><span class="line"><span class="cl">2023-09-23 22:22:07 <span class="o">[</span>INF<span class="o">]</span> Now listening on: https://localhost:5003
+</span></span><span class="line"><span class="cl">2023-09-23 22:22:07 <span class="o">[</span>INF<span class="o">]</span> Now listening on: http://localhost:5002
+</span></span><span class="line"><span class="cl">2023-09-23 22:22:07 <span class="o">[</span>INF<span class="o">]</span> Application started. Press Ctrl+C to shut down.
+</span></span><span class="line"><span class="cl">2023-09-23 22:22:07 <span class="o">[</span>INF<span class="o">]</span> Hosting environment: Development
+</span></span><span class="line"><span class="cl">2023-09-23 22:22:07 <span class="o">[</span>INF<span class="o">]</span> Content root path: D:<span class="se">\P</span>rogramming<span class="se">\G</span>itHub<span class="se">\e</span>jacobg<span class="se">\P</span>astebin<span class="se">\L</span>engthener
+</span></span><span class="line"><span class="cl">2023-09-23 22:22:07 <span class="o">[</span>INF<span class="o">]</span> Request starting HTTP/2 GET https://localhost:5003/ - -
+</span></span><span class="line"><span class="cl">2023-09-23 22:22:08 <span class="o">[</span>INF<span class="o">]</span> Request finished HTTP/2 GET https://localhost:5003/ - - - <span class="m">404</span> <span class="m">0</span> - 44.8395ms
+</span></span><span class="line"><span class="cl">2023-09-23 22:23:06 <span class="o">[</span>INF<span class="o">]</span> Request starting HTTP/1.1 GET http://localhost:5002/lengthen/7xHvT6S - -
+</span></span><span class="line"><span class="cl">2023-09-23 22:23:06 <span class="o">[</span>INF<span class="o">]</span> Executing endpoint <span class="s1">&#39;Lengthener.Controllers.LengthenController.Lengthen (Lengthener)&#39;</span>
+</span></span><span class="line"><span class="cl">2023-09-23 22:23:06 <span class="o">[</span>INF<span class="o">]</span> Route matched with <span class="o">{</span><span class="nv">action</span> <span class="o">=</span> <span class="s2">&#34;Lengthen&#34;</span>, <span class="nv">controller</span> <span class="o">=</span> <span class="s2">&#34;Lengthen&#34;</span><span class="o">}</span>. Executing controller action with signature System.Threading.Tasks.Task<span class="sb">`</span>1<span class="o">[</span>Microsoft.AspNetCore.Mvc.ActionResult<span class="sb">`</span>1<span class="o">[</span>Lengthener.Controllers.LengthenController+LengthenResult<span class="o">]]</span> Lengthen<span class="o">(</span>System.String<span class="o">)</span> on controller Lengthe
+</span></span><span class="line"><span class="cl">ner.Controllers.LengthenController <span class="o">(</span>Lengthener<span class="o">)</span>.
+</span></span><span class="line"><span class="cl">2023-09-23 22:23:06 <span class="o">[</span>INF<span class="o">]</span> Entity Framework Core 5.0.17 initialized <span class="s1">&#39;PasteContext&#39;</span> using provider <span class="s1">&#39;Microsoft.EntityFrameworkCore.SqlServer&#39;</span> with options: None
+</span></span><span class="line"><span class="cl">2023-09-23 22:23:07 <span class="o">[</span>INF<span class="o">]</span> Executed DbCommand <span class="o">(</span>49ms<span class="o">)</span> <span class="o">[</span><span class="nv">Parameters</span><span class="o">=[</span>@__shortlink_0<span class="o">=</span><span class="s1">&#39;?&#39;</span> <span class="o">(</span><span class="nv">Size</span> <span class="o">=</span> 450<span class="o">)]</span>, <span class="nv">CommandType</span><span class="o">=</span><span class="s1">&#39;Text&#39;</span>, <span class="nv">CommandTimeout</span><span class="o">=</span><span class="s1">&#39;30&#39;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">SELECT TOP<span class="o">(</span>2<span class="o">)</span> <span class="o">[</span>p<span class="o">]</span>.<span class="o">[</span>PasteId<span class="o">]</span>, <span class="o">[</span>p<span class="o">]</span>.<span class="o">[</span>Content<span class="o">]</span>, <span class="o">[</span>p<span class="o">]</span>.<span class="o">[</span>Created<span class="o">]</span>, <span class="o">[</span>p<span class="o">]</span>.<span class="o">[</span>Expires<span class="o">]</span>, <span class="o">[</span>p<span class="o">]</span>.<span class="o">[</span>Shortlink<span class="o">]</span>
+</span></span><span class="line"><span class="cl">FROM <span class="o">[</span>Pastes<span class="o">]</span> AS <span class="o">[</span>p<span class="o">]</span>
+</span></span><span class="line"><span class="cl">WHERE <span class="o">[</span>p<span class="o">]</span>.<span class="o">[</span>Shortlink<span class="o">]</span> <span class="o">=</span> @__shortlink_0
+</span></span><span class="line"><span class="cl">2023-09-23 22:23:07 <span class="o">[</span>INF<span class="o">]</span> Retrieved shortlink 7xHvT6S
+</span></span><span class="line"><span class="cl">2023-09-23 22:23:07 <span class="o">[</span>INF<span class="o">]</span> Executing ObjectResult, writing value of <span class="nb">type</span> <span class="s1">&#39;Lengthener.Controllers.LengthenController+LengthenResult&#39;</span>.
+</span></span><span class="line"><span class="cl">2023-09-23 22:23:07 <span class="o">[</span>INF<span class="o">]</span> Executed action Lengthener.Controllers.LengthenController.Lengthen <span class="o">(</span>Lengthener<span class="o">)</span> in 1271.4897ms
+</span></span><span class="line"><span class="cl">2023-09-23 22:23:07 <span class="o">[</span>INF<span class="o">]</span> Executed endpoint <span class="s1">&#39;Lengthener.Controllers.LengthenController.Lengthen (Lengthener)&#39;</span>
+</span></span><span class="line"><span class="cl">2023-09-23 22:23:07 <span class="o">[</span>INF<span class="o">]</span> Request finished HTTP/1.1 GET http://localhost:5002/lengthen/7xHvT6S - - - <span class="m">200</span> - application/json<span class="p">;</span>+charset<span class="o">=</span>utf-8 1338.8532ms
+</span></span></code></pre></div><p>The only logs I care about are the &ldquo;Starting up&rdquo;, &ldquo;Now listening on:&rdquo;, &ldquo;Application started.&rdquo;, and maybe the &ldquo;Hosting environment:&rdquo; logs. I don&rsquo;t care about anything else, other than logs I specifically create from my application. In this case, the <em>only</em> log I made was on line 18:</p>
+<pre tabindex="0"><code>2023-09-23 22:23:07 [INF] Retrieved shortlink 7xHvT6S
+</code></pre><p>I&rsquo;ve spent a little too much time messing with this, so I&rsquo;m skipping it for now.</p>
+<p>Related: <a href="https://youtu.be/Vsu_9rDV58k">https://youtu.be/Vsu_9rDV58k</a></p>
+<p>Set up your <code>appsettings.json</code> and <code>appsettings.Development.json</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;Serilog&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;MinimumLevel&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Default&#34;</span><span class="p">:</span> <span class="s2">&#34;Information&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Override&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;Microsoft&#34;</span><span class="p">:</span> <span class="s2">&#34;Warning&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Update your <a href="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-7.0#configure-logging">logging categories</a> as needed.</p>
+<p>More: <a href="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-7.0#aspnet-core-and-ef-core-categories">https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-7.0#aspnet-core-and-ef-core-categories</a></p>
+<p>Update your <code>Program.cs</code> file accordingly:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Program</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Log</span><span class="p">.</span><span class="n">Logger</span> <span class="p">=</span> <span class="k">new</span> <span class="n">LoggerConfiguration</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="n">WriteTo</span><span class="p">.</span><span class="n">Console</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="n">CreateBootstrapLogger</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Log</span><span class="p">.</span><span class="n">Information</span><span class="p">(</span><span class="s">&#34;Starting up!&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">CreateHostBuilder</span><span class="p">(</span><span class="n">args</span><span class="p">).</span><span class="n">Build</span><span class="p">().</span><span class="n">Run</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Log</span><span class="p">.</span><span class="n">Information</span><span class="p">(</span><span class="s">&#34;Stopped cleanly&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">ex</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Log</span><span class="p">.</span><span class="n">Fatal</span><span class="p">(</span><span class="n">ex</span><span class="p">,</span> <span class="s">&#34;An unhandled exception occured during bootstrapping&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">finally</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Log</span><span class="p">.</span><span class="n">CloseAndFlush</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="n">IHostBuilder</span> <span class="n">CreateHostBuilder</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">=&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Host</span><span class="p">.</span><span class="n">CreateDefaultBuilder</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="n">ConfigureWebHostDefaults</span><span class="p">(</span><span class="n">webBuilder</span> <span class="p">=&gt;</span> <span class="p">{</span> <span class="n">webBuilder</span><span class="p">.</span><span class="n">UseStartup</span><span class="p">&lt;</span><span class="n">Startup</span><span class="p">&gt;();</span> <span class="p">})</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="n">UseSerilog</span><span class="p">((</span><span class="n">context</span><span class="p">,</span> <span class="n">services</span><span class="p">,</span> <span class="n">configuration</span><span class="p">)</span> <span class="p">=&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">configuration</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">.</span><span class="n">ReadFrom</span><span class="p">.</span><span class="n">Configuration</span><span class="p">(</span><span class="n">context</span><span class="p">.</span><span class="n">Configuration</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">.</span><span class="n">ReadFrom</span><span class="p">.</span><span class="n">Services</span><span class="p">(</span><span class="n">services</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">.</span><span class="n">WriteTo</span><span class="p">.</span><span class="n">Console</span><span class="p">(</span><span class="n">outputTemplate</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                        <span class="s">&#34;{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>See the example project for some configuration options: <a href="https://github.com/serilog/serilog-aspnetcore/tree/dev/samples/Sample">https://github.com/serilog/serilog-aspnetcore/tree/dev/samples/Sample</a></p>
+<hr>
+<h3 id="kubernetes"><a href="#kubernetes">Kubernetes?</a></h3><p>Related: <a href="https://www.jeremyjordan.me/kubernetes/">https://www.jeremyjordan.me/kubernetes/</a></p>
+<p>There are two types of nodes in a Kubernetes cluster: the <strong>master</strong> nodes, which manage the &ldquo;control plane&rdquo;, and the <strong>worker</strong> nodes which execute tasks assigned by the masters.</p>
+<p>Work is assigned to a worker in the form of a <strong>pod</strong>, which represents one or more container images to execute on that worker.</p>
+<p>Operators interact with the Kubernetes cluster through a CRUD-like interface. The cluster provides several &ldquo;resources&rdquo; that you can operate on.</p>
+<p>The <strong>deployment</strong> resource is the recommended method for deploying a Kubernetes cluster. The deployment resource specifies a <strong>template</strong> for instantiating a pod and the number of replicas, and Kubernetes tries to synchronize the cluster to satisfy the requests laid out in the template.</p>
+<p>Deployments typically consist of one or more pods. We can also define a replica count for each pod in the deployment. Templates are typically defined as YAML files:</p>
+<p><img src="https://www.jeremyjordan.me/content/images/2019/11/deployment_spec.png" alt="deployment_spec"></p>
+<p>The <strong>service</strong> resource allows a pod to communicate with other resources in the cluster. There are two types of service resources:</p>
+<p>A Kubernetes Service provides you with a stable endpoint which can be used to direct traffic to the desired Pods even as the exact underlying Pods change due to updates, scaling, and failures. Services know which Pods they should send traffic to based on <em>labels</em> (key-value pairs) which we define in the Pod metadata.</p>
+<p><img src="https://www.jeremyjordan.me/content/images/2019/11/service_spec.png" alt="service_spec"></p>
+<p>The <strong>ingress</strong> service exposes HTTP and HTTPS endpoints to handle traffic originating outside the cluster.</p>
+<p>Ingress objects allow outside traffic to reach our cluster objects (typically Services).</p>
+<p><img src="https://www.jeremyjordan.me/content/images/2019/11/ingress_spec.png" alt="ingress_spec"></p>
+<h3 id="spectemplatespeccontainersportscontainerport"><a href="#spectemplatespeccontainersportscontainerport"><code>spec.template.spec.containers.ports.containerPort</code>?</a></h3><p><a href="https://github.com/ejacobg/microservices-in-dotnet/blob/main/ShoppingCart/ShoppingCart/shopping-cart.yaml#L22">https://github.com/ejacobg/microservices-in-dotnet/blob/main/ShoppingCart/ShoppingCart/shopping-cart.yaml#L22</a></p>
+<p>This isn&rsquo;t set by default by Rider, but may be needed. <a href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#ports">Documentation</a> says it is required.</p>
+<hr>
+<h3 id="how-do-i-deploy-sql-server-to-kubernetes"><a href="#how-do-i-deploy-sql-server-to-kubernetes">How do I deploy SQL Server to Kubernetes?</a></h3><p>Related: <a href="https://medium.com/codex/database-migration-when-your-service-is-running-in-kubernetes-abbe9697421d">https://medium.com/codex/database-migration-when-your-service-is-running-in-kubernetes-abbe9697421d</a></p>
+<p>What&rsquo;s the best way to apply my migrations to my SQL Server instance?</p>
+<blockquote>
+<p><a href="https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying?tabs=dotnet-core-cli">The recommended way to deploy migrations to a production database is by generating SQL scripts.</a></p>
+</blockquote>
+<p>You can also create and run a <a href="https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying?tabs=dotnet-core-cli#bundles">Bundle</a> so that you don&rsquo;t have to mess around with the command-line.</p>
+<p><strong>There is no explicit solution for applying migrations to SQL Server.</strong> There are a couple options for running migrations, none of which are perfect:</p>
+<ul>
+<li>
+<p><strong>Runtime Migrations</strong> (<code>context.Database.Migrate()</code>) - this is the simplest solution, but fails when scaling your application since every replica tries to apply your migrations on the database.
+source:: <a href="https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying?tabs=dotnet-core-cli#apply-migrations-at-runtime">https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying?tabs=dotnet-core-cli#apply-migrations-at-runtime</a></p>
+</li>
+<li>
+<p><a href="https://kubernetes.io/docs/concepts/workloads/pods/init-containers/"><strong>Init Containers</strong></a> - Init Containers are run before a pod&rsquo;s containers are started. They are meant to be used to apply some startup actions not present in the application. Using Init Containers has the same issue as the Runtime Migrations if we&rsquo;re running multiple replicas of the same pod. However, this is technically a viable option for us since it is recommended to run SQL Server in a single pod.</p>
+</li>
+<li>
+<p><strong>Kubernetes Jobs</strong> - A Kubernetes Job can be used to perform the same actions as an Init Container, however Jobs do not block your pods from starting up like Init Containers do. The benefit of using a Job is that you can ensure that only 1 job is applying the migrations, so you don&rsquo;t run into the issues outlined above. The ideal solution would combine a Kubernetes Job that applies the migrations with an Init Container around each pod that simply waits for the Job to complete before starting the pod:</p>
+<ul>
+<li><img src="https://miro.medium.com/v2/resize:fit:4800/format:webp/1*7egKoSZFtJbOV5oOOy39Ng.png" alt=""></li>
+<li>This job can simply be a <a href="https://www.gokhan-gokalp.com/en/performing-sql-migration-operations-by-using-kubernetes-job/">simple Console Application</a> that you&rsquo;ve dockerized that just calls <code>context.Database.Migrate()</code>. A similar project is described <a href="https://codebuckets.com/2020/08/14/applying-entity-framework-migrations-to-a-docker-container/">here</a>.</li>
+<li>You can use something like <a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#wait"><code>kubectl wait</code></a>, <a href="https://github.com/groundnuty/k8s-wait-for"><code>wait-for</code></a>, or Helm hooks to block while a Job is running.</li>
+<li>This approach is the recommended one described <a href="https://andrewlock.net/deploying-asp-net-core-applications-to-kubernetes-part-7-running-database-migrations/#:~:text=As%20I%20say%2C%20this%20approach%20is%20one%20that%20I%27ve%20been%20using%20successfully%20for%20several%20years%20now%2C%20so%20I%20think%20it%20does%20the%20job.%20In%20the%20next%20post%20I%27ll%20go%20into%20the%20details%20of%20actually%20implementing%20this%20approach.">here</a>.</li>
+<li>More: <a href="https://blog.jonas.tonndorf-martini.de/database-migration-with-a-kubernetes-job-and-initcontainers-d196dec8ac96">https://blog.jonas.tonndorf-martini.de/database-migration-with-a-kubernetes-job-and-initcontainers-d196dec8ac96</a>,</li>
+</ul>
+</li>
+<li>
+<p><a href="https://saturncloud.io/blog/how-to-execute-a-sql-script-file-in-a-kubernetes-pod-a-guide/#step-3-executing-the-sql-script">Using <code>kubectl exec</code> to manually run the setup script.</a></p>
+<ul>
+<li>This example uses MySQL; don&rsquo;t know if this is applicable to SQL Server.</li>
+<li><a href="https://stackoverflow.com/questions/73086332/how-to-run-kubectl-exec-on-scripts-that-never-end#:~:text=Using%20kubectl%20exec%20is%20not%20a%20good%20way%20to%20program%20a%20Kubernetes%20cluster.">Using <code>kubectl exec</code> is not a good way to program a Kubernetes cluster.</a></li>
+</ul>
+</li>
+<li>
+<p>Using <a href="https://stackoverflow.com/q/59521684">Container Lifecycle Hooks</a>.</p>
+</li>
+</ul>
+<p>There may be some solutions using technologies like Helm, but that&rsquo;s kinda out of the scope of this project.</p>
+<p>Update: it seems that the official SQL Server Docker image supports initialization through SQL files. I&rsquo;ve changed the scripts to use the <code>MSSQL_SA_PASSWORD</code> instead of <code>SA_PASSWORD</code>. More: <a href="https://stackoverflow.com/q/76233039">https://stackoverflow.com/q/76233039</a>, <a href="https://hub.docker.com/_/microsoft-mssql-server?tab=description">https://hub.docker.com/_/microsoft-mssql-server?tab=description</a>, <a href="https://github.com/microsoft/mssql-docker/tree/master/linux/preview/examples/mssql-customize">https://github.com/microsoft/mssql-docker/tree/master/linux/preview/examples/mssql-customize</a></p>
+<hr>
+<h3 id="what-connection-string-do-i-use-when-deploying-to-kubernetes"><a href="#what-connection-string-do-i-use-when-deploying-to-kubernetes">What connection string do I use when deploying to Kubernetes?</a></h3><p>I&rsquo;m currently using this connection string:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="s2">&#34;ConnectionStrings&#34;</span><span class="err">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;Kubernetes&#34;</span><span class="p">:</span> <span class="s2">&#34;Server=sql-server,1433;Database=Pastebin;User Id=SA;Password=StrongPassw0rd&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span><span class="err">,</span>
+</span></span></code></pre></div><p>Find more connection string parameters here: <a href="https://learn.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqlconnection.connectionstring?view=dotnet-plat-ext-7.0">https://learn.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqlconnection.connectionstring?view=dotnet-plat-ext-7.0</a></p>
+<hr>
+<h3 id="using-the-ingress-service-on-docker-desktop-kubernetes"><a href="#using-the-ingress-service-on-docker-desktop-kubernetes">Using the Ingress service on Docker Desktop Kubernetes?</a></h3><p>Seems that this manifest needs to be applied first: <a href="https://stackoverflow.com/questions/65193758/enable-ingress-controller-on-docker-desktop-with-wls2">https://stackoverflow.com/questions/65193758/enable-ingress-controller-on-docker-desktop-with-wls2</a></p>
+<hr>
+<h3 id="my-ingress-service-doesnt-have-a-local-ip-address-assigned-to-it-docker-desktop-kubernetes-how-to-fix"><a href="#my-ingress-service-doesnt-have-a-local-ip-address-assigned-to-it-docker-desktop-kubernetes-how-to-fix">My Ingress service doesn&rsquo;t have a local IP address assigned to it (Docker Desktop Kubernetes). How to fix?</a></h3><p>Make sure your services have the correct ports exposed:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">lengthener</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">lengthener</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l">TCP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">5002</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">NodePort</span><span class="w">
+</span></span></span></code></pre></div><p>I had originally had the <code>port</code> and <code>targetPort</code> fields swapped.</p>
+<p><a href="https://stackoverflow.com/a/54784023">This answer</a> helped me check my ports.</p>
+<p>See <a href="https://github.com/ejacobg/microservices-in-dotnet/blob/main/ShoppingCart/ShoppingCart/shopping-cart.yaml">shopping-cart.yaml</a> for a correct, annotated manifest example.</p>
+<p>Make sure your Ingress points to the <code>targetPort</code> of your services:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">networking.k8s.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Ingress</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">pastebin</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ingressClassName</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">rules</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">http</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">paths</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/shorten</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">pathType</span><span class="p">:</span><span class="w"> </span><span class="l">Prefix</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">backend</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">service</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">shortener</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nt">port</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                  </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span></code></pre></div><p>When using Kubernetes on Windows Docker Desktop, the Ingress service is run inside the WSL2 virtual machine by default, which isn&rsquo;t accessible from Windows. This is why your <code>kubectl</code> commands cannot report the the IP address of the Ingress, just showing <code>localhost</code>. To find the IP address, you have to go inside the WSL VM. See <a href="https://stackoverflow.com/a/69113528">https://stackoverflow.com/a/69113528</a> and <a href="https://stackoverflow.com/a/70025145">https://stackoverflow.com/a/70025145</a>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ wsl
+</span></span><span class="line"><span class="cl">$ ip a <span class="p">|</span> grep eth0
+</span></span><span class="line"><span class="cl">6: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class="m">1500</span> qdisc mq state UP group default qlen <span class="m">1000</span>
+</span></span><span class="line"><span class="cl">    inet 172.19.xxx.yyy/20 brd 172.19.xxx.yyy scope global eth0
+</span></span></code></pre></div><p>Your virtual machine would be accessible on <code>172.19.xxx.yyy</code></p>
+<p>To get the ingress port use <code>kubectl</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl get svc -n ingress-nginx
+</span></span><span class="line"><span class="cl">NAME                                 TYPE           CLUSTER-IP      EXTERNAL-IP   PORT<span class="o">(</span>S<span class="o">)</span>                      AGE
+</span></span><span class="line"><span class="cl">ingress-nginx-controller             LoadBalancer   10.103.245.12   localhost     80:30770/TCP,443:30260/TCP   59m
+</span></span><span class="line"><span class="cl">ingress-nginx-controller-admission   ClusterIP      10.102.42.87    &lt;none&gt;        443/TCP                      59m
+</span></span></code></pre></div><p>In my case, I used port 80 (using 30770 returns a connection refused error).</p>
+<hr>
+<h3 id="does-a-containers-exposed-ports-apply-to-all-containers-build-on-top-of-it"><a href="#does-a-containers-exposed-ports-apply-to-all-containers-build-on-top-of-it">Does a container&rsquo;s exposed ports apply to all containers build on top of it?</a></h3><p>Rider&rsquo;s default file defines the base container as this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="s"> mcr.microsoft.com/dotnet/aspnet:5.0 AS base</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /app</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">EXPOSE</span><span class="s"> 80</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">EXPOSE</span><span class="s"> 443</span><span class="err">
+</span></span></span></code></pre></div><p>The final container looks like this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="s"> base AS final</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /app</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> --from<span class="o">=</span>publish /app/publish .<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&#34;dotnet&#34;</span><span class="p">,</span> <span class="s2">&#34;Lengthener.dll&#34;</span><span class="p">]</span><span class="err">
+</span></span></span></code></pre></div><p>Will the final container also have the base container&rsquo;s exposed ports?</p>
+<p>No. Set your ports on the final container.</p>
+<h3 id="docker-copy"><a href="#docker-copy">Docker <code>COPY</code></a></h3><p><a href="https://docs.docker.com/engine/reference/builder/#:~:text=be%20used%20instead.-,COPY,obeys%20the%20following%20rules%3A,-The"><code>COPY</code> obeys the following rules:</a></p>
+<p>The <code>&lt;src&gt;</code> path must be inside the <em>context</em> of the build; you cannot <code>COPY ../something /something</code>, because the first step of a <code>docker build</code> is to send the context directory (and subdirectories) to the docker daemon.</p>
+<hr>
+<h2 id="unanswered-questions"><a href="#unanswered-questions">Unanswered Questions</a></h2><h3 id="how-do-i-inject-my-database-connection-string-into-my-database-context"><a href="#how-do-i-inject-my-database-connection-string-into-my-database-context">How do I inject my database connection string into my database context?</a></h3><h3 id="how-do-i-dockerize-and-push-to-my-local-registry"><a href="#how-do-i-dockerize-and-push-to-my-local-registry">How do I Dockerize and push to my local registry?</a></h3><h3 id="whats-docker-compose"><a href="#whats-docker-compose">What&rsquo;s Docker Compose?</a></h3><h3 id="secrets-management"><a href="#secrets-management">Secrets management?</a></h3><p>The database needs a password. How do I supply this without hard-coding it? I also need to supply it in the SQL Server manifest.</p>
+
+        </article>
+    </div>
+</section>
+<aside id="meta">
+    <div>
+        <section>
+            <h4 id="date"> Tue Oct 3, 2023 </h4>
+            <h5 id="wordcount"> 3314 Words </h5>
+        </section>
+        
+        
+    </div>
+    <div>
+        
+        <a class="previous" href="https://ejacobg.com/notes/microservices-in-dotnet/"> Microservices in .NET</a>
+        
+        
+    </div>
+</aside>
+
+    </div>
+    <footer>
+    <hr>
+    <div>
+        <p>
+            &copy; 2022 Ean Jacob Gayban. Site made with Hugo.
+        </p>
+    </div>
+</footer>
+</body>
+</html>

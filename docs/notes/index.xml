@@ -8,6 +8,15 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 15 Dec 2022 15:53:44 -0800</lastBuildDate><atom:link href="https://ejacobg.com/notes/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Pastebin Q&amp;A</title>
+      <link>https://ejacobg.com/notes/pastebin-qna/</link>
+      <pubDate>Tue, 03 Oct 2023 14:47:17 -0700</pubDate>
+      
+      <guid>https://ejacobg.com/notes/pastebin-qna/</guid>
+      <description>Below are several questions I&amp;rsquo;ve asked and answered while in the process of building the Pastebin project. I originally wrote them down to help keep track of what I was currently working on, but I found myself revisiting the same questions from time to time. I figure this may not be the last time I&amp;rsquo;ll need the answers to these questions, so I&amp;rsquo;m posting them here for future reference. I cannot guarantee the correctness of any answers presented herein.</description>
+    </item>
+    
+    <item>
       <title>Microservices in .NET</title>
       <link>https://ejacobg.com/notes/microservices-in-dotnet/</link>
       <pubDate>Wed, 30 Aug 2023 11:19:30 -0700</pubDate>
