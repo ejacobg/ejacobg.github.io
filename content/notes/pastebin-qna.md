@@ -2,6 +2,7 @@
 title: "Pastebin Q&A"
 date: 2023-10-03T14:47:17-07:00
 draft: false
+toc: true
 ---
 
 Below are several questions I've asked and answered while in the process of building the [Pastebin project](/projects/pastebin/). I originally wrote them down to help keep track of what I was currently working on, but I found myself revisiting the same questions from time to time. I figure this may not be the last time I'll need the answers to these questions, so I'm posting them here for future reference. **I cannot guarantee the correctness of any answers presented herein.**
@@ -342,11 +343,11 @@ On second thought, metrics makes more sense. They are defined as ["numerical mea
 
 > [Probably a better model is to cache the number of views hourly in the app somewhere, and then update them in a batch-style process.](https://stackoverflow.com/a/1269973)
 
-# 
+<h1></h1>
 
 > [It would be really easy if I just created a TABLE Question_Views And have a row for each question.](https://stackoverflow.com/q/14034288)
 
-# 
+<h1></h1>
 
 > [Rather than execute SQL on every page view, you should increment an in-memory int or long using Interlocked.Increment. Then on every (for example) 5,000 increments (checked using Mod) then you should hit the database and increase the pageview count by 5,000.](https://stackoverflow.com/a/44980801)
 
@@ -546,19 +547,19 @@ The **deployment** resource is the recommended method for deploying a Kubernetes
 
 Deployments typically consist of one or more pods. We can also define a replica count for each pod in the deployment. Templates are typically defined as YAML files:
 
-![deployment_spec](https://www.jeremyjordan.me/content/images/2019/11/deployment_spec.png)
+![deployment_spec](/deployment-spec.png)
 
 The **service** resource allows a pod to communicate with other resources in the cluster. There are two types of service resources:
 
 A Kubernetes Service provides you with a stable endpoint which can be used to direct traffic to the desired Pods even as the exact underlying Pods change due to updates, scaling, and failures. Services know which Pods they should send traffic to based on *labels* (key-value pairs) which we define in the Pod metadata.
 
-![service_spec](https://www.jeremyjordan.me/content/images/2019/11/service_spec.png)
+![service_spec](/service-spec.png)
 
 The **ingress** service exposes HTTP and HTTPS endpoints to handle traffic originating outside the cluster.
 
 Ingress objects allow outside traffic to reach our cluster objects (typically Services).
 
-![ingress_spec](https://www.jeremyjordan.me/content/images/2019/11/ingress_spec.png)
+![ingress_spec](/ingress-spec.png)
 
 ### `spec.template.spec.containers.ports.containerPort`?
 
@@ -580,13 +581,12 @@ You can also create and run a [Bundle](https://learn.microsoft.com/en-us/ef/core
 
 **There is no explicit solution for applying migrations to SQL Server.** There are a couple options for running migrations, none of which are perfect:
 
-- **Runtime Migrations** (`context.Database.Migrate()`) - this is the simplest solution, but fails when scaling your application since every replica tries to apply your migrations on the database.
-source:: https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying?tabs=dotnet-core-cli#apply-migrations-at-runtime
+- [**Runtime Migrations**](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying?tabs=dotnet-core-cli#apply-migrations-at-runtime) (`context.Database.Migrate()`) - this is the simplest solution, but fails when scaling your application since every replica tries to apply your migrations on the database.
 
 - [**Init Containers**](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) - Init Containers are run before a pod's containers are started. They are meant to be used to apply some startup actions not present in the application. Using Init Containers has the same issue as the Runtime Migrations if we're running multiple replicas of the same pod. However, this is technically a viable option for us since it is recommended to run SQL Server in a single pod.
 
 - **Kubernetes Jobs** - A Kubernetes Job can be used to perform the same actions as an Init Container, however Jobs do not block your pods from starting up like Init Containers do. The benefit of using a Job is that you can ensure that only 1 job is applying the migrations, so you don't run into the issues outlined above. The ideal solution would combine a Kubernetes Job that applies the migrations with an Init Container around each pod that simply waits for the Job to complete before starting the pod:
-    - ![](https://miro.medium.com/v2/resize:fit:4800/format:webp/1*7egKoSZFtJbOV5oOOy39Ng.png)
+    - ![](/blocking-job.webp)
     - This job can simply be a [simple Console Application](https://www.gokhan-gokalp.com/en/performing-sql-migration-operations-by-using-kubernetes-job/) that you've dockerized that just calls `context.Database.Migrate()`. A similar project is described [here](https://codebuckets.com/2020/08/14/applying-entity-framework-migrations-to-a-docker-container/).
     - You can use something like [`kubectl wait`](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#wait), [`wait-for`](https://github.com/groundnuty/k8s-wait-for), or Helm hooks to block while a Job is running.
     - This approach is the recommended one described [here](https://andrewlock.net/deploying-asp-net-core-applications-to-kubernetes-part-7-running-database-migrations/#:~:text=As%20I%20say%2C%20this%20approach%20is%20one%20that%20I%27ve%20been%20using%20successfully%20for%20several%20years%20now%2C%20so%20I%20think%20it%20does%20the%20job.%20In%20the%20next%20post%20I%27ll%20go%20into%20the%20details%20of%20actually%20implementing%20this%20approach.).
@@ -693,7 +693,7 @@ In my case, I used port 80 (using 30770 returns a connection refused error).
 
 ---
 
-### Does a container's exposed ports apply to all containers build on top of it?
+### Does a container's exposed ports apply to all containers built on top of it?
 
 Rider's default file defines the base container as this:
 
@@ -717,11 +717,11 @@ Will the final container also have the base container's exposed ports?
 
 No. Set your ports on the final container.
 
-### Docker `COPY`
+### Docker `COPY`?
 
-[`COPY` obeys the following rules:](https://docs.docker.com/engine/reference/builder/#:~:text=be%20used%20instead.-,COPY,obeys%20the%20following%20rules%3A,-The)
+> [`COPY` obeys the following rules:](https://docs.docker.com/engine/reference/builder/#:~:text=be%20used%20instead.-,COPY,obeys%20the%20following%20rules%3A,-The)
 
-The `<src>` path must be inside the *context* of the build; you cannot `COPY ../something /something`, because the first step of a `docker build` is to send the context directory (and subdirectories) to the docker daemon.
+> The `<src>` path must be inside the *context* of the build; you cannot `COPY ../something /something`, because the first step of a `docker build` is to send the context directory (and subdirectories) to the docker daemon.
 
 ---
 
