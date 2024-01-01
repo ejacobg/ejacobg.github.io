@@ -140,3 +140,16 @@ img {
 /* ignoring figcaption for now */
 
 /* ignoring forms */
+
+.previous {
+    float: left;
+}
+
+.next {
+    float: right;
+}
+
+/* Because the navigation links are floating, the footer must be cleared so as to not overlap with them. */
+footer {
+    clear: both;
+}

@@ -41,3 +41,22 @@ Did I spend time on interests and hobbies (that aren't social media)?
 Did I show up in-person at least 3 times this week?
 
 Have I spent time looking for jobs or considering career paths?
+
+### Reflection
+
+*December 26, 2023*
+
+I didn't complete every single thing in my ideal outcomes, but I did hit all my "major" goals.
+
+- Full-time employment - received offer letter December 22.
+- Work on the blog - made 11 posts this year, and have a few ideas for more.
+- Proficiency in tech - hard to quantify this, but I did learn a lot this year.
+- Develop knowledge base - yes.
+- Career goals - haven't thought about this any deeper than "learn as much as I can".
+- Explore interests - unfortunately this goal was neglected.
+
+Those last 2 goals might actually be easier to reach now that I've started working. Some concrete work experience would allow me to make a more realistic career plan, and I'll also have some money to put into my interests.
+
+This year, I estimate I spent ~600 hours doing some sort of focused work that I deemed "productive" (eg. reading books, coding, applying to jobs). This doesn't include time I spent at work or going to class (although I do believe this figure includes time spent studying and doing homework). Outside of it being "nice to know", this number doesn't really hold much meaning to me. My time tracking habit sort of appeared on a whim and I happened to keep it going this entire time. I don't have any other records before this year, so this number will have to be my "baseline" to compare future years against.
+
+- I know this doesn't have anything to do with the theme itself, but since I'm doing a retrospective, I thought I would just put it here.
