@@ -19,7 +19,7 @@ Last year, I thought I would have more time to myself after graduation since I n
 
 **Diversification of Responsibilities** - I imagine that this upcoming year will be marked by my having to balance a lot of new responsibilities at the same time. I want to use this year to get my life and affairs in order to not be as unbalanced as I was last year.
 
-Ultimately though, the year of diversification is aimed at becoming able to manage all the various aspects of my life.
+Ultimately though, the year of diversification is aimed at becoming able to manage all the various aspects of my life in a reasonable and sustainable manner, to test my limits on how far I can (responsibly) stretch myself, and to work through some of the *other* tasks on my to-do list, not just the most important ones.
 
 ### Ideal Outcomes
 
@@ -31,7 +31,7 @@ Continue maintaining the blog, and incorporate more `blog` and `notes` posts.
 
 Buy a car or look into alternative methods of transportation.
 
-Deepen my "home economics"/"adulting" knowledge and have a better grasp new responsibilities.
+Deepen my "home economics"/"adulting" knowledge and have a better grasp on new responsibilities.
 
 Develop my technical skills even further; get more comfortable using .NET.
 
