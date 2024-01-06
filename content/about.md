@@ -6,9 +6,9 @@ draft: false
 
 ## Me
 
-My name is Ean Jacob Gayban, but I go by Jacob. I'm a graduate from the University of Nevada, Reno, currently living in the Las Vegas area. I am **currently seeking employment**, particularly for a junior web or backend development position. I've been writing a lot of Go lately, but I've worked with several other languages during my time in college, including JavaScript, C++, C#, Elixir, and Python. I'm open to learning new languages and technologies, and plan to continue learning more to expand my repertoire. Currently, I'm revisiting C# since it seems to be a pretty common language in my area.
+My name is Ean Jacob Gayban, but I go by Jacob. I currently work as a software developer at [Red Dog Media](https://reddogmediainc.com/) where I maintain various C# applications. I've worked with several other languages in college and in my free time including Go, JavaScript, C++, Elixir, and Python. I'm open to learning new languages and technologies, and plan to continue learning more to expand my repertoire. Currently, I'm revisiting C# and Vue.js since that's what I'll be using on the job.
 
-Outside of work (or lack thereof), I enjoy writing programs to make my life easier. I've written a web scraper to download recipes as JSON, a bookmark manager/read-it-later application for organizing links to saved articles, and a web application that was used by a local Esports league to rank their players. I spend a lot of time reading books on technology and programming (although it's mostly been about Go as of late), and have several books on my ever-growing reading list to get through. I realize that my journey is only just beginning and the fact that there's still so much left to learn excites me.
+Outside of work (or lack thereof), I enjoy writing programs to make my life easier. I've written a web scraper to download recipes as JSON, a bookmark manager/read-it-later application for organizing links to saved articles, and a web application that was used by a local Esports league to rank their players. I spend a lot of time reading books on technology and programming (although it's mostly been about C# as of late), and have several books on my ever-growing reading list to get through. I realize that my journey is only just beginning and the fact that there's still so much left to learn excites me.
 
 In my free time, I enjoy reading (mostly self-help and productivity), playing video games (I want to get back into [Rivals](https://rivalsofaether.com/)), and occasionally watching anime.
 
@@ -27,4 +27,3 @@ This site was built with the [Hugo](https://gohugo.io/) static site generator, u
 ## My Projects
 
 You can find the code for all of my projects on my [GitHub](https://github.com/ejacobg). Any non-coding projects will be documented here on this site.
-
