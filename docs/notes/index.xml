@@ -8,6 +8,16 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 15 Dec 2022 15:53:44 -0800</lastBuildDate><atom:link href="https://ejacobg.com/notes/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>.NET Microservices: Architecture for Containerized .NET Applications</title>
+      <link>https://ejacobg.com/notes/dotnet-microservices/</link>
+      <pubDate>Sat, 17 Feb 2024 23:47:26 -0800</pubDate>
+      
+      <guid>https://ejacobg.com/notes/dotnet-microservices/</guid>
+      <description>After all that talk last time about how I&amp;rsquo;m not gonna read textbooks anymore, here I am with another reading project. This book just happened to catch me when I was low on both ideas and time, so reading just made the most sense.
+If Microservices in .NET was a little below my level, then this book was definitely a much better fit. I found it particularly relevant in my new job, especially since many of the patterns and practices discussed were present in the codebases I&amp;rsquo;m trying to learn.</description>
+    </item>
+    
+    <item>
       <title>Pastebin Q&amp;A</title>
       <link>https://ejacobg.com/notes/pastebin-qna/</link>
       <pubDate>Tue, 03 Oct 2023 14:47:17 -0700</pubDate>
