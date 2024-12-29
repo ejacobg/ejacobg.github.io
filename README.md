@@ -29,6 +29,8 @@ Publish site: `hugo`
 
 Add a new directory or Markdown file to the [`content/`](/content/) directory.
 
+You can use the [`hugo new`](https://gohugo.io/commands/hugo_new/) command for this.
+
 I'm currently just adding Markdown files, and throwing all images/other content into [`static/`](/static/).
 
 ## Updating the Theme

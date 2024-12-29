@@ -44,3 +44,33 @@ Are there any areas of my life that I haven't touched on in a while?
 Did I do (or learn how to do) some chores/maintenance around the house?
 
 Have I developed ideas for the blog, either through reading or writing?
+
+### Reflection
+
+*December 28, 2024*
+
+Truthfully, after a couple months, the idea of sticking with my yearly theme sort of moved somewhere toward the back of my mind and ended up staying there, resurfacing only when one of my recurring tasks showed up on my to-do list.
+
+[![Yearly theme task](/yearly-theme-task.png)](/yearly-theme-task.png)
+
+- This due date was moved back several times.
+
+This isn't to say that there *wasn't* any progress in the meantime. In some sense, the year of diversification would've happened even without any conscious effort to keep it alive. Work events, family events, and my general life responsibilities this year provided me with more than enough opportunities to go out and try new things.
+
+If this year was about finding more things to do, then I more than satisfied this theme. Some of my other ideal outcomes were forgotten along the way though.
+
+**Short- and long-term career goals** - nothing concrete as of now. I'm fine with moving this goal over to 2025, or maybe postponing this for now. I'm quite happy with where I am now in my career, and can see myself in this job for the next couple years or longer.
+
+**Non-coding accomplishments/projects:**
+
+- Biked a little over 1100 miles this year.
+- Tried out rock climbing. Managed to complete some V2's and was very close to some V3's.
+- Went to the doctor for the first time in years.
+
+**Maintaining the blog** - will be moved to 2025.
+
+**Car/transportation** - I did buy a car, however my bike has been my main form of transportation.
+
+**Home economics & adulting** - read a few books cooking, cleaning and investing. My first tax season will be coming up next year, so this might also end up moving to 2025, but at a lower priority.
+
+**Technical skills** - while I do feel more comfortable doing the tasks assigned to me at work, I wouldn't say my actual .NET-specific knowledge has improved all that much. Most of my improvement has been getting used to programming in a work environment rather than programming in general.
