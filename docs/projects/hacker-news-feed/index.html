@@ -57,32 +57,32 @@
 <h2 id="implementation"><a href="#implementation">Implementation</a></h2><p>The core of the project is built around the <code>Item</code> class, which looks like this:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// Item reflects that of a Hacker News item, but typically represents an story, Ask HN, or Show HN post.</span>
 </span></span><span class="line"><span class="cl"><span class="na">[Index(nameof(ItemId), IsUnique = true)]</span>
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Item</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Item</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl"><span class="na">    [Key]</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Id</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">Id</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// The item&#39;s ID as given by Hacker News.</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">ItemId</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">ItemId</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">Title</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">string</span> <span class="n">Title</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c1">// If this item contains a URL, then it will be added here.</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">Url</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">string</span> <span class="n">Url</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Points</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">Points</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Comments</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">Comments</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c1">// Created represents the time this item was submitted to Hacker News, not when it was created in our local database.</span>
-</span></span><span class="line"><span class="cl"><span class="na">    [DataType(DataType.Date)]</span> <span class="k">public</span> <span class="n">DateTime</span> <span class="n">Created</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [DataType(DataType.Date)]</span> <span class="kd">public</span> <span class="n">DateTime</span> <span class="n">Created</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c1">// Updated represents the time this item was last updated from the API.</span>
 </span></span><span class="line"><span class="cl">    <span class="c1">// Changing the subscription status shouldn&#39;t affect this timestamp.</span>
-</span></span><span class="line"><span class="cl"><span class="na">    [DataType(DataType.Date)]</span> <span class="k">public</span> <span class="n">DateTime</span> <span class="n">Updated</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [DataType(DataType.Date)]</span> <span class="kd">public</span> <span class="n">DateTime</span> <span class="n">Updated</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c1">// Subscribed is true if the user opened the item or explicitly subscribed to it, false if the user explicitly unsubscribed from it, and null if the user has yet to interact with this item.</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool?</span> <span class="n">Subscribed</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">bool?</span> <span class="n">Subscribed</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>The <code>IFeedProvider</code> pulls data from the APIs, then converts it into <code>Item</code> objects. The <code>IFeedService</code> takes these items and saves them to the database. The feed service is also in charge of managing the subscription status of all the feed items - subscribe, unsubscribe, and &ldquo;clear&rdquo;, which marks all <code>null</code>-subscribed items as unsubscribed. A basic frontend was made to show all the feed items in a table:</p>
 <p><a href="https://raw.githubusercontent.com/ejacobg/HackerNewsFeed/main/HackerNewsFeed/Screenshots/Update.png"><img src="https://raw.githubusercontent.com/ejacobg/HackerNewsFeed/main/HackerNewsFeed/Screenshots/Update.png" alt="Frontend"></a></p>
@@ -116,7 +116,7 @@
     <hr>
     <div>
         <p>
-            &copy; 2022 Ean Jacob Gayban. Site made with Hugo.
+            &copy; 2022-2025 Ean Jacob Gayban. Site made with Hugo.
         </p>
     </div>
 </footer>

@@ -8,7 +8,7 @@ aliases:
 
 ## Year of Diversification
 
-*Note: [last year's theme](https://ejacobg.com/blog/yearly-theme-2023/) has now been updated with a retrospective.*
+*Note: [last year's theme](/blog/yearly-theme-2023/) has now been updated with a retrospective.*
 
 ### Description
 

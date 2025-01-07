@@ -114,7 +114,7 @@
 <h3 id="how-do-i-add-a-unique-constraint-in-ef-core"><a href="#how-do-i-add-a-unique-constraint-in-ef-core">How do I add a UNIQUE constraint in EF Core?</a></h3><p><a href="https://github.com/ejacobg/HackerNewsFeed/blob/cfe21a675dec7c3cdb090d2c728bf374fc569a04/HackerNewsFeed/Data/Item.cs#L9">https://github.com/ejacobg/HackerNewsFeed/blob/cfe21a675dec7c3cdb090d2c728bf374fc569a04/HackerNewsFeed/Data/Item.cs#L9</a></p>
 <hr>
 <h3 id="when-reading-paste-requests-i-want-the-content-field-to-always-be-present-and-the-expires-field-is-optional-how-do-i-implement-this"><a href="#when-reading-paste-requests-i-want-the-content-field-to-always-be-present-and-the-expires-field-is-optional-how-do-i-implement-this">When reading paste requests, I want the <code>content</code> field to always be present, and the <code>expires</code> field is optional. How do I implement this?</a></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="na">[HttpPost(&#34;/shorten&#34;)]</span>
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">ShortenResult</span><span class="p">&gt;</span> <span class="n">Shorten</span><span class="p">([</span><span class="n">FromBody</span><span class="p">]</span> <span class="n">PasteInput</span> <span class="n">input</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">ShortenResult</span><span class="p">&gt;</span> <span class="n">Shorten</span><span class="p">([</span><span class="n">FromBody</span><span class="p">]</span> <span class="n">PasteInput</span> <span class="n">input</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(!</span><span class="n">ModelState</span><span class="p">.</span><span class="n">IsValid</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span>
@@ -125,12 +125,12 @@
 </span></span><span class="line"><span class="cl">    <span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">PasteInput</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">PasteInput</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl"><span class="na">    [Required]</span> <span class="k">public</span> <span class="kt">string</span> <span class="n">Content</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int?</span> <span class="n">Expires</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [Required]</span> <span class="kd">public</span> <span class="kt">string</span> <span class="n">Content</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int?</span> <span class="n">Expires</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Paste</span> <span class="n">ToPaste</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Paste</span> <span class="n">ToPaste</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">expires</span> <span class="p">=</span> <span class="n">Expires</span> <span class="p">??</span> <span class="m">60</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">Paste</span>
@@ -141,7 +141,7 @@
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">record</span> <span class="nc">ShortenResult</span><span class="p">(</span><span class="kt">string</span> <span class="n">Shortlink</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">record</span> <span class="nc">ShortenResult</span><span class="p">(</span><span class="kt">string</span> <span class="n">Shortlink</span><span class="p">);</span>
 </span></span></code></pre></div><p>By default, missing fields will just be given their default value. Use <code>[Required]</code> to enforce that they be present.</p>
 <p>Note: normally you have to check <code>ModelState.IsValid</code> to make sure that all validations are correct. You can use the <code>[ApiController]</code> attribute to automatically return status code 400 for bad model states.</p>
 <hr>
@@ -149,9 +149,9 @@
 <p>Using Developer since that is closest to what will be used in production, and is compatible with replication and cloud services.</p>
 <p>Download SSMS (19.1) - <a href="https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16">https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16</a></p>
 <hr>
-<h3 id="how-do-i-set-up-my-startup-class-how-do-i-register-my-interfaces-and-implementations-how-do-i-enable-my-controllers"><a href="#how-do-i-set-up-my-startup-class-how-do-i-register-my-interfaces-and-implementations-how-do-i-enable-my-controllers">How do I set up my <code>Startup</code> class? How do I register my interfaces and implementations? How do I enable my controllers?</a></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Startup</span>
+<h3 id="how-do-i-set-up-my-startup-class-how-do-i-register-my-interfaces-and-implementations-how-do-i-enable-my-controllers"><a href="#how-do-i-set-up-my-startup-class-how-do-i-register-my-interfaces-and-implementations-how-do-i-enable-my-controllers">How do I set up my <code>Startup</code> class? How do I register my interfaces and implementations? How do I enable my controllers?</a></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Startup</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">ConfigureServices</span><span class="p">(</span><span class="n">IServiceCollection</span> <span class="n">services</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">void</span> <span class="n">ConfigureServices</span><span class="p">(</span><span class="n">IServiceCollection</span> <span class="n">services</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">services</span><span class="p">.</span><span class="n">AddScoped</span><span class="p">&lt;</span><span class="n">IGenerator</span><span class="p">,</span> <span class="n">IpGenerator</span><span class="p">&gt;();</span>
 </span></span><span class="line"><span class="cl">        <span class="n">services</span><span class="p">.</span><span class="n">AddSingleton</span><span class="p">&lt;</span><span class="n">IPasteStore</span><span class="p">,</span> <span class="n">MemoryStore</span><span class="p">&gt;();</span>
@@ -159,7 +159,7 @@
 </span></span><span class="line"><span class="cl">        <span class="n">services</span><span class="p">.</span><span class="n">AddControllers</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">Configure</span><span class="p">(</span><span class="n">IApplicationBuilder</span> <span class="n">app</span><span class="p">,</span> <span class="n">IWebHostEnvironment</span> <span class="n">env</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">void</span> <span class="n">Configure</span><span class="p">(</span><span class="n">IApplicationBuilder</span> <span class="n">app</span><span class="p">,</span> <span class="n">IWebHostEnvironment</span> <span class="n">env</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">app</span><span class="p">.</span><span class="n">UseRouting</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl">        <span class="n">app</span><span class="p">.</span><span class="n">UseEndpoints</span><span class="p">(</span><span class="n">endpoints</span> <span class="p">=&gt;</span> <span class="n">endpoints</span><span class="p">.</span><span class="n">MapControllers</span><span class="p">());</span>
@@ -182,14 +182,14 @@
 </span></span><span class="line"><span class="cl">    <span class="nt">&#34;DefaultConnection&#34;</span><span class="p">:</span> <span class="s2">&#34;Server=JACOB-ZBOOK;Database=Pastebin;Trusted_Connection=True;MultipleActiveResultSets=true&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span><span class="err">,</span>
 </span></span></code></pre></div><p>Add this code to your <code>Startup</code> class:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="n">Startup</span><span class="p">(</span><span class="n">IConfiguration</span> <span class="n">configuration</span><span class="p">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Startup</span><span class="p">(</span><span class="n">IConfiguration</span> <span class="n">configuration</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Configuration</span> <span class="p">=</span> <span class="n">configuration</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">IConfiguration</span> <span class="n">Configuration</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">IConfiguration</span> <span class="n">Configuration</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">ConfigureServices</span><span class="p">(</span><span class="n">IServiceCollection</span> <span class="n">services</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">void</span> <span class="n">ConfigureServices</span><span class="p">(</span><span class="n">IServiceCollection</span> <span class="n">services</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">  	<span class="c1">// Change this to the name of your context.</span>
 </span></span><span class="line"><span class="cl">    <span class="n">services</span><span class="p">.</span><span class="n">AddDbContext</span><span class="p">&lt;</span><span class="n">AppDbContext</span><span class="p">&gt;(</span><span class="n">options</span> <span class="p">=&gt;</span>
@@ -201,11 +201,11 @@
 <p>This might be poor practice since you <a href="https://stackoverflow.com/questions/24740376/best-way-to-catch-sql-unique-constraint-violations-in-c-sharp-during-inserts#:~:text=If%20you%20are%20inserting%20to%20SQL%20table%20using%20loop%20you%20are%20doing%20it%20wrong">keep repeatedly hitting the database</a>.</p>
 <p>Another method is to perform a quick existence check for the shortlink first <em>before</em> you perform the save:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// CustomerController</span>
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="kt">string</span> <span class="n">ChangeEmail</span><span class="p">(</span><span class="kt">int</span> <span class="n">customerId</span><span class="p">,</span> <span class="kt">string</span> <span class="n">newEmail</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">string</span> <span class="n">ChangeEmail</span><span class="p">(</span><span class="kt">int</span> <span class="n">customerId</span><span class="p">,</span> <span class="kt">string</span> <span class="n">newEmail</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">   <span class="c1">// Check if there is another customer with the new email</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Customer</span> <span class="n">existingCustomer</span> <span class="p">=</span> <span class="n">_customerRepository</span><span class="p">.</span><span class="n">GetByEmail</span><span class="p">(</span><span class="n">newEmail</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">existingCustomer</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">existingCustomer</span><span class="p">.</span><span class="n">Id</span> <span class="p">!=</span> <span class="n">customerId</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">existingCustomer</span> <span class="p">!=</span> <span class="kc">null</span> <span class="p">&amp;&amp;</span> <span class="n">existingCustomer</span><span class="p">.</span><span class="n">Id</span> <span class="p">!=</span> <span class="n">customerId</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;Email is already taken&#34;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="n">Customer</span> <span class="n">customer</span> <span class="p">=</span> <span class="n">_customerRepository</span><span class="p">.</span><span class="n">GetById</span><span class="p">(</span><span class="n">customerId</span><span class="p">);</span>
@@ -220,16 +220,16 @@
 <p>With PostgreSQL, you can use the <a href="https://www.postgresql.org/docs/current/sql-insert.html#SQL-ON-CONFLICT"><code>ON CONFLICT</code></a> clause to prevent this. However, EF Core doesn&rsquo;t support it.</p>
 <p>If you&rsquo;re using SQL Server, your best bet is to try to apply some database rules or maybe even hand-write your query.</p>
 <p>This is the solution I used:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="kt">bool</span><span class="p">&gt;</span> <span class="n">Save</span><span class="p">(</span><span class="n">Paste</span> <span class="n">paste</span><span class="p">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="kt">bool</span><span class="p">&gt;</span> <span class="n">Save</span><span class="p">(</span><span class="n">Paste</span> <span class="n">paste</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="k">await</span> <span class="n">_context</span><span class="p">.</span><span class="n">Pastes</span><span class="p">.</span><span class="n">AnyAsync</span><span class="p">(</span><span class="n">p</span> <span class="p">=&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">Shortlink</span> <span class="p">==</span> <span class="n">paste</span><span class="p">.</span><span class="n">Shortlink</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="n">_context</span><span class="p">.</span><span class="n">Pastes</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">paste</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">await</span> <span class="n">_context</span><span class="p">.</span><span class="n">SaveChangesAsync</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>Insert the paste first, then generate the shortlink?</p>
 <hr>
@@ -351,9 +351,9 @@
 </span></span></code></pre></div><p>Update your <a href="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-7.0#configure-logging">logging categories</a> as needed.</p>
 <p>More: <a href="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-7.0#aspnet-core-and-ef-core-categories">https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-7.0#aspnet-core-and-ef-core-categories</a></p>
 <p>Update your <code>Program.cs</code> file accordingly:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Program</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Program</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="k">void</span> <span class="n">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">Log</span><span class="p">.</span><span class="n">Logger</span> <span class="p">=</span> <span class="k">new</span> <span class="n">LoggerConfiguration</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="n">WriteTo</span><span class="p">.</span><span class="n">Console</span><span class="p">()</span>
@@ -373,7 +373,7 @@
 </span></span><span class="line"><span class="cl">            <span class="n">Log</span><span class="p">.</span><span class="n">CloseAndFlush</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="n">IHostBuilder</span> <span class="n">CreateHostBuilder</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">=&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">IHostBuilder</span> <span class="n">CreateHostBuilder</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">=&gt;</span>
 </span></span><span class="line"><span class="cl">        <span class="n">Host</span><span class="p">.</span><span class="n">CreateDefaultBuilder</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="n">ConfigureWebHostDefaults</span><span class="p">(</span><span class="n">webBuilder</span> <span class="p">=&gt;</span> <span class="p">{</span> <span class="n">webBuilder</span><span class="p">.</span><span class="n">UseStartup</span><span class="p">&lt;</span><span class="n">Startup</span><span class="p">&gt;();</span> <span class="p">})</span>
 </span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="n">UseSerilog</span><span class="p">((</span><span class="n">context</span><span class="p">,</span> <span class="n">services</span><span class="p">,</span> <span class="n">configuration</span><span class="p">)</span> <span class="p">=&gt;</span>
@@ -543,7 +543,7 @@
     <hr>
     <div>
         <p>
-            &copy; 2022 Ean Jacob Gayban. Site made with Hugo.
+            &copy; 2022-2025 Ean Jacob Gayban. Site made with Hugo.
         </p>
     </div>
 </footer>

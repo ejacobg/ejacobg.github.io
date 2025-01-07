@@ -124,13 +124,13 @@
 <h2 id="developing-microservices"><a href="#developing-microservices">Developing Microservices</a></h2><p>You may use technologies like Swagger, Swashbuckle, and NSwag to automatically generate documentation about your API endpoints.</p>
 <p>When using an event bus to implement asynchronous communication, you will typically be sending &ldquo;integration events&rdquo; through it, which are used to propagate changes across multiple microservices or external systems.</p>
 <p>Your integration events are typically just data-holding classes:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">ProductPriceChangedIntegrationEvent</span> <span class="p">:</span> <span class="n">IntegrationEvent</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">ProductPriceChangedIntegrationEvent</span> <span class="p">:</span> <span class="n">IntegrationEvent</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">ProductId</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">decimal</span> <span class="n">NewPrice</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">decimal</span> <span class="n">OldPrice</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">ProductId</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="kd">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">decimal</span> <span class="n">NewPrice</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="kd">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">decimal</span> <span class="n">OldPrice</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="kd">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">ProductPriceChangedIntegrationEvent</span><span class="p">(</span><span class="kt">int</span> <span class="n">productId</span><span class="p">,</span> <span class="kt">decimal</span> <span class="n">newPrice</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">ProductPriceChangedIntegrationEvent</span><span class="p">(</span><span class="kt">int</span> <span class="n">productId</span><span class="p">,</span> <span class="kt">decimal</span> <span class="n">newPrice</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">        <span class="kt">decimal</span> <span class="n">oldPrice</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">ProductId</span> <span class="p">=</span> <span class="n">productId</span><span class="p">;</span>
@@ -139,7 +139,7 @@
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>Using an event bus is pretty straightforward:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">interface</span> <span class="nc">IEventBus</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">interface</span> <span class="nc">IEventBus</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Publish</span><span class="p">(</span><span class="n">IntegrationEvent</span> <span class="n">@event</span><span class="p">);</span> <span class="c1">// `event` happens to be a keyword in C#, so we use @ to escape it.</span>
 </span></span><span class="line"><span class="cl">
@@ -246,18 +246,18 @@
 </li>
 </ol>
 <p>Similar to integration events, your domain events will typically be data-holding objects:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">OrderStartedDomainEvent</span> <span class="p">:</span> <span class="n">INotification</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">OrderStartedDomainEvent</span> <span class="p">:</span> <span class="n">INotification</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">UserId</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">UserName</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">CardTypeId</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">CardNumber</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">CardSecurityNumber</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">CardHolderName</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">DateTime</span> <span class="n">CardExpiration</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Order</span> <span class="n">Order</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">string</span> <span class="n">UserId</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">string</span> <span class="n">UserName</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">CardTypeId</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">string</span> <span class="n">CardNumber</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">string</span> <span class="n">CardSecurityNumber</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">string</span> <span class="n">CardHolderName</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">DateTime</span> <span class="n">CardExpiration</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Order</span> <span class="n">Order</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">OrderStartedDomainEvent</span><span class="p">(</span><span class="n">Order</span> <span class="n">order</span><span class="p">,</span> <span class="kt">string</span> <span class="n">userId</span><span class="p">,</span> <span class="kt">string</span> <span class="n">userName</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">OrderStartedDomainEvent</span><span class="p">(</span><span class="n">Order</span> <span class="n">order</span><span class="p">,</span> <span class="kt">string</span> <span class="n">userId</span><span class="p">,</span> <span class="kt">string</span> <span class="n">userName</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">                                   <span class="kt">int</span> <span class="n">cardTypeId</span><span class="p">,</span> <span class="kt">string</span> <span class="n">cardNumber</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">                                   <span class="kt">string</span> <span class="n">cardSecurityNumber</span><span class="p">,</span> <span class="kt">string</span> <span class="n">cardHolderName</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">                                   <span class="n">DateTime</span> <span class="n">cardExpiration</span><span class="p">)</span>
@@ -289,17 +289,17 @@
 <p>Commands are sent directly to their (single) receiver; they are not published like events.</p>
 <p>Commands are typically represented as a normal class with data fields containing the information needed to execute the command. Commands are a special type of Data Transfer Object (DTO) used to request changes or transactions.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="na">[DataContract]</span>
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">UpdateOrderStatusCommand</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">UpdateOrderStatusCommand</span>
 </span></span><span class="line"><span class="cl">    <span class="p">:</span><span class="n">IRequest</span><span class="p">&lt;</span><span class="kt">bool</span><span class="p">&gt;</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl"><span class="na">    [DataMember]</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">Status</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">string</span> <span class="n">Status</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="kd">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="na">
 </span></span></span><span class="line"><span class="cl"><span class="na">    [DataMember]</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">OrderId</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">string</span> <span class="n">OrderId</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="kd">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="na">
 </span></span></span><span class="line"><span class="cl"><span class="na">    [DataMember]</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">BuyerIdentityGuid</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">string</span> <span class="n">BuyerIdentityGuid</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="kd">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>Command handlers live in the application layer since they may need access to any infrastructure or repositories. The business logic is still implemented in the domain layer; the purpose of the command is just to call the right methods.</p>
 <p><a href="https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/microservice-application-layer-implementation-web-api#the-command-handler-class">When a command is being processed, all domain logic should be inside the domain model (the aggregates). The command just acts as a way to get the domain model from the database, apply any changes, and save it back to the database (using the methods already provided).</a></p>
@@ -331,9 +331,9 @@
 </blockquote>
 <p>The <a href="https://github.com/jbogard/MediatR">MediatR</a> library is a small and simple open-source library used to provide features of the mediator pattern.</p>
 <p>Here is an example controller that makes use of a mediator:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">MyMicroserviceController</span> <span class="p">:</span> <span class="n">Controller</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">MyMicroserviceController</span> <span class="p">:</span> <span class="n">Controller</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">MyMicroserviceController</span><span class="p">(</span><span class="n">IMediator</span> <span class="n">mediator</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">MyMicroserviceController</span><span class="p">(</span><span class="n">IMediator</span> <span class="n">mediator</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">                                    <span class="n">IMyMicroserviceQueries</span> <span class="n">microserviceQueries</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="c1">// ...</span>
@@ -342,7 +342,7 @@
 </span></span></code></pre></div><p>Executing a command through the mediator is also quite simple:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="na">[Route(&#34;new&#34;)]</span>
 </span></span><span class="line"><span class="cl"><span class="na">[HttpPost]</span>
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">IActionResult</span><span class="p">&gt;</span> <span class="n">ExecuteBusinessOperation</span><span class="p">([</span><span class="n">FromBody</span><span class="p">]</span><span class="n">RunOpCommand</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">IActionResult</span><span class="p">&gt;</span> <span class="n">ExecuteBusinessOperation</span><span class="p">([</span><span class="n">FromBody</span><span class="p">]</span><span class="n">RunOpCommand</span>
 </span></span><span class="line"><span class="cl">                                                               <span class="n">runOperationCommand</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">commandResult</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_mediator</span><span class="p">.</span><span class="n">SendAsync</span><span class="p">(</span><span class="n">runOperationCommand</span><span class="p">);</span>
@@ -378,7 +378,7 @@
     <hr>
     <div>
         <p>
-            &copy; 2022 Ean Jacob Gayban. Site made with Hugo.
+            &copy; 2022-2025 Ean Jacob Gayban. Site made with Hugo.
         </p>
     </div>
 </footer>

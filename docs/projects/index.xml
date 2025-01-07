@@ -4,54 +4,44 @@
     <title>Projects on Ean Jacob Gayban</title>
     <link>https://ejacobg.com/projects/</link>
     <description>Recent content in Projects on Ean Jacob Gayban</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 15 Dec 2022 15:53:56 -0800</lastBuildDate><atom:link href="https://ejacobg.com/projects/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 02 Oct 2023 14:24:53 -0700</lastBuildDate>
+    <atom:link href="https://ejacobg.com/projects/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Pastebin</title>
       <link>https://ejacobg.com/projects/pastebin/</link>
       <pubDate>Mon, 02 Oct 2023 14:24:53 -0700</pubDate>
-      
       <guid>https://ejacobg.com/projects/pastebin/</guid>
-      <description>MotivationComing off of the Microservices in .NET reading, I realized that going through textbooks like I&amp;rsquo;ve done for the past ~year may not cut it anymore. I think that the time spent reading and taking notes on a textbook may be better spent either reading the actual code of the project or documentation of the used libraries, or just actually writing my own code. It feels like I spent a lot of time just to re-discover the advice that&amp;rsquo;s been touted by anyone that&amp;rsquo;s ever written a &amp;ldquo;how to become a software developer&amp;rdquo; article: make your own projects.</description>
+      <description>&lt;h2 id=&#34;motivation&#34;&gt;&lt;a href=&#34;#motivation&#34;&gt;Motivation&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Coming off of the &lt;a href=&#34;https://ejacobg.com/notes/microservices-in-dotnet/&#34;&gt;Microservices in .NET&lt;/a&gt; reading, I realized that going through textbooks like I&amp;rsquo;ve done for the past ~year may not cut it anymore. I think that the time spent reading and taking notes on a textbook may be better spent either reading the actual code of the project or documentation of the used libraries, or just actually &lt;em&gt;writing&lt;/em&gt; my own code. It feels like I spent a lot of time just to re-discover the advice that&amp;rsquo;s been touted by anyone that&amp;rsquo;s ever written a &amp;ldquo;how to become a software developer&amp;rdquo; article: &lt;em&gt;make your own projects&lt;/em&gt;.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Hacker News Feed</title>
       <link>https://ejacobg.com/projects/hacker-news-feed/</link>
       <pubDate>Mon, 07 Aug 2023 16:27:02 -0700</pubDate>
-      
       <guid>https://ejacobg.com/projects/hacker-news-feed/</guid>
-      <description>I&amp;rsquo;ve been working with Go for the past ~1.5 years now, and while I would still like to continue working with it in the future, I realize that it isn&amp;rsquo;t exactly the most employable language in my area. Therefore, I&amp;rsquo;ve switched gears and started to learn C#. I did have some prior experience with the language and its related technologies through my senior capstone project and an elective class I took at UNR.</description>
+      <description>&lt;p&gt;I&amp;rsquo;ve been working with Go for the past ~1.5 years now, and while I would still like to continue working with it in the future, I realize that it isn&amp;rsquo;t exactly the most employable language in my area. Therefore, I&amp;rsquo;ve switched gears and started to learn C#. I did have some prior experience with the language and its related technologies through my &lt;a href=&#34;https://unr-cs426-team-07.github.io/&#34;&gt;senior capstone project&lt;/a&gt; and an elective class I took at UNR. This project was an opportunity to experiment with and refine my learning process. Below I&amp;rsquo;ll discuss mostly everything I learned during the development of this project. You can find the repository for the project on &lt;a href=&#34;https://github.com/ejacobg/HackerNewsFeed&#34;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Links &#39;R&#39; Us</title>
       <link>https://ejacobg.com/projects/links-r-us/</link>
       <pubDate>Wed, 31 May 2023 16:15:05 -0700</pubDate>
-      
       <guid>https://ejacobg.com/projects/links-r-us/</guid>
-      <description>This project was made to accompany my reading of Hands-On Software Engineering with Golang. Please note that the vast majority of this code was not written by me, however I did make a couple of meaningful changes: (1) I reorganized all the packages into a form I liked better (similar to the Standard Package Layout), (2) I rewrote a few of the tests (add links) to use the standard testing package rather than GoCheck, and (3) I got rid of a lot of old/deprecated code since the project isn&amp;rsquo;t exactly up-to-date.</description>
+      <description>&lt;p&gt;This project was made to accompany my reading of &lt;a href=&#34;https://ejacobg.com/notes/hands-on-software-engineering-with-golang/&#34;&gt;&lt;em&gt;Hands-On Software Engineering with Golang&lt;/em&gt;&lt;/a&gt;. Please note that the vast majority of this code &lt;strong&gt;was not&lt;/strong&gt; written by me, however I did make a couple of meaningful changes: (1) I reorganized all the packages into a form I liked better (similar to the &lt;a href=&#34;https://ejacobg.com/projects/tourney-tracker/#standard-package-layout&#34;&gt;Standard Package Layout&lt;/a&gt;), (2) I rewrote a few of the tests (add links) to use the standard &lt;code&gt;testing&lt;/code&gt; package rather than GoCheck, and (3) I got rid of a lot of old/deprecated code since the project isn&amp;rsquo;t exactly up-to-date. Here is a(n incomplete) list of notes I made while editing the codebase:&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Tourney Tracker</title>
       <link>https://ejacobg.com/projects/tourney-tracker/</link>
       <pubDate>Sat, 22 Apr 2023 23:14:00 -0700</pubDate>
-      
       <guid>https://ejacobg.com/projects/tourney-tracker/</guid>
-      <description>This project was made to practice/review some concepts discussed in Alex Edwards&amp;rsquo;s Let&amp;rsquo;s Go and Let&amp;rsquo;s Go Further books. I also wanted to get a feel for how I wanted to structure my (web) applications in the future. Below is some discussion on the various sources that helped influence how this project came to be structured.
-Let&amp;rsquo;s Go/SnippetboxI repurposed a lot of the template-handling code from the Snippetbox project into the Tourney Tracker.</description>
+      <description>&lt;p&gt;This project was made to practice/review some concepts discussed in Alex Edwards&amp;rsquo;s &lt;a href=&#34;https://lets-go.alexedwards.net/&#34;&gt;&lt;em&gt;Let&amp;rsquo;s Go&lt;/em&gt;&lt;/a&gt; and &lt;a href=&#34;https://lets-go-further.alexedwards.net/&#34;&gt;&lt;em&gt;Let&amp;rsquo;s Go Further&lt;/em&gt;&lt;/a&gt; books. I also wanted to get a feel for how I wanted to structure my (web) applications in the future. Below is some discussion on the various sources that helped influence how this project came to be structured.&lt;/p&gt;&#xA;&lt;h2 id=&#34;_lets-go_snippetbox&#34;&gt;&lt;a href=&#34;#_lets-go_snippetbox&#34;&gt;&lt;em&gt;Let&amp;rsquo;s Go&lt;/em&gt;/Snippetbox&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;I repurposed a lot of the template-handling code from the &lt;a href=&#34;https://github.com/ejacobg/snippetbox&#34;&gt;Snippetbox&lt;/a&gt; project into the Tourney Tracker.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Hacker News Saved</title>
       <link>https://ejacobg.com/projects/hn/</link>
       <pubDate>Fri, 24 Mar 2023 18:37:59 -0700</pubDate>
-      
       <guid>https://ejacobg.com/projects/hn/</guid>
-      <description>I&amp;rsquo;ve been spending a lot of time on Hacker News lately, and like many other people I&amp;rsquo;ve taken to building a large backlog of links to several blog posts, articles, and discussions. It feels like a waste for me to clutter my bookmarks with links I end up not reading, especially when many of these links are interesting, insightful, or happen to be relevant to whatever I&amp;rsquo;m working on at the moment.</description>
+      <description>&lt;p&gt;I&amp;rsquo;ve been spending a lot of time on Hacker News lately, and like many other people I&amp;rsquo;ve taken to &lt;a href=&#34;https://andreisurugiu.com/blog/bad-habit/&#34;&gt;building a large backlog&lt;/a&gt; of links to several blog posts, articles, and discussions. It feels like a waste for me to clutter my bookmarks with links I end up not reading, especially when many of these links are interesting, insightful, or happen to be relevant to whatever I&amp;rsquo;m working on at the moment. I&amp;rsquo;ve saved these things because past-me thought they would be useful in some way.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>
