@@ -25,6 +25,8 @@ Publish site: `hugo`
 
 - Update build configurations via `hugo.toml` (previously `config.toml`).
 
+Note: your `CNAME` file needs to be present in the `docs/` directory (or wherever you publish your output to) in order for the site to be published on your domain. Hugo will not replace this file if you happen to delete and recreate the `docs/` directory.
+
 ## Adding New Posts
 
 Add a new directory or Markdown file to the [`content/`](/content/) directory.
