@@ -3,12 +3,13 @@ languageCode = 'en-us'
 title = 'Ean Jacob Gayban'
 theme = 'ejacobg'
 publishDir = 'docs'
+ignoreFiles = 'drafts/*'
 
 [markup]
-    [markup.highlight]
-        noClasses = false
-    [markup.goldmark.renderer]
-        unsafe = true
+[markup.highlight]
+noClasses = false
+[markup.goldmark.renderer]
+unsafe = true
 
 [params]
-    mainSections = ['blog', 'notes', 'projects']
+mainSections = ['blog', 'notes', 'projects']
