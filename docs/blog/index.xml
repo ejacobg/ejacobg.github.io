@@ -6,8 +6,15 @@
     <description>Recent content in Blog on Ean Jacob Gayban</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 07 Jan 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 08 Feb 2025 19:32:39 -0800</lastBuildDate>
     <atom:link href="https://ejacobg.com/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Dragonsweeper (1.0.0)</title>
+      <link>https://ejacobg.com/blog/dragonsweeper-1.0.0/</link>
+      <pubDate>Sat, 08 Feb 2025 19:32:39 -0800</pubDate>
+      <guid>https://ejacobg.com/blog/dragonsweeper-1.0.0/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;em&gt;This post was written for the 1.0.0 version of the game. Dragonsweeper has since been updated, and thus the information in this guide may no longer be accurate.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;I&amp;rsquo;ve been playing Minesweeper casually for several years now, and recently it&amp;rsquo;s been the only video game I actually play. That is, until &lt;a href=&#34;https://danielben.itch.io/dragonsweeper&#34;&gt;Dragonsweeper&lt;/a&gt; &lt;a href=&#34;https://news.ycombinator.com/item?id=42812157&#34;&gt;appeared on HN&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Dragonsweeper builds on top of the Minesweeper formula and improves it in pretty much every single aspect.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Yearly Theme 2025</title>
       <link>https://ejacobg.com/blog/yearly-theme-2025/</link>
