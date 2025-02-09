@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/syntax.css" />
+    <link rel="stylesheet" href="/css/ejacobg.css" />
+    
+    
+    <title>Dragonsweeper (1.0.0)</title>
+</head>
+
+<body>
+    <header>
+    <nav>
+        <h2><a href="/">Ean Jacob Gayban</a></h2>
+        <div>
+            <a href="/blog">Blog</a> |
+            <a href="/notes">Notes</a> |
+            <a href="/projects">Projects</a> |
+            <a href="/about">About</a>
+        </div>
+    </nav>
+    <hr />
+</header>
+    <div>
+        
+<section id="main">
+    <h1 id="title">Dragonsweeper (1.0.0)</h1>
+    <div>
+        <article id="content">
+            <blockquote>
+<p><em>This post was written for the 1.0.0 version of the game. Dragonsweeper has since been updated, and thus the information in this guide may no longer be accurate.</em></p>
+</blockquote>
+<p>I&rsquo;ve been playing Minesweeper casually for several years now, and recently it&rsquo;s been the only video game I actually play. That is, until <a href="https://danielben.itch.io/dragonsweeper">Dragonsweeper</a> <a href="https://news.ycombinator.com/item?id=42812157">appeared on HN</a>.</p>
+<p>Dragonsweeper builds on top of the Minesweeper formula and improves it in pretty much every single aspect.</p>
+<ul>
+<li>
+<p>The skill floor is slightly increased from Minesweeper. I like this because I actually get a chance to use my brain more as opposed to Minesweeper, where you can sweep yourself into a corner with knowledge of the few most common patterns. Minesweeper can very easily be played while turning your brain off, which is not the case for Dragonsweeper.</p>
+</li>
+<li>
+<p>Each Dragonsweeper board is solvable, or at least feels so. At some point while playing Minesweeper, you&rsquo;ll run into a situation where you have to guess where a mine is in order to proceed, and if you guess wrong, you&rsquo;re back to the beginning. The RNG in Dragonsweeper is kept to a reasonable amount, and doesn&rsquo;t affect the gameplay the way it does in Minesweeper. For the most part, there is always a good, &ldquo;safe&rdquo; move you can play at any point in the game, without having to guess and bet your entire run on one single tile.</p>
+</li>
+</ul>
+<h2 id="game-guide"><a href="#game-guide">Game Guide</a></h2><p>The provided Monsternomicon lists 5 rules:</p>
+<ul>
+<li>Jorge must defeat dragon</li>
+<li>Safe to use all hearts (ie. your hearts can go to 0 without dying, only when you go below 0 will you die.)</li>
+<li>Observe patterns when dead</li>
+<li>Right click to mark
+<ul>
+<li>Similar to Minesweeper, but you&rsquo;re allowed to mark numbers 1-10 as well as X.</li>
+</ul>
+</li>
+<li>Numbers are the sum of monster level</li>
+</ul>
+<p>There are 15 monsters in total. The Monsternomicon does not describe them in any detail other than their appearance, level, and quantity. As per rule 3, you&rsquo;re supposed to infer the monster mechanics through observation. Luckily, you don&rsquo;t have to do this since I&rsquo;ll be listing everything I know in this post.</p>
+<p>The &ldquo;level&rdquo; of a monster refers to how many hearts it requires to kill. Killing a monster will drop XP (shown below the health bar). Filling the bar will allow you to level up, restoring all your hearts as well as increasing the number of hearts you have (up to 17). This allows you to kill stronger monsters, and eventually the dragon.</p>
+<p>XP obtained after your XP bar is full will roll over to the next level. It is safe to claim any extra experience (eg. via chests or blocks) when your XP is full.</p>
+<h3 id="rats"><a href="#rats">Rats</a></h3><p>The rat sprite is always oriented in the direction of the rat king.</p>
+<p>4 rats always surround the rat king.</p>
+<p><a href="/dragonsweeper/rats.png"><img src="/dragonsweeper/rats.png" alt="rats"></a></p>
+<h3 id="bats"><a href="#bats">Bats</a></h3><p>Nothing special?</p>
+<h3 id="skeletons"><a href="#skeletons">Skeletons</a></h3><p>Nothing special?</p>
+<h3 id="gargoyles"><a href="#gargoyles">Gargoyles</a></h3><p>Gargoyles always spawn in pairs. Gargoyles will always look at their partner. You can use this to your advantage.</p>
+<p>Killing a gargoyle will not change the sprite of its partner.</p>
+<p><a href="/dragonsweeper/gargoyles.png"><img src="/dragonsweeper/gargoyles.png" alt="gargoyles"></a></p>
+<h3 id="slimes"><a href="#slimes">Slimes</a></h3><p>Killing the wizard will drop a slime scroll, revealing the position of all slimes (big or small).</p>
+<h3 id="snakes"><a href="#snakes">Snakes</a></h3><p>Nothing special?</p>
+<h3 id="minotaurs"><a href="#minotaurs">Minotaurs</a></h3><p>Nothing special?</p>
+<h3 id="big-slimes"><a href="#big-slimes">Big Slimes</a></h3><p>All 5 big slimes will spawn around the wizard. The wizard will always spawn on the edge of the board, but never in the corner.</p>
+<p><a href="/dragonsweeper/big-slimes.png"><img src="/dragonsweeper/big-slimes.png" alt="big slimes"></a></p>
+<p>It is very easy to find the big slimes since you&rsquo;ll start seeing very high numbers that aren&rsquo;t common or possible with any other monster combination.</p>
+<h3 id="lich"><a href="#lich">Lich</a></h3><p>There is only one lich, and it always spawns in one of the four corners of the board.</p>
+<p>Killing the lich will drop a mine scroll, which will deactivate all mines on the board, turning them into XP.</p>
+<p>It is safe to click on a tile with a known deactivated mine underneath it. It costs 0 hearts and simply reveals XP.</p>
+<p>Deactivated mines no longer contribute to the number shown on a revealed tile (eg. 101 -&gt; 1).</p>
+<h3 id="rat-king"><a href="#rat-king">Rat King</a></h3><p>The rat king is always surrounded by 4 rats (and thus it cannot spawn on the edges of the board?).</p>
+<p>Killing the rat king will drop a rat scroll, which, similar to the slime scroll, will reveal all rats on the board.</p>
+<h3 id="gazes"><a href="#gazes">Gazes</a></h3><p>There are always 2 gazes on the board. The Monsternomicon does not mention this.</p>
+<p>Gazes will replace the value of all revealed tiles within its influence with a question mark.</p>
+<p>Gazes influence the 12 tiles surrounding it, in a star pattern.</p>
+<p><a href="/dragonsweeper/gazes.png"><img src="/dragonsweeper/gazes.png" alt="gazes"></a></p>
+<p>You can use this pattern to pinpoint the location of the gaze.</p>
+<p>Question mark tiles make it impossible to know what monsters are nearby, so getting rid of gazes is very important.</p>
+<h3 id="wizard"><a href="#wizard">Wizard</a></h3><p>The wizard will always spawn on the edge of the board (but never in the corner), surrounded by big slimes.</p>
+<p>Killing the wizard will drop a slime scroll, which reveals all slimes (big or small).</p>
+<h3 id="mimic"><a href="#mimic">Mimic</a></h3><p>When a mimic tile is clicked, it will show up as a closed chest. Only when you click the mimic again will it open and deal damage.</p>
+<p>Mimics add to a revealed tile&rsquo;s sum. This way, you can be sure whether you&rsquo;re clicking a real chest or not.</p>
+<h3 id="mines"><a href="#mines">Mines</a></h3><p>Mines are unkillable without the mine scroll.</p>
+<p>Mines function similar to gazes, poisoning the area around them which high sums, making it impossible to take random guesses.</p>
+<p>You can use regular minesweeper patterns to help in finding mines.</p>
+<h3 id="gnome"><a href="#gnome">Gnome(?)</a></h3><p>There is one gnome on the board, which must be killed twice. The gnome requires 0 hearts to kill though.</p>
+<p>The first kill will drop nothing, while the second kill will drop 10 XP.</p>
+<p>I&rsquo;ve had games where I only need to kill the gnome once though.</p>
+<h2 id="strategy"><a href="#strategy">Strategy</a></h2><p>This strategy is written with the goal of full-clearing the board. The dragon can be killed before a full clear, but at that point you&rsquo;ve already solved most of the board anyway.</p>
+<h3 id="early-game"><a href="#early-game">Early Game</a></h3><p>The early game is probably the hardest part of the game, but is still very much doable. It&rsquo;s only hard in that running out of hearts without any good moves left is a realistic situation. This is more of an RNG thing rather than a skill issue.</p>
+<p>The goal of the early game is to <strong>explore</strong>. The slime, rat, and orb scrolls are at their most valuable during the early game, when most of the board is hidden. Finding free XP via chests also helps your early-game fragility.</p>
+<p>Make the most out of what little hearts you have. Always use up all your hearts before healing or levelling up. Prioritize killing monsters that will guarantee knowledge of at least one other tile.</p>
+<p>If you don&rsquo;t have any good moves, hit blocks as a last resort. For the most part, you can beat the game without ever touching a block.</p>
+<p>Mark the location of mines. They will come in handy later.</p>
+<h3 id="mid-game-pre-lich"><a href="#mid-game-pre-lich">Mid-Game (Pre-Lich)</a></h3><p>The mid game is very similar to the early game. At this point, you should have cleared a good amount of the board, and have found the wizard and rat king. The goal of the mid game is to find the lich.</p>
+<p>You should have found most of the mines during this phase.</p>
+<h3 id="late-game-post-lich"><a href="#late-game-post-lich">Late-Game (Post-Lich)</a></h3><p>Once you kill the lich, the board becomes solvable. Killing the lich grants a huge amount of XP (11 from the lich itself, 18 from the mines). <strong>Always prefer using level-ups to heal</strong> rather than using heart scrolls. Level-ups are the more potent heal as they give you an extra heart, and make heart scrolls more valuable later on since you now have more health.</p>
+<h3 id="end-game"><a href="#end-game">End Game</a></h3><p>The end game is just you clearing the board. Kill high-level monsters before lower-level ones. This ensures that you will have enough health toward the end of the game to take out stragglers.</p>
+<p>After killing all the monsters, you should have at least 1 heart scroll left with which to break all the blocks. These will grant XP, which after levelling up, will heal you one final time to kill the dragon for a full clear.</p>
+
+        </article>
+    </div>
+</section>
+<aside id="meta">
+    <div>
+        <section>
+            <h4 id="date"> Sat Feb 8, 2025 </h4>
+            <h5 id="wordcount"> 1319 Words </h5>
+        </section>
+        
+        
+    </div>
+    <div>
+        
+        <span class="previous">◄ <a href="https://ejacobg.com/notes/dotnet-microservices/">.NET Microservices: Architecture for Containerized .NET Applications</a></span>
+        
+        
+    </div>
+</aside>
+
+    </div>
+    <footer>
+    <hr>
+    <div>
+        <p>
+            &copy; 2022-2025 Ean Jacob Gayban. Site made with Hugo.
+        </p>
+    </div>
+</footer>
+</body>
+</html>
