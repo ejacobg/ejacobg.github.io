@@ -49,8 +49,8 @@
 </blockquote>
 <p>I&rsquo;ll link you to the <a href="https://github.com/ejacobg/Pastebin">GitHub repo</a> for the project for an explanation of each of the parts since I want to use this space to discuss some highlights and other things I&rsquo;ve learned while working on the project.</p>
 <h2 id="docker"><a href="#docker">Docker</a></h2><p>Here&rsquo;s a reusable template that&rsquo;ll work for 80% of your projects. Replace <code>&lt;Project&gt;</code> with the name of your project. This assumes that the <code>docker build</code> context points to your <em>solution</em> directory (ie. the directory containing your <code>.sln</code> file).</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="s"> mcr.microsoft.com/dotnet/sdk:5.0 AS build</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /src</span><span class="err">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="s">mcr.microsoft.com/dotnet/sdk:5.0</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">build</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/src</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> ./&lt;Project&gt; ./&lt;Project&gt;<span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># COPY other projects as needed...</span><span class="err">
@@ -58,16 +58,16 @@
 </span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> dotnet restore <span class="s2">&#34;&lt;Project&gt;/&lt;Project&gt;.csproj&#34;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># Restore other projects as needed...</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="s"> &#34;/src/&lt;Project&gt;&#34;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="w"> </span><span class="s">&#34;/src/&lt;Project</span>&gt;<span class="s2">&#34;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> dotnet build <span class="s2">&#34;&lt;Project&gt;.csproj&#34;</span> -c Release -o /app/build<span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">FROM</span><span class="s"> build AS publish</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">FROM</span><span class="w"> </span><span class="s">build</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">publish</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> dotnet publish <span class="s2">&#34;&lt;Project&gt;.csproj&#34;</span> -c Release -o /app/publish /p:UseAppHost<span class="o">=</span>false<span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">FROM</span><span class="s"> mcr.microsoft.com/dotnet/aspnet:5.0 AS final</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /app</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">EXPOSE</span><span class="s"> 80</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">EXPOSE</span><span class="s"> 443</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">FROM</span><span class="w"> </span><span class="s">mcr.microsoft.com/dotnet/aspnet:5.0</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">final</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">EXPOSE</span><span class="w"> </span><span class="s">80</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">EXPOSE</span><span class="w"> </span><span class="s">443</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> --from<span class="o">=</span>publish /app/publish .<span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&#34;dotnet&#34;</span><span class="p">,</span> <span class="s2">&#34;&lt;Project&gt;.dll&#34;</span><span class="p">]</span><span class="err">
 </span></span></span></code></pre></div><p>Maybe I&rsquo;ll publish this as a Gist or something.</p>
