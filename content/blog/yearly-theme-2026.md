@@ -8,7 +8,7 @@ aliases:
 
 ## Year of Small Efforts
 
-*My 2024 retrospective can now be found on [last year's theme](/blog/yearly-theme-2025/#reflections).*
+*My 2025 retrospective can now be found on [last year's theme](/blog/yearly-theme-2025/#reflections).*
 
 ### Description
 
