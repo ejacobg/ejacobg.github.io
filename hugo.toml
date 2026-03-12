@@ -3,7 +3,7 @@ languageCode = 'en-us'
 title = 'Ean Jacob Gayban'
 theme = 'ejacobg'
 publishDir = 'docs'
-ignoreFiles = 'drafts/*'
+ignoreFiles = ['drafts/*'] # comment this out when building locally to include drafts
 
 [markup]
 [markup.highlight]
