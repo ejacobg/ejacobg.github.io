@@ -76,7 +76,7 @@ The stations reachable from Hakata are as follows:
 
 |Service|Destination|Fare|Travel Time|
 |---|---|---|---|
-|Shinkansen (Any)|Kumamoto|2420¥ Base / 2890¥ Non-Reserved (5310¥) |40-50min|
+|Shinkansen (Any)|Kumamoto|2420¥ Base / 2890¥ Non-Reserved (5310¥)|40-50min|
 |Rapid|Tosu|660¥|~40min|
 |Local|Tosu|660¥|~50min|
 |Rapid|Kurume|870¥|~40min|

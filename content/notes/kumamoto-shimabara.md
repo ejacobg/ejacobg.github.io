@@ -25,6 +25,8 @@ For the most part you will not need a reservation, but do note that it is possib
 [S3-2 Route Map (English) (Navitime)](https://japantravel.navitime.com/en/area/jp/railroad/00047198/)
 - Also includes interactive map with all stops along the way. You can check the timetables for each stop here as well.
 
+TODO add Google maps
+
 [Sakuramachi Bus Terminal Bus Stop Map (Japanese) (PDF)](https://www.sankobus.jp/busportal/wp-content/uploads/noriba_kuma-bt.pdf)
 
 Kumamoto Port is accessible by Sanko Bus for the Kumamoto Ko Ferry Noriba Mae bus stop (熊本港フェリーのりば前). This bus stop is reached by only a single route, S3-2 蓮台寺経由→西区役所前→熊本港行き (via Rendaiji, Nishi Kuyakusho Mae, Kumamoto Ko). This route starts from the Sakuramachi Bus Terminal on Platform 3 and takes 40 minutes and 710¥ to get to Kumamoto Port. 
