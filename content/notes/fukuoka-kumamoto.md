@@ -6,11 +6,9 @@ draft: false
 
 TODO take pictures when you actually go down this route.
 
-TODO add shinkansen guide.
-
 > tl;dr take the shinkansen
 
-This is not a particularly difficult route, but it might help to know when/where/why you need to transfer in case you're not taking the Shinkansen.
+This is not a particularly difficult route, but it might help to know when/where/why you need to transfer in case you're not taking the Shinkansen. If you are taking the Shinkansen, see my [Shinkansen notes](/notes/shinkansen) for a brief overview.
 
 I've found that Google Maps does tend to create good routes, but it may not always stick to the JR services.
 
@@ -31,6 +29,8 @@ Fare prices are **per adult** (children are often half-price or less), found thr
 [Wikipedia](https://en.wikipedia.org/wiki/Hakata_Station)
 
 [Navitime](https://japantravel.navitime.com/en/area/jp/line/00007420/)
+
+[Station Map (English)](https://www.hakatastation.com/hakata-station-map-finding-your-way/)
 
 Hakata Station and Kumamoto Station are connected via the [Kyushu Shinkansen](https://en.wikipedia.org/wiki/Kyushu_Shinkansen) and [Kagoshima Main Line](https://en.wikipedia.org/wiki/Kagoshima_Main_Line). **The Shinkansen will take you directly to Kumamoto**, while the Kagoshima Line will require at least one transfer.
 
