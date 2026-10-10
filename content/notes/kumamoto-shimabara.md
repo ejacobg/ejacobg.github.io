@@ -13,6 +13,7 @@ For the most part you will not need a reservation, but do note that it is possib
 ## Kumamoto Port
 
 [Kumamoto Port Ferry Terminal](https://maps.app.goo.gl/Z1m7MUb4DXX6XVZi9)
+- Note: both Kumamoto Ferry and Kyusho Ferry operate out of this terminal.
 
 [Kumamoto Port Ferry Bus Stop (Google Maps)](https://maps.app.goo.gl/U2QycsxvnESATTmj6)
 
@@ -25,8 +26,6 @@ For the most part you will not need a reservation, but do note that it is possib
 [S3-2 Route Map (English) (Navitime)](https://japantravel.navitime.com/en/area/jp/railroad/00047198/)
 - Also includes interactive map with all stops along the way. You can check the timetables for each stop here as well.
 
-TODO add Google maps
-
 [Sakuramachi Bus Terminal Bus Stop Map (Japanese) (PDF)](https://www.sankobus.jp/busportal/wp-content/uploads/noriba_kuma-bt.pdf)
 
 Kumamoto Port is accessible by Sanko Bus for the Kumamoto Ko Ferry Noriba Mae bus stop (熊本港フェリーのりば前). This bus stop is reached by only a single route, S3-2 蓮台寺経由→西区役所前→熊本港行き (via Rendaiji, Nishi Kuyakusho Mae, Kumamoto Ko). This route starts from the Sakuramachi Bus Terminal on Platform 3 and takes 40 minutes and 710¥ to get to Kumamoto Port. 
@@ -35,7 +34,9 @@ Sanko Bus does provide some tools for examining the route, but they are a little
 
 [Timetable and Route Finder (Sanko Bus)](https://transfer.navitime.biz/sankobus/pc/map/Top)
 
-Enter SAKURAMACHI BUS TERMINAL as the start and KUMAMOTO KO as the goal, then press search. If you click on "Timetable with no transit", then "Stoplist", you can see all the stops along the route, the time it takes to get there, as well as the fare.
+Switch to the English language mode. Enter SAKURAMACHI BUS TERMINAL as the start and KUMAMOTO KO as the goal, then press search. If you click on "Timetable with no transit", then "Stoplist", you can see all the stops along the route, the time it takes to get there, as well as the fare.
+
+- [SAKURAMACHI BUS TERMINAL Timetable](https://transfer.navitime.biz/sankobus-eng/pc/diagram/BusDiagram?orvCode=00270901&course=0005301910&stopNo=29)
 
 [How to ride the bus (Japanese)](https://www.sankobus.jp/bus/howtoride/)
 
@@ -53,6 +54,13 @@ Kumamoto Ferry operates the [Ocean Arrow](https://www.kumamotoferry.co.jp/lang/?
 [Reservation Portal (Japanese)](https://www.kumamotoferry.co.jp/reserve_confirm/)
 - > Guests boarding on foot do not need to make a reservation. Please purchase your boarding ticket 10 minutes before departure.
 
+|Sakuramachi Bus Terminal Departure|Kumamoto Port Arrival|Earliest Ferry|Shimabara Arrival|
+|---|---|---|---|
+|7:30|8:10|9:25|9:55|
+|8:25|9:05|9:25 (cutting it close)|9:55|
+|10:00|10:40|11:10|11:40|
+|12:00|12:40|13:00|13:30|
+
 ## Kyusho Ferry
 
 ~60 minute ride, services every 80-90 minutes. 
@@ -64,3 +72,12 @@ Kumamoto Ferry operates the [Ocean Arrow](https://www.kumamotoferry.co.jp/lang/?
 - There exists a shuttle bus between JR Kumamoto Station and Kumamoto port, but you need to reserve it in advance by phone (not sure if they speak English).
 
 Online reservation portal (Japanese): https://www.kyusho-ferry.jp/general_menu.php
+
+|Sakuramachi Bus Terminal Departure|Kumamoto Port Arrival|Earliest Ferry|Shimabara Arrival|
+|---|---|---|---|
+|7:30|8:10|9:50*|10:50|
+|8:25|9:05|9:50|10:50|
+|10:00|10:40|11:00|12:00|
+|12:00|12:40|13:35|14:35|
+
+*It might be possible to make the 8:20 departure if the bus arrives early.
